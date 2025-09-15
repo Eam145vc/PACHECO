@@ -1,3 +1,0 @@
-TikTokLive>=1.0.9
-aiohttp>=3.8.0
-asyncio
