@@ -1461,8 +1461,13 @@ async function executeRevealConsonant() {
 
 // Catch-all handler para React Router (solo en producción)
 if (isProduction) {
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  app.use((req, res, next) => {
+    // Si no es una ruta de API y no existe el archivo, servir index.html
+    if (!req.path.startsWith('/api/') && !req.path.includes('.')) {
+      res.sendFile(path.join(__dirname, '../dist/index.html'));
+    } else {
+      next();
+    }
   });
 }
 
