@@ -209,15 +209,15 @@ app.get('/', (req, res) => {
                 }
 
                 try {
-                    const response = await fetch(`/coronas/${encodeURIComponent(username)}`);
+                    const response = await fetch('/coronas/' + encodeURIComponent(username));
                     const data = await response.json();
 
                     if (data.success) {
-                        showResult(`
-                            <div class="corona-count">👑 ${data.coronas} Coronas</div>
-                            <p>Usuario: @${data.userId}</p>
-                            ${data.isNew ? '<p><em>Usuario nuevo - ¡Participa en el juego para ganar coronas!</em></p>' : ''}
-                        `, 'success');
+                        showResult(
+                            '<div class="corona-count">👑 ' + data.coronas + ' Coronas</div>' +
+                            '<p>Usuario: @' + data.userId + '</p>' +
+                            (data.isNew ? '<p><em>Usuario nuevo - ¡Participa en el juego para ganar coronas!</em></p>' : '')
+                        , 'success');
 
                         loadProducts();
                     } else {
@@ -231,7 +231,7 @@ app.get('/', (req, res) => {
             function showResult(html, type) {
                 const result = document.getElementById('result');
                 result.innerHTML = html;
-                result.className = `result ${type}`;
+                result.className = 'result ' + type;
             }
 
             async function loadProducts() {
@@ -240,13 +240,13 @@ app.get('/', (req, res) => {
                     const data = await response.json();
 
                     if (data.success) {
-                        const productsHtml = data.products.map(product => `
-                            <div class="product">
-                                <h4>${product.title}</h4>
-                                <p>${product.description}</p>
-                                <strong>💰 ${product.price} coronas</strong>
-                            </div>
-                        `).join('');
+                        const productsHtml = data.products.map(product =>
+                            '<div class="product">' +
+                                '<h4>' + product.title + '</h4>' +
+                                '<p>' + product.description + '</p>' +
+                                '<strong>💰 ' + product.price + ' coronas</strong>' +
+                            '</div>'
+                        ).join('');
 
                         document.getElementById('productsList').innerHTML = productsHtml;
                         document.getElementById('products').style.display = 'block';
