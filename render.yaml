@@ -9,3 +9,7 @@ services:
         value: production
       - key: PORT
         value: 10000
+      - key: TIKTOK_HEADLESS
+        value: true
+      - key: TIKTOK_AUTO_START
+        value: true

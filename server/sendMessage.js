@@ -17,9 +17,11 @@ async function startBrowser(cookies = null, headless = HEADLESS_MODE) {
     const launchOptions = {
       headless: headless ? 'new' : false,
       defaultViewport: headless ? { width: 1920, height: 1080 } : null,
-      args: headless ? 
-        ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'] :
-        ['--start-maximized']
+      args: headless ?
+        ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage', '--disable-gpu', '--disable-web-security'] :
+        ['--start-maximized'],
+      // Para Render.com - usar el Chrome instalado por Puppeteer
+      executablePath: process.env.NODE_ENV === 'production' ? undefined : undefined
     };
 
     console.log(`Iniciando navegador en modo ${headless ? 'headless' : 'visual'}...`);

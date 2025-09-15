@@ -46,7 +46,16 @@ class TikTokLiveManager {
   async installDependencies() {
     return new Promise((resolve, reject) => {
       console.log('📦 [TikTok Live] Instalando dependencias de Python...');
-      
+
+      // En producción (Render), usar entorno virtual o skip si no es posible
+      const isProduction = process.env.NODE_ENV === 'production';
+      if (isProduction) {
+        console.log('⚠️ [TikTok Live] Entorno de producción detectado - saltando instalación de Python');
+        console.log('💡 [TikTok Live] Las dependencias de Python deben instalarse a través del buildpack');
+        resolve(false);
+        return;
+      }
+
       const install = spawn('python', ['-m', 'pip', 'install', '-r', path.join(__dirname, 'requirements.txt')]);
       
       install.stdout.on('data', (data) => {
@@ -82,15 +91,26 @@ class TikTokLiveManager {
     }
 
     try {
+      // En producción, hacer Python opcional
+      const isProduction = process.env.NODE_ENV === 'production';
+
       // Verificar Python
       const hasPython = await this.checkPython();
       if (!hasPython) {
+        if (isProduction) {
+          console.log('⚠️ [TikTok Live] Python no disponible en producción - funcionalidad TikTok Live deshabilitada');
+          return { success: false, message: 'Python no disponible en entorno de producción' };
+        }
         throw new Error('Python no está instalado. Instala Python 3.8+ desde https://python.org/downloads/');
       }
 
       // Verificar dependencias
       const hasDependencies = await this.checkDependencies();
       if (!hasDependencies) {
+        if (isProduction) {
+          console.log('⚠️ [TikTok Live] Dependencias Python no disponibles en producción');
+          return { success: false, message: 'Dependencias Python no disponibles' };
+        }
         console.log('📦 [TikTok Live] Dependencias faltantes, instalando...');
         await this.installDependencies();
       }

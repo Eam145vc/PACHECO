@@ -1496,11 +1496,20 @@ app.listen(PORT, async () => {
         console.log('✅ [TikTok Live] Servidor Python iniciado en modo espera');
         console.log('📺 Para conectar al live, ve al Panel Admin y configura tu usuario TikTok');
       } else {
-        console.log('⚠️ [TikTok Live] No se pudo iniciar servidor Python:', result.error);
-        console.log('💡 Verifica que Python esté instalado y ejecuta: cd server && python -m pip install -r requirements.txt');
+        if (isProduction) {
+          console.log('⚠️ [TikTok Live] Funcionalidad TikTok Live no disponible en producción');
+          console.log('💡 La aplicación funcionará normalmente sin conectividad TikTok Live');
+        } else {
+          console.log('⚠️ [TikTok Live] No se pudo iniciar servidor Python:', result.message);
+          console.log('💡 Verifica que Python esté instalado y ejecuta: cd server && python -m pip install -r requirements.txt');
+        }
       }
     } catch (error) {
-      console.log('⚠️ [TikTok Live] Error iniciando servidor Python:', error.message);
+      if (isProduction) {
+        console.log('⚠️ [TikTok Live] Funcionalidad TikTok Live omitida en producción');
+      } else {
+        console.log('⚠️ [TikTok Live] Error iniciando servidor Python:', error.message);
+      }
     }
   }, 3000); // Esperar 3 segundos para que Express esté completamente listo
 });

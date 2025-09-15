@@ -14,7 +14,7 @@
     "start:prod": "concurrently --names \"FRONTEND,BACKEND\" --prefix-colors \"cyan,magenta\" \"npm run preview\" \"npm run server\"",
     "build:prod": "NODE_ENV=production npm run build && cd server && npm install --production",
     "deploy": "npm run build:prod && cd server && node index.js",
-    "render-build": "npm install && npm run build && cd server && npm install",
+    "render-build": "npm install && npm run build && cd server && npm install && npx puppeteer browsers install chrome",
     "render-start": "cd server && node index.js"
   },
   "dependencies": {
