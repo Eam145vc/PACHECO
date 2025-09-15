@@ -1,3 +1,4 @@
+import '../styles/GameBoard.css';
 import { motion, AnimatePresence } from 'framer-motion';
 import { GamePhrase } from '../types/game';
 import { useSoundEffects } from '../hooks/useSoundEffects';

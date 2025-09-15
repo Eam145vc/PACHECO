@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// URL del sistema de coronas en Render
+const CORONAS_API_URL = process.env.CORONAS_API_URL || 'https://pacheco-ixg9.onrender.com';
+
 class Database {
   constructor() {
     this.dbPath = path.join(__dirname, 'data');
@@ -77,8 +80,12 @@ class Database {
     }
     users[username].coronas = (users[username].coronas || 0) + amount;
     this.saveUsers(users);
-    
+
     this.addTransaction(username, 'add', amount, description);
+
+    // Sincronizar con el sistema de coronas en Render
+    this.syncToCoronasAPI(username, 'add', amount, description);
+
     return users[username].coronas;
   }
 
@@ -96,6 +103,10 @@ class Database {
     this.saveUsers(users);
 
     this.addTransaction(username, 'subtract', amount, description);
+
+    // Sincronizar con el sistema de coronas en Render
+    this.syncToCoronasAPI(username, 'subtract', amount, description);
+
     return true;
   }
 
@@ -311,6 +322,32 @@ class Database {
   getOrderById(orderId) {
     const orders = this.getOrders();
     return orders.find(o => o.id === orderId);
+  }
+
+  // Sincronizar datos con el sistema de coronas en Render
+  async syncToCoronasAPI(username, operation, amount, description) {
+    try {
+      const response = await fetch(`${CORONAS_API_URL}/sync/user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          operation,
+          amount,
+          description
+        })
+      });
+
+      if (response.ok) {
+        console.log(`🔄 [SYNC] Coronas sincronizadas para ${username}: ${operation} ${amount}`);
+      } else {
+        console.error(`❌ [SYNC] Error sincronizando coronas para ${username}:`, response.status);
+      }
+    } catch (error) {
+      console.error(`❌ [SYNC] Error de conexión sincronizando coronas para ${username}:`, error.message);
+    }
   }
 }
 
