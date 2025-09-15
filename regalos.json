@@ -1,0 +1,2318 @@
+{
+  "timestamp": "2025-08-11T20:29:25.664Z",
+  "totalGifts": 289,
+  "gifts": [
+    {
+      "id": "gift_1",
+      "name": "You're awesome",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/e9cafce8279220ed26016a71076d6a8a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 1
+    },
+    {
+      "id": "gift_2",
+      "name": "Rose",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eba3a9bb85c33e017f3648eaf88d7189~tplv-obj.webp",
+      "className": "gift",
+      "index": 2
+    },
+    {
+      "id": "gift_3",
+      "name": "GG",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/3f02fa9594bd1495ff4e8aa5ae265eef~tplv-obj.webp",
+      "className": "gift",
+      "index": 3
+    },
+    {
+      "id": "gift_4",
+      "name": "Ice Cream Cone",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/968820bc85e274713c795a6aef3f7c67~tplv-obj.webp",
+      "className": "gift",
+      "index": 4
+    },
+    {
+      "id": "gift_5",
+      "name": "Love you so much",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/fc549cf1bc61f9c8a1c97ebab68dced7.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 5
+    },
+    {
+      "id": "gift_6",
+      "name": "TikTok",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/802a21ae29f9fae5abe3693de9f874bd~tplv-obj.webp",
+      "className": "gift",
+      "index": 6
+    },
+    {
+      "id": "gift_7",
+      "name": "Heart Me",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/d56945782445b0b8c8658ed44f894c7b~tplv-obj.webp",
+      "className": "gift",
+      "index": 7
+    },
+    {
+      "id": "gift_8",
+      "name": "Community Fest",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ce18c30e3a1675138beeac61e2e01269.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 8
+    },
+    {
+      "id": "gift_9",
+      "name": "Thumbs Up",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/570a663e27bdc460e05556fd1596771a~tplv-obj.webp",
+      "className": "gift",
+      "index": 9
+    },
+    {
+      "id": "gift_10",
+      "name": "Heart",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/dd300fd35a757d751301fba862a258f1~tplv-obj.webp",
+      "className": "gift",
+      "index": 10
+    },
+    {
+      "id": "gift_11",
+      "name": "Lightning Bolt",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/659092e3e787546afe7aee68ed04f897~tplv-obj.webp",
+      "className": "gift",
+      "index": 11
+    },
+    {
+      "id": "gift_12",
+      "name": "Cake Slice",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/f681afb4be36d8a321eac741d387f1e2~tplv-obj.webp",
+      "className": "gift",
+      "index": 12
+    },
+    {
+      "id": "gift_13",
+      "name": "Love you",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/ab0a7b44bfc140923bb74164f6f880ab~tplv-obj.webp",
+      "className": "gift",
+      "index": 13
+    },
+    {
+      "id": "gift_14",
+      "name": "It’s corn",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/37f5c76b65c17d6dbbbd4b6724f61bf2~tplv-obj.webp",
+      "className": "gift",
+      "index": 14
+    },
+    {
+      "id": "gift_15",
+      "name": "Chili",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b8ded3f3d633620616a74e4f30163836~tplv-obj.webp",
+      "className": "gift",
+      "index": 15
+    },
+    {
+      "id": "gift_16",
+      "name": "Heart Puff",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/68c21ef420f49b87543de354b2e30b8d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 16
+    },
+    {
+      "id": "gift_17",
+      "name": "GOAT",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/48dd683750b0ca6d18befbeececb6116.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 17
+    },
+    {
+      "id": "gift_18",
+      "name": "Whipped Cream",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/5adff4bade1d00981eb85722e169b668.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 18
+    },
+    {
+      "id": "gift_19",
+      "name": "I'm New Here",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/f8a9cd17d57b915792c93fde7ccb09fc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 19
+    },
+    {
+      "id": "gift_20",
+      "name": "iHeart You",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/710013aa15a70a4dc92d329d4be7f001.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 20
+    },
+    {
+      "id": "gift_21",
+      "name": "What's Up",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/6abbff6ede7bfde82feaa7daf62c3e51.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 21
+    },
+    {
+      "id": "gift_22",
+      "name": "Wink Charm",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/295d753e095c6ac8b180691f20d64ea8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 22
+    },
+    {
+      "id": "gift_23",
+      "name": "Go Popular",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/b342e28d73dac6547e0b3e2ad57f6597.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 23
+    },
+    {
+      "id": "gift_24",
+      "name": "Club Cheers",
+      "price": "1",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6a934c90e5533a4145bed7eae66d71bd.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 24
+    },
+    {
+      "id": "gift_25",
+      "name": "Team Bracelet",
+      "price": "2",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/54cb1eeca369e5bea1b97707ca05d189.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 25
+    },
+    {
+      "id": "gift_26",
+      "name": "Finger Heart",
+      "price": "5",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a4c4dc437fd3a6632aba149769491f49.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 26
+    },
+    {
+      "id": "gift_27",
+      "name": "Antipasto Salad",
+      "price": "5",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/e4514bcc74a2a31f8ed29b4c02dcad6d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 27
+    },
+    {
+      "id": "gift_28",
+      "name": "Cherry",
+      "price": "5",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/1bb6cfe94586885b8183c7613f0517fa.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 28
+    },
+    {
+      "id": "gift_29",
+      "name": "Hi Friend",
+      "price": "5",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/264833d12eae28fdb517803074b2d3da.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 29
+    },
+    {
+      "id": "gift_30",
+      "name": "Cheer You Up",
+      "price": "9",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/97e0529ab9e5cbb60d95fc9ff1133ea6~tplv-obj.webp",
+      "className": "gift",
+      "index": 30
+    },
+    {
+      "id": "gift_31",
+      "name": "Club Power",
+      "price": "9",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/fb8da877eabca4ae295483f7cdfe7d31.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 31
+    },
+    {
+      "id": "gift_32",
+      "name": "Rosa",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/eb77ead5c3abb6da6034d3cf6cfeb438~tplv-obj.webp",
+      "className": "gift",
+      "index": 32
+    },
+    {
+      "id": "gift_33",
+      "name": "Friendship Necklace",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/e033c3f28632e233bebac1668ff66a2f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 33
+    },
+    {
+      "id": "gift_34",
+      "name": "Journey Pass",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/551ecaf639c5e02354f9e7c1a763ec72.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 34
+    },
+    {
+      "id": "gift_35",
+      "name": "Tiny Diny",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/3851a489dea62b3a9fe99f61de5470ae~tplv-obj.webp",
+      "className": "gift",
+      "index": 35
+    },
+    {
+      "id": "gift_36",
+      "name": "Hi Bear",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/64a53fd11f9ef11073544c88394ec1c0.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 36
+    },
+    {
+      "id": "gift_37",
+      "name": "EWC",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d219e394a3e7b89f3c6270f4cd46ecfe.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 37
+    },
+    {
+      "id": "gift_38",
+      "name": "Dolphin",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d756d1526aa6a5fd61494f087089a8c8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 38
+    },
+    {
+      "id": "gift_39",
+      "name": "Banana",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/a9da636a448869f834836f28a4ee2b3f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 39
+    },
+    {
+      "id": "gift_40",
+      "name": "Heart Gaze",
+      "price": "10",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/0fe120fdb52724dd157e41cc5c00a924.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 40
+    },
+    {
+      "id": "gift_41",
+      "name": "Perfume",
+      "price": "20",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/20b8f61246c7b6032777bb81bf4ee055~tplv-obj.webp",
+      "className": "gift",
+      "index": 41
+    },
+    {
+      "id": "gift_42",
+      "name": "Let 'Em Cook",
+      "price": "20",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/af68a3df24ad3ad4598b5deae0322d67.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 42
+    },
+    {
+      "id": "gift_43",
+      "name": "Summer Sun",
+      "price": "20",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/490c8a378e4d24abb9e8c69cb93827a6.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 43
+    },
+    {
+      "id": "gift_44",
+      "name": "Tiny Diny Hotdog",
+      "price": "20",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/a03e11b24f157a26c49cac518450573f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 44
+    },
+    {
+      "id": "gift_45",
+      "name": "Golden Gamepad",
+      "price": "30",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/fbbe957654cde2165a467ccb03706a6c~tplv-obj.webp",
+      "className": "gift",
+      "index": 45
+    },
+    {
+      "id": "gift_46",
+      "name": "Doughnut",
+      "price": "30",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4e7ad6bdf0a1d860c538f38026d4e812~tplv-obj.webp",
+      "className": "gift",
+      "index": 46
+    },
+    {
+      "id": "gift_47",
+      "name": "Adventure",
+      "price": "30",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9d1896b3d5c2a135a77518f413bfc22b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 47
+    },
+    {
+      "id": "gift_48",
+      "name": "Community Crown",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/957b298a62e13fc4bc6d463d728d6564.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 48
+    },
+    {
+      "id": "gift_49",
+      "name": "Paper Crane",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/0f158a08f7886189cdabf496e8a07c21~tplv-obj.webp",
+      "className": "gift",
+      "index": 49
+    },
+    {
+      "id": "gift_50",
+      "name": "Little Crown",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/cf3db11b94a975417043b53401d0afe1~tplv-obj.webp",
+      "className": "gift",
+      "index": 50
+    },
+    {
+      "id": "gift_51",
+      "name": "Cap",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/6c2ab2da19249ea570a2ece5e3377f04~tplv-obj.webp",
+      "className": "gift",
+      "index": 51
+    },
+    {
+      "id": "gift_52",
+      "name": "Hat and Mustache",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/2f1e4f3f5c728ffbfa35705b480fdc92~tplv-obj.webp",
+      "className": "gift",
+      "index": 52
+    },
+    {
+      "id": "gift_53",
+      "name": "Like-Pop",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/75eb7b4aca24eaa6e566b566c7d21e2f~tplv-obj.webp",
+      "className": "gift",
+      "index": 53
+    },
+    {
+      "id": "gift_54",
+      "name": "Heart Me Flex",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/412cf8bff2c3aa4397fc5d44a2dd9708.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 54
+    },
+    {
+      "id": "gift_55",
+      "name": "Love Painting",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/de6f01cb2a0deb2da24cb5d1ecf9a23b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 55
+    },
+    {
+      "id": "gift_56",
+      "name": "Bubble Gum",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/52ebbe9f3f53b5567ad11ad6f8303c58.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 56
+    },
+    {
+      "id": "gift_57",
+      "name": "Mark of Love",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/582475419a820e0b0dbc964799b6146e.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 57
+    },
+    {
+      "id": "gift_58",
+      "name": "Star",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/485175fda92f4d2f862e915cbcf8f5c4~tplv-obj.webp",
+      "className": "gift",
+      "index": 58
+    },
+    {
+      "id": "gift_59",
+      "name": "Club Victory",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6639eb3590a59052babc9cb772ae4f5b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 59
+    },
+    {
+      "id": "gift_60",
+      "name": "Level-up Sparks",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/c6c5b0efea6f1f7e1fd1f3909284d12c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 60
+    },
+    {
+      "id": "gift_61",
+      "name": "Greeting Heart",
+      "price": "99",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9325524bd9ca181bd8e76eb99b44c042.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 61
+    },
+    {
+      "id": "gift_62",
+      "name": "Game Controller",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/20ec0eb50d82c2c445cb8391fd9fe6e2~tplv-obj.webp",
+      "className": "gift",
+      "index": 62
+    },
+    {
+      "id": "gift_63",
+      "name": "Super GG",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/cbd7588c53ec3df1af0ed6d041566362.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 63
+    },
+    {
+      "id": "gift_64",
+      "name": "Confetti",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/cb4e11b3834e149f08e1cdcc93870b26~tplv-obj.webp",
+      "className": "gift",
+      "index": 64
+    },
+    {
+      "id": "gift_65",
+      "name": "Hand Hearts",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/6cd022271dc4669d182cad856384870f~tplv-obj.webp",
+      "className": "gift",
+      "index": 65
+    },
+    {
+      "id": "gift_66",
+      "name": "Hand Heart",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/47e9081623cdae9faa55f4d0d67908bf~tplv-obj.webp",
+      "className": "gift",
+      "index": 66
+    },
+    {
+      "id": "gift_67",
+      "name": "Singing Magic",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/1b76de4373dec56480903c3d5367fd13.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 67
+    },
+    {
+      "id": "gift_68",
+      "name": "Marvelous Confetti",
+      "price": "100",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/fccc851d351716bc8b34ec65786c727d~tplv-obj.webp",
+      "className": "gift",
+      "index": 68
+    },
+    {
+      "id": "gift_69",
+      "name": "Heart Rain",
+      "price": "149",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/be28619d8b8d1dc03f91c7c63e4e0260.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 69
+    },
+    {
+      "id": "gift_70",
+      "name": "Bowknot",
+      "price": "149",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/dd02c4c2cb726134314e89abec0b5476.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 70
+    },
+    {
+      "id": "gift_71",
+      "name": "Big Shout Out",
+      "price": "149",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d79737225a5c68dee52b34d1a7c7dec9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 71
+    },
+    {
+      "id": "gift_72",
+      "name": "Chatting Popcorn",
+      "price": "149",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/f4813ddce6a6b3268df01af9fe3764d9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 72
+    },
+    {
+      "id": "gift_73",
+      "name": "Gamer Cat",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/16ba1b09a8a35dec880f88d71553571d~tplv-obj.webp",
+      "className": "gift",
+      "index": 73
+    },
+    {
+      "id": "gift_74",
+      "name": "Love Charger",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/4548af306fee184d43e2ced3b6f6e5cd.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 74
+    },
+    {
+      "id": "gift_75",
+      "name": "Sunglasses",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/08af67ab13a8053269bf539fd27f3873.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 75
+    },
+    {
+      "id": "gift_76",
+      "name": "Hearts",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/934b5a10dee8376df5870a61d2ea5cb6.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 76
+    },
+    {
+      "id": "gift_77",
+      "name": "Hanging Lights",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/183225b378b1bdf758a992781727b850~tplv-obj.webp",
+      "className": "gift",
+      "index": 77
+    },
+    {
+      "id": "gift_78",
+      "name": "Garland Headpiece",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/bdbdd8aeb2b69c173a3ef666e63310f3~tplv-obj.webp",
+      "className": "gift",
+      "index": 78
+    },
+    {
+      "id": "gift_79",
+      "name": "Love You",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/134e51c00f46e01976399883ca4e4798~tplv-obj.webp",
+      "className": "gift",
+      "index": 79
+    },
+    {
+      "id": "gift_80",
+      "name": "Cheer For You",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/1059dfa76c78dc17d7cf0a1fc2ece185~tplv-obj.webp",
+      "className": "gift",
+      "index": 80
+    },
+    {
+      "id": "gift_81",
+      "name": "Panther Paws",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/81c8ecd8f50b511a95259a29aea86e96~tplv-obj.webp",
+      "className": "gift",
+      "index": 81
+    },
+    {
+      "id": "gift_82",
+      "name": "Stinging Bee",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/c37b8f76d503f5787407a8d7c52f8cb7.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 82
+    },
+    {
+      "id": "gift_83",
+      "name": "Massage for You",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3ebdd3746d91eb06bdd4a04c49c3b04a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 83
+    },
+    {
+      "id": "gift_84",
+      "name": "Coffee Magic",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/0cb623f44c34f77fe14c2e11bfe4ee62.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 84
+    },
+    {
+      "id": "gift_85",
+      "name": "Meerkat",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/82c401f409482b0b6dd4f1016d7a4f49.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 85
+    },
+    {
+      "id": "gift_86",
+      "name": "Potato in Paris",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/0ac3b58039881ac97bd79423121f0d27.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 86
+    },
+    {
+      "id": "gift_87",
+      "name": "Cheering Crab",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/7d729b6a8104f5d349ba887608cd35bc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 87
+    },
+    {
+      "id": "gift_88",
+      "name": "Night Star",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3d136834fe9964927d6b30499a68b741.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 88
+    },
+    {
+      "id": "gift_89",
+      "name": "Wooly Hat",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a234d0187047fa48805c8ea2e1f1f756~tplv-obj.webp",
+      "className": "gift",
+      "index": 89
+    },
+    {
+      "id": "gift_90",
+      "name": "Blow Bubbles",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3119f192f98539b3d58c12b195811ca5.PNG~tplv-obj.webp",
+      "className": "gift",
+      "index": 90
+    },
+    {
+      "id": "gift_91",
+      "name": "Floating Octopus",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/022d496f79aa50d3042f0660d37ed48a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 91
+    },
+    {
+      "id": "gift_92",
+      "name": "Flower Headband",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/eaec5f24e45bc66ec44830fa5024ab45.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 92
+    },
+    {
+      "id": "gift_93",
+      "name": "Bowtiful Crown",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/49ead973a8b72606222e9afe055d694a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 93
+    },
+    {
+      "id": "gift_94",
+      "name": "Sour Daddy",
+      "price": "199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/963e12ba84805721d96b06deaf5d660b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 94
+    },
+    {
+      "id": "gift_95",
+      "name": "Rilakkuma's ear",
+      "price": "200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9b432097d114e92f7703a22c16113fb8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 95
+    },
+    {
+      "id": "gift_96",
+      "name": "Gold Medal",
+      "price": "200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/21549ba24f76a01d00373cb8e35660ae.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 96
+    },
+    {
+      "id": "gift_97",
+      "name": "I Love TikTok LIVE",
+      "price": "200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/49d51360108c4ff1770f2d7c59d7d7cb.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 97
+    },
+    {
+      "id": "gift_98",
+      "name": "Rose Bear",
+      "price": "214",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/adf6e9bd6219788151edb9fa026a0481.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 98
+    },
+    {
+      "id": "gift_99",
+      "name": "Pinch Face",
+      "price": "249",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/a10aab8940d3d5aee14b14cde033ab2a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 99
+    },
+    {
+      "id": "gift_100",
+      "name": "Candy Bouquet",
+      "price": "249",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/935ad03446f993a3630508e5c929b7cf.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 100
+    },
+    {
+      "id": "gift_101",
+      "name": "Star Goggles",
+      "price": "249",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/e14483e67a44ce522ba583ec923941fa.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 101
+    },
+    {
+      "id": "gift_102",
+      "name": "Cheer Mic",
+      "price": "249",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/cf2c95f9642541fa9ebe9bdcfe6e7359.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 102
+    },
+    {
+      "id": "gift_103",
+      "name": "Tiny Diny Float",
+      "price": "250",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/07f2f1c77323dc05300d25723fc6453a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 103
+    },
+    {
+      "id": "gift_104",
+      "name": "Gamer 2025",
+      "price": "2025",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/91058c626f0809291e7941969e4f0d05.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 104
+    },
+    {
+      "id": "gift_105",
+      "name": "Boxing Gloves",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9f8bd92363c400c284179f6719b6ba9c~tplv-obj.webp",
+      "className": "gift",
+      "index": 105
+    },
+    {
+      "id": "gift_106",
+      "name": "Corgi",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/148eef0884fdb12058d1c6897d1e02b9~tplv-obj.webp",
+      "className": "gift",
+      "index": 106
+    },
+    {
+      "id": "gift_107",
+      "name": "Fruit Friends",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/1153dd51308c556cb4fcc48c7d62209f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 107
+    },
+    {
+      "id": "gift_108",
+      "name": "Naughty Chicken",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/46a839dbc1c3e9103c71d82b35b21ad4.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 108
+    },
+    {
+      "id": "gift_109",
+      "name": "Play for You",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/34201b86430742595e4dcb5b39560b7a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 109
+    },
+    {
+      "id": "gift_110",
+      "name": "Rock Star",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/57acaf0590c56c219493b71fe8d2961d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 110
+    },
+    {
+      "id": "gift_111",
+      "name": "Butterfly for You",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/e02af5a7d59a958bd38536f7e3473f75.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 111
+    },
+    {
+      "id": "gift_112",
+      "name": "Puppy Kisses",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/4ae998a21159b60484169864f8968ba9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 112
+    },
+    {
+      "id": "gift_113",
+      "name": "Rising Key",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/e3354ab24f31aad6f98b4a586deccd6a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 113
+    },
+    {
+      "id": "gift_114",
+      "name": "Legend Crown",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/475f9de9ddc448e15df7a04f87e04997.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 114
+    },
+    {
+      "id": "gift_115",
+      "name": "United Heart",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/72ff280b8c6ce16f6efc9bf4cd6a036b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 115
+    },
+    {
+      "id": "gift_116",
+      "name": "LIVE Ranking Crown",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/1bb7f00a3adeb932e5f5518d723fedb5.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 116
+    },
+    {
+      "id": "gift_117",
+      "name": "Journal",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/c19a947f421a83716f7b2f7259189c8f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 117
+    },
+    {
+      "id": "gift_118",
+      "name": "Kicker Challenge",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/8065704646452387f6bed049b194f214.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 118
+    },
+    {
+      "id": "gift_119",
+      "name": "Budding Heart",
+      "price": "299",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/80cc308eca861fccd859c089b0647193.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 119
+    },
+    {
+      "id": "gift_120",
+      "name": "Feather Mask",
+      "price": "300",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/088bdb48e5051844d154948b4eb75e5f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 120
+    },
+    {
+      "id": "gift_121",
+      "name": "Backing Monkey",
+      "price": "349",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/758b0367f5746ec6335f4374dd9b45c3.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 121
+    },
+    {
+      "id": "gift_122",
+      "name": "Jollie's Community",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d0278907a72d63416317eb71ce2ed830.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 122
+    },
+    {
+      "id": "gift_123",
+      "name": "Forever Rosa",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/863e7947bc793f694acbe970d70440a1.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 123
+    },
+    {
+      "id": "gift_124",
+      "name": "Magic Rhythm",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/00f1882035fcf9407e4b1955f0b4c48b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 124
+    },
+    {
+      "id": "gift_125",
+      "name": "Relaxed Goose",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3961645e741423d7b334fb4b6488852f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 125
+    },
+    {
+      "id": "gift_126",
+      "name": "Tom's Hug",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/30ba2b172614d3c2da0e7caaca333b41.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 126
+    },
+    {
+      "id": "gift_127",
+      "name": "Rosie the Rose Bean",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3cbaea405cc61e8eaab6f5a14d127511.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 127
+    },
+    {
+      "id": "gift_128",
+      "name": "Jollie the Joy Bean",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/0e3769575f5b7b27b67c6330376961a4.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 128
+    },
+    {
+      "id": "gift_129",
+      "name": "Rocky the Rock Bean",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/767d7ea90f58f3676bbc5b1ae3c9851d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 129
+    },
+    {
+      "id": "gift_130",
+      "name": "Sage the Smart Bean",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/ed2cc456ab1a8619c5093eb8cfd3d303.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 130
+    },
+    {
+      "id": "gift_131",
+      "name": "Sage's Slash",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/213605d4582aa3e35b51712c7a0909aa.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 131
+    },
+    {
+      "id": "gift_132",
+      "name": "Let butterfly dances",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/754effcbfbc5c6708c32552ab780e14b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 132
+    },
+    {
+      "id": "gift_133",
+      "name": "Kitten Kneading",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/40938efafa13a17de483949934570461.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 133
+    },
+    {
+      "id": "gift_134",
+      "name": "Shoot the Apple",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/12a72eac62721ef031f22d935f6aac4b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 134
+    },
+    {
+      "id": "gift_135",
+      "name": "Alien Buddy",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/4d39819a9bd9731b747e42a1ee650406.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 135
+    },
+    {
+      "id": "gift_136",
+      "name": "Pharaoh Mask",
+      "price": "399",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/917b9bef8ad52363b5e1d7cad748e86d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 136
+    },
+    {
+      "id": "gift_137",
+      "name": "Crystal Dreams",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/4e21d2956bd289847ab8c006d499d25b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 137
+    },
+    {
+      "id": "gift_138",
+      "name": "Wishing Cake",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/6142c30d6b06c1c7748709e02f1293ab.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 138
+    },
+    {
+      "id": "gift_139",
+      "name": "Mic Champ",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d8678a19d13ab6e2feffbea41acd0ed9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 139
+    },
+    {
+      "id": "gift_140",
+      "name": "Bounce Speakers",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/fc25829fc12db52196c8606000ae17f0.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 140
+    },
+    {
+      "id": "gift_141",
+      "name": "Taraxacum Corgi",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/6b9815d3bd44174ab262f2d66ff514cb.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 141
+    },
+    {
+      "id": "gift_142",
+      "name": "Sweet Scoop",
+      "price": "400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/8ef14856b3f61c0d9d09e43e1d45098c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 142
+    },
+    {
+      "id": "gift_143",
+      "name": "Beating Heart",
+      "price": "449",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/11769d71ebd3c6a21f4baa7184791da9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 143
+    },
+    {
+      "id": "gift_144",
+      "name": "Encore Clap",
+      "price": "449",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/5b5e6863e349500d0c8ad6d67353728b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 144
+    },
+    {
+      "id": "gift_145",
+      "name": "Fairy Mask",
+      "price": "450",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/20bfad17835a6d5d369f3e183c10e035.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 145
+    },
+    {
+      "id": "gift_146",
+      "name": "Powerful Mind",
+      "price": "450",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/2184128b55eaef8a390a1a43a2ffdf16.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 146
+    },
+    {
+      "id": "gift_147",
+      "name": "Hat of Joy",
+      "price": "450",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9fcbc11bf61ee4b5790f2b3677a45ac6.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 147
+    },
+    {
+      "id": "gift_148",
+      "name": "Panda Hug",
+      "price": "499",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6a00e64d9582d0e1f4ef0ac66132c272.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 148
+    },
+    {
+      "id": "gift_149",
+      "name": "Coral",
+      "price": "499",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/d4faa402c32bf4f92bee654b2663d9f1~tplv-obj.webp",
+      "className": "gift",
+      "index": 149
+    },
+    {
+      "id": "gift_150",
+      "name": "Sakura Corgi",
+      "price": "499",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/22566bba8f729d29c40d636ea9d6d9cc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 150
+    },
+    {
+      "id": "gift_151",
+      "name": "Hands Up",
+      "price": "499",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/f4d906542408e6c87cf0a42f7426f0c6~tplv-obj.webp",
+      "className": "gift",
+      "index": 151
+    },
+    {
+      "id": "gift_152",
+      "name": "Money Gun",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/e0589e95a2b41970f0f30f6202f5fce6~tplv-obj.webp",
+      "className": "gift",
+      "index": 152
+    },
+    {
+      "id": "gift_153",
+      "name": "You’re Amazing",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/b48c69f4df49c28391bcc069bbc31b41.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 153
+    },
+    {
+      "id": "gift_154",
+      "name": "VR Goggles",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/18c51791197b413bbd1b4f1b983bda36.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 154
+    },
+    {
+      "id": "gift_155",
+      "name": "Manifesting",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/ca11566ae5a41ec8971cc00b51f78dac.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 155
+    },
+    {
+      "id": "gift_156",
+      "name": "DJ Glasses",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/d4aad726e2759e54a924fbcd628ea143.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 156
+    },
+    {
+      "id": "gift_157",
+      "name": "Dragon Crown",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/1d3f3738f57d6a45dd6df904bedd59ae.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 157
+    },
+    {
+      "id": "gift_158",
+      "name": "Star Map Polaris",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6abb39fb8088a1897b8163e54394845c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 158
+    },
+    {
+      "id": "gift_159",
+      "name": "Bouquet",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/f1ead695e8281b7387e40d48fc6b1fb0.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 159
+    },
+    {
+      "id": "gift_160",
+      "name": "Racing Helmet",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/b9321d0563504990e8fcf73466f4c895.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 160
+    },
+    {
+      "id": "gift_161",
+      "name": "Prince",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ea1fc9cb68514ec3c844179c6f09e8de.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 161
+    },
+    {
+      "id": "gift_162",
+      "name": "Summer of LIVE",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/51c74e7b61cbdd9d42dabd779b8de16b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 162
+    },
+    {
+      "id": "gift_163",
+      "name": "Heart It Out",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/3b2a7f10c7db029726c1cf636106c969.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 163
+    },
+    {
+      "id": "gift_164",
+      "name": "Gem Gun",
+      "price": "500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/dd06007ade737f1001977590b11d3f61~tplv-obj.webp",
+      "className": "gift",
+      "index": 164
+    },
+    {
+      "id": "gift_165",
+      "name": "Swan",
+      "price": "699",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/97a26919dbf6afe262c97e22a83f4bf1~tplv-obj.webp",
+      "className": "gift",
+      "index": 165
+    },
+    {
+      "id": "gift_166",
+      "name": "Colorful Wings",
+      "price": "700",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/67f29babb4506da83fed2d9143e6079b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 166
+    },
+    {
+      "id": "gift_167",
+      "name": "Trash Panda",
+      "price": "799",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/706c0c2928fadf0682e1678bc7f336dc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 167
+    },
+    {
+      "id": "gift_168",
+      "name": "Bear Blind Box",
+      "price": "800",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/5751e72ed92a4562e3bbc2ab2bbccd67.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 168
+    },
+    {
+      "id": "gift_169",
+      "name": "Train",
+      "price": "899",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4227ed71f2c494b554f9cbe2147d4899~tplv-obj.webp",
+      "className": "gift",
+      "index": 169
+    },
+    {
+      "id": "gift_170",
+      "name": "Superstar",
+      "price": "900",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/28ca7ac8e7c2359d4ae933fc37e340f8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 170
+    },
+    {
+      "id": "gift_171",
+      "name": "Bearlicious Sundae",
+      "price": "900",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/57640c3213dea048d0228d88f2962798.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 171
+    },
+    {
+      "id": "gift_172",
+      "name": "Travel with You",
+      "price": "999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/753098e5a8f45afa965b73616c04cf89~tplv-obj.webp",
+      "className": "gift",
+      "index": 172
+    },
+    {
+      "id": "gift_173",
+      "name": "Lucky Airdrop Box",
+      "price": "999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6ae56f08ae3ee57ea2dda0025bfd39d3.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 173
+    },
+    {
+      "id": "gift_174",
+      "name": "Trending Figure",
+      "price": "999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/df7b556ccf369bf9a42fe83ec8a77acf.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 174
+    },
+    {
+      "id": "gift_175",
+      "name": "Gold Mine",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/58cbff1bd592ae4365a450c4bf767f3a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 175
+    },
+    {
+      "id": "gift_176",
+      "name": "Watermelon Love",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/1d1650cd9bb0e39d72a6e759525ffe59~tplv-obj.webp",
+      "className": "gift",
+      "index": 176
+    },
+    {
+      "id": "gift_177",
+      "name": "Dinosaur",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/e1b0687ef6df9d6db8222831d353fcf9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 177
+    },
+    {
+      "id": "gift_178",
+      "name": "Glowing Jellyfish",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/96d9226ef1c33784a24d0779ad3029d3.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 178
+    },
+    {
+      "id": "gift_179",
+      "name": "Blooming Ribbons",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f76750ab58ee30fc022c9e4e11d25c9d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 179
+    },
+    {
+      "id": "gift_180",
+      "name": "Galaxy",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/79a02148079526539f7599150da9fd28.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 180
+    },
+    {
+      "id": "gift_181",
+      "name": "Fairy Wings",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d9798af8e406e718e66322caddf04440.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 181
+    },
+    {
+      "id": "gift_182",
+      "name": "Flamingo Groove",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ef1e4cf78bb27e6164f53e1695e7a5bc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 182
+    },
+    {
+      "id": "gift_183",
+      "name": "Cooper Baseball",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/8dd38d31d771b6df30a5fbebf99cd7c1.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 183
+    },
+    {
+      "id": "gift_184",
+      "name": "Super LIVE Star",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/cd57ce260b2537e2a8ed056431b267f2.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 184
+    },
+    {
+      "id": "gift_185",
+      "name": "Sparkle Dance",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6d934aacf296e6f24d75b8b2aa4fb22f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 185
+    },
+    {
+      "id": "gift_186",
+      "name": "Shiny air balloon",
+      "price": "1000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9e7ebdca64b8f90fcc284bb04ab92d24~tplv-obj.webp",
+      "className": "gift",
+      "index": 186
+    },
+    {
+      "id": "gift_187",
+      "name": "Fireworks",
+      "price": "1088",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9494c8a0bc5c03521ef65368e59cc2b8~tplv-obj.webp",
+      "className": "gift",
+      "index": 187
+    },
+    {
+      "id": "gift_188",
+      "name": "Diamond",
+      "price": "1099",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/55ee5e871f7f413d24521f824682bb10.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 188
+    },
+    {
+      "id": "gift_189",
+      "name": "Fireworks show",
+      "price": "1099",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/d0777f2f186ccb85fd7207121947e77f~tplv-obj.webp",
+      "className": "gift",
+      "index": 189
+    },
+    {
+      "id": "gift_190",
+      "name": "Travel in the US",
+      "price": "1200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/939e7bd183b16b711809d0d6ca03d314~tplv-obj.webp",
+      "className": "gift",
+      "index": 190
+    },
+    {
+      "id": "gift_191",
+      "name": "Umbrella of Love",
+      "price": "1200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3b1e8de86d841496b87567014827537b.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 191
+    },
+    {
+      "id": "gift_192",
+      "name": "Starlight Sceptre",
+      "price": "1200",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/bcb3636b904fe6050d6a47efb1eafd2c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 192
+    },
+    {
+      "id": "gift_193",
+      "name": "Vibrant Stage",
+      "price": "1400",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ae0a1abca4313c916e2a4e40813d90d6.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 193
+    },
+    {
+      "id": "gift_194",
+      "name": "Chasing the Dream",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/1ea8dbb805466c4ced19f29e9590040f~tplv-obj.webp",
+      "className": "gift",
+      "index": 194
+    },
+    {
+      "id": "gift_195",
+      "name": "Lover’s Lock",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f3010d1fcb008ce1b17248e5ea18b178.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 195
+    },
+    {
+      "id": "gift_196",
+      "name": "Greeting Card",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/dac91f95d4135654fe16d09369dd8355.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 196
+    },
+    {
+      "id": "gift_197",
+      "name": "Future Encounter",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/af980f4ec9ed73f3229df8dfb583abe6.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 197
+    },
+    {
+      "id": "gift_198",
+      "name": "EWC Trophy",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/7f624200a613979597a9b729cf0b5e40.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 198
+    },
+    {
+      "id": "gift_199",
+      "name": "Under Control",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/af67b28480c552fd8e8c0ae088d07a1d.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 199
+    },
+    {
+      "id": "gift_200",
+      "name": "Racing Debut",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/b5ac8bb9da5569185bfdc1be357d3906.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 200
+    },
+    {
+      "id": "gift_201",
+      "name": "Galaxy Globe",
+      "price": "1500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/1379dd334a16615a8731a3a4f97b932f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 201
+    },
+    {
+      "id": "gift_202",
+      "name": "Blooming Heart",
+      "price": "1599",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ff5453b7569d482c873163ce4b1fb703.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 202
+    },
+    {
+      "id": "gift_203",
+      "name": "Here We Go",
+      "price": "1799",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/61b76a51a3757f0ff1cdc33b16c4d8ae~tplv-obj.webp",
+      "className": "gift",
+      "index": 203
+    },
+    {
+      "id": "gift_204",
+      "name": "Love Drop",
+      "price": "1800",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/1ea684b3104abb725491a509022f7c02~tplv-obj.webp",
+      "className": "gift",
+      "index": 204
+    },
+    {
+      "id": "gift_205",
+      "name": "Rilakkuma Dance",
+      "price": "1999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/3ed3fa1ae33cf958b663b096738b866c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 205
+    },
+    {
+      "id": "gift_206",
+      "name": "Star of Red Carpet",
+      "price": "1999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/5b9bf90278f87b9ca0c286d3c8a12936~tplv-obj.webp",
+      "className": "gift",
+      "index": 206
+    },
+    {
+      "id": "gift_207",
+      "name": "Gift Box",
+      "price": "1999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9cc22f7c8ac233e129dec7b981b91b76~tplv-obj.webp",
+      "className": "gift",
+      "index": 207
+    },
+    {
+      "id": "gift_208",
+      "name": "Cooper Flies Home",
+      "price": "1999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/3f1945b0d96e665a759f747e5e0cf7a9~tplv-obj.webp",
+      "className": "gift",
+      "index": 208
+    },
+    {
+      "id": "gift_209",
+      "name": "Mystery Firework",
+      "price": "1999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/c110230c5db903db5f060a432f5a86cd~tplv-obj.webp",
+      "className": "gift",
+      "index": 209
+    },
+    {
+      "id": "gift_210",
+      "name": "Baby Dragon",
+      "price": "2000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/733030ca95fe6f757533aec40bf2af3a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 210
+    },
+    {
+      "id": "gift_211",
+      "name": "Crystal Crown",
+      "price": "2000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/4f7f618d209c8fb1f99757a42f65fa71.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 211
+    },
+    {
+      "id": "gift_212",
+      "name": "Cooper Picnic",
+      "price": "2000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/23b24ff52e8c8129bf2080ac306fc7e3.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 212
+    },
+    {
+      "id": "gift_213",
+      "name": "Tiny Diny Chill",
+      "price": "2000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d07b3f5258bc3bf523e34027bcaa2ccc.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 213
+    },
+    {
+      "id": "gift_214",
+      "name": "Whale Diving",
+      "price": "2150",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/46fa70966d8e931497f5289060f9a794~tplv-obj.webp",
+      "className": "gift",
+      "index": 214
+    },
+    {
+      "id": "gift_215",
+      "name": "Blow Rosie Kisses",
+      "price": "2199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/710076b6be7de742f800c4ab88fab9ff.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 215
+    },
+    {
+      "id": "gift_216",
+      "name": "Jollie's Heartland",
+      "price": "2199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/0eafd5c28cdb2563f3386679643abb29.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 216
+    },
+    {
+      "id": "gift_217",
+      "name": "Rocky's Punch",
+      "price": "2199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d17fb8a57c708c4f07f95884131df654.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 217
+    },
+    {
+      "id": "gift_218",
+      "name": "Sage's Coinbot",
+      "price": "2199",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/443c163954f4f7636909fb6980518745.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 218
+    },
+    {
+      "id": "gift_219",
+      "name": "Animal Band",
+      "price": "2500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/60d8c4148c9cd0c268e570741ccf4150.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 219
+    },
+    {
+      "id": "gift_220",
+      "name": "Motorcycle",
+      "price": "2988",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/6517b8f2f76dc75ff0f4f73107f8780e~tplv-obj.webp",
+      "className": "gift",
+      "index": 220
+    },
+    {
+      "id": "gift_221",
+      "name": "Community Celebration",
+      "price": "2999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/14fad469dfc49a552920c593191bfba5.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 221
+    },
+    {
+      "id": "gift_222",
+      "name": "Grand Prix Stage",
+      "price": "2999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/4ab2b1c3d5ce336a97eeaf2a8f131c00.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 222
+    },
+    {
+      "id": "gift_223",
+      "name": "Rhythmic Bear",
+      "price": "2999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/16eacf541e4bd6816e88139d079519f5.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 223
+    },
+    {
+      "id": "gift_224",
+      "name": "Level-up Spotlight",
+      "price": "2999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/9a87567b4bb63b175f146745af412bb5.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 224
+    },
+    {
+      "id": "gift_225",
+      "name": "Meteor Shower",
+      "price": "3000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/71883933511237f7eaa1bf8cd12ed575~tplv-obj.webp",
+      "className": "gift",
+      "index": 225
+    },
+    {
+      "id": "gift_226",
+      "name": "Tiny Diny Surfing",
+      "price": "3000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/5968e0aa5561a5444347c8fda215f850.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 226
+    },
+    {
+      "id": "gift_227",
+      "name": "Gift Box",
+      "price": "3999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/3646c259f8ce6f79c762ad00ce51dda0~tplv-obj.webp",
+      "className": "gift",
+      "index": 227
+    },
+    {
+      "id": "gift_228",
+      "name": "Summer Time",
+      "price": "3999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/884cedae54f0d3949c77d8f2ffeda6d4~tplv-obj.webp",
+      "className": "gift",
+      "index": 228
+    },
+    {
+      "id": "gift_229",
+      "name": "Heart Stage",
+      "price": "3999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/57303a417757839d0b7b287856340b0f.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 229
+    },
+    {
+      "id": "gift_230",
+      "name": "Gaming Keyboard",
+      "price": "4000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/085c46d6d7519b5f2de40216126456ef.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 230
+    },
+    {
+      "id": "gift_231",
+      "name": "Your Concert",
+      "price": "4500",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/86c9c8fb5aa76488b075f139dd575dfe.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 231
+    },
+    {
+      "id": "gift_232",
+      "name": "Private Jet",
+      "price": "4888",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/921c6084acaa2339792052058cbd3fd3~tplv-obj.webp",
+      "className": "gift",
+      "index": 232
+    },
+    {
+      "id": "gift_233",
+      "name": "Leon the Kitten",
+      "price": "4888",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a7748baba012c9e2d98a30dce7cc5a27~tplv-obj.webp",
+      "className": "gift",
+      "index": 233
+    },
+    {
+      "id": "gift_234",
+      "name": "Fiery Dragon",
+      "price": "4888",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/8d1281789de0a5dfa69f90ecf0dc1534.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 234
+    },
+    {
+      "id": "gift_235",
+      "name": "Signature Jet",
+      "price": "4888",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/fe27eba54a50c0a687e3dc0f2c02067d~tplv-obj.webp",
+      "className": "gift",
+      "index": 235
+    },
+    {
+      "id": "gift_236",
+      "name": "Tom's Love",
+      "price": "4999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/78e36dd021a63ee2c9e4d9e1f222967e.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 236
+    },
+    {
+      "id": "gift_237",
+      "name": "Sage’s Venture",
+      "price": "4999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/ea291160b9b69dc5d13938433ba0fae9.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 237
+    },
+    {
+      "id": "gift_238",
+      "name": "Unicorn Fantasy",
+      "price": "5000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/483c644e67e9bb1dd5970f2df00b7576~tplv-obj.webp",
+      "className": "gift",
+      "index": 238
+    },
+    {
+      "id": "gift_239",
+      "name": "Flying Jets",
+      "price": "5000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/1d067d13988e8754ed6adbebd89b9ee8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 239
+    },
+    {
+      "id": "gift_240",
+      "name": "Diamond Gun",
+      "price": "5000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/651e705c26b704d03bc9c06d841808f1.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 240
+    },
+    {
+      "id": "gift_241",
+      "name": "Devoted Heart",
+      "price": "5999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/bc3e9b4ce077044956fee2ded85f8ff7.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 241
+    },
+    {
+      "id": "gift_242",
+      "name": "Future City",
+      "price": "6000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/963b7c25aa2cedc0de22358342645e87.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 242
+    },
+    {
+      "id": "gift_243",
+      "name": "Sam in New City",
+      "price": "6000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/291de897e4a8c3b72c358a9734c5b7d8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 243
+    },
+    {
+      "id": "gift_244",
+      "name": "Work Hard Play Harder",
+      "price": "6000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3257e15b3f6697aed88b4ac51b816603.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 244
+    },
+    {
+      "id": "gift_245",
+      "name": "Strong Finish",
+      "price": "6000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/9ad035b088dfeaf298fdc9cd84d50000.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 245
+    },
+    {
+      "id": "gift_246",
+      "name": "Lili the Leopard",
+      "price": "6599",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/7be03e1af477d1dbc6eb742d0c969372.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 246
+    },
+    {
+      "id": "gift_247",
+      "name": "Happy Party",
+      "price": "6999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/41774a8ba83c59055e5f2946d51215b4~tplv-obj.webp",
+      "className": "gift",
+      "index": 247
+    },
+    {
+      "id": "gift_248",
+      "name": "Sports Car",
+      "price": "7000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/e7ce188da898772f18aaffe49a7bd7db~tplv-obj.webp",
+      "className": "gift",
+      "index": 248
+    },
+    {
+      "id": "gift_249",
+      "name": "Spectacular Show",
+      "price": "7000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/7a9999f3bfa255d633a5a0650e345426.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 249
+    },
+    {
+      "id": "gift_250",
+      "name": "Star Throne",
+      "price": "7999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/30063f6bc45aecc575c49ff3dbc33831~tplv-obj.webp",
+      "className": "gift",
+      "index": 250
+    },
+    {
+      "id": "gift_251",
+      "name": "Star Throne",
+      "price": "7999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/30063f6bc45aecc575c49ff3dbc33831~tplv-obj.webp",
+      "className": "gift",
+      "index": 251
+    },
+    {
+      "id": "gift_252",
+      "name": "Leon and Lili",
+      "price": "9699",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/6958244f3eeb69ce754f735b5833a4aa.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 252
+    },
+    {
+      "id": "gift_253",
+      "name": "Interstellar",
+      "price": "10000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8520d47b59c202a4534c1560a355ae06~tplv-obj.webp",
+      "className": "gift",
+      "index": 253
+    },
+    {
+      "id": "gift_254",
+      "name": "Sunset Speedway",
+      "price": "10000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/df63eee488dc0994f6f5cb2e65f2ae49~tplv-obj.webp",
+      "className": "gift",
+      "index": 254
+    },
+    {
+      "id": "gift_255",
+      "name": "Luxury Yacht",
+      "price": "10000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/a97ef636c4e0494b2317c58c9edba0a8.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 255
+    },
+    {
+      "id": "gift_256",
+      "name": "Rilakkuma's summer vacation",
+      "price": "12000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/66b4d9acd62cab59e9d74311d096c828.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 256
+    },
+    {
+      "id": "gift_257",
+      "name": "Red Lightning",
+      "price": "12000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/5f48599c8d2a7bbc6e6fcf11ba2c809f~tplv-obj.webp",
+      "className": "gift",
+      "index": 257
+    },
+    {
+      "id": "gift_258",
+      "name": "Convertible",
+      "price": "12000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/c515a8ff12674d6bd97b3b29ad83ed9a.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 258
+    },
+    {
+      "id": "gift_259",
+      "name": "Level-up Spectacle",
+      "price": "12999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/52a09724bbe8d78227db67bc5fe78613.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 259
+    },
+    {
+      "id": "gift_260",
+      "name": "Chrono Rewinder",
+      "price": "14999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/a38711c7a066f79acc061cec0fa16d67.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 260
+    },
+    {
+      "id": "gift_261",
+      "name": "Crystal Heart",
+      "price": "14999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/08095e18ae3da6ad5dcf23ce68eb1483.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 261
+    },
+    {
+      "id": "gift_262",
+      "name": "Gaming Console",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3fb6d2deb1cc94de97eed27fa7cb4e8c.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 262
+    },
+    {
+      "id": "gift_263",
+      "name": "Leopard",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/3d837cfcac70929abc0f45e4dc7cee04.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 263
+    },
+    {
+      "id": "gift_264",
+      "name": "Rosa Nebula",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f722088231103b66875dae33f13f8719.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 264
+    },
+    {
+      "id": "gift_265",
+      "name": "Pyramids",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/9550df3089a6d20e06391df8d9b15392.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 265
+    },
+    {
+      "id": "gift_266",
+      "name": "Future Journey",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/dd615b15ed696ee886064d5415dab688.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 266
+    },
+    {
+      "id": "gift_267",
+      "name": "Party On&On",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/c45505ece4a91d9c43e4ba98a000b006.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 267
+    },
+    {
+      "id": "gift_268",
+      "name": "Heart Superstage",
+      "price": "15000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/103edecd716e9600e77e6fb38cfbb1f1.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 268
+    },
+    {
+      "id": "gift_269",
+      "name": "Amusement Park",
+      "price": "17000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/12ecc01c2984c5d85bb508e80103a3cb.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 269
+    },
+    {
+      "id": "gift_270",
+      "name": "Fly Love",
+      "price": "19999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a598ba4c7024f4d46c1268be4d82f901~tplv-obj.webp",
+      "className": "gift",
+      "index": 270
+    },
+    {
+      "id": "gift_271",
+      "name": "TikTok Shuttle",
+      "price": "20000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8ef48feba8dd293a75ae9d4376fb17c9~tplv-obj.webp",
+      "className": "gift",
+      "index": 271
+    },
+    {
+      "id": "gift_272",
+      "name": "Castle Fantasy",
+      "price": "20000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8173e9b07875cca37caa5219e4903a40~tplv-obj.webp",
+      "className": "gift",
+      "index": 272
+    },
+    {
+      "id": "gift_273",
+      "name": "Premium Shuttle",
+      "price": "20000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/c2b287adee5151b7889d6e3d45b72e44~tplv-obj.webp",
+      "className": "gift",
+      "index": 273
+    },
+    {
+      "id": "gift_274",
+      "name": "Infinite Heart",
+      "price": "23999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/de31974d7a94525c6f31872b5b38f76e.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 274
+    },
+    {
+      "id": "gift_275",
+      "name": "Light Castle",
+      "price": "25999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/d4b287cbc15d1c10111c1a86945b5d40.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 275
+    },
+    {
+      "id": "gift_276",
+      "name": "Phoenix",
+      "price": "25999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/ef248375c4167d70c1642731c732c982~tplv-obj.webp",
+      "className": "gift",
+      "index": 276
+    },
+    {
+      "id": "gift_277",
+      "name": "Adam’s Dream",
+      "price": "25999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/9a586391fbb1e21621c4203e5563a9e0~tplv-obj.webp",
+      "className": "gift",
+      "index": 277
+    },
+    {
+      "id": "gift_278",
+      "name": "Dragon Flame",
+      "price": "26999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/89b4d1d93c1cc614e3a0903ac7a94e0c~tplv-obj.webp",
+      "className": "gift",
+      "index": 278
+    },
+    {
+      "id": "gift_279",
+      "name": "Lion",
+      "price": "29999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/4fb89af2082a290b37d704e20f4fe729~tplv-obj.webp",
+      "className": "gift",
+      "index": 279
+    },
+    {
+      "id": "gift_280",
+      "name": "Leon and Lion",
+      "price": "34000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/a291aedacf27d22c3fd2d83575d2bee9~tplv-obj.webp",
+      "className": "gift",
+      "index": 280
+    },
+    {
+      "id": "gift_281",
+      "name": "Zeus",
+      "price": "34000",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/01793f9afe15f5037a9dc10435c37c85.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 281
+    },
+    {
+      "id": "gift_282",
+      "name": "TikTok Universe+",
+      "price": "34999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b13105782e8bf8fbefaa83b7af413cee~tplv-obj.webp",
+      "className": "gift",
+      "index": 282
+    },
+    {
+      "id": "gift_283",
+      "name": "TikTok Stars",
+      "price": "39999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/b1667c891ed39fd68ba7252fff7a1e7c~tplv-obj.webp",
+      "className": "gift",
+      "index": 283
+    },
+    {
+      "id": "gift_284",
+      "name": "Thunder Falcon",
+      "price": "39999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/26f3fbcda383e6093a19b8e7351a164c~tplv-obj.webp",
+      "className": "gift",
+      "index": 284
+    },
+    {
+      "id": "gift_285",
+      "name": "Fire Phoenix",
+      "price": "41999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/bfb8425a7e8fa03f9fec05a973a4a506.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 285
+    },
+    {
+      "id": "gift_286",
+      "name": "King Leonardo",
+      "price": "42999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/alisg/webcast-sg/resource/dea6aa2fbb6622c2b8c95313c50b0d13.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 286
+    },
+    {
+      "id": "gift_287",
+      "name": "Pegasus",
+      "price": "42999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/resource/f600a2495ab5d250e7da2066484a9383.png~tplv-obj.webp",
+      "className": "gift",
+      "index": 287
+    },
+    {
+      "id": "gift_288",
+      "name": "TikTok Universe",
+      "price": "44999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp",
+      "className": "gift",
+      "index": 288
+    },
+    {
+      "id": "gift_289",
+      "name": "TikTok Universe",
+      "price": "44999",
+      "image": "https://p16-webcast.tiktokcdn.com/img/maliva/webcast-va/8f471afbcebfda3841a6cc515e381f58~tplv-obj.webp",
+      "className": "gift",
+      "index": 289
+    }
+  ]
+}

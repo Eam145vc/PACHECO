@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset TikTok Word Game</title>
+</head>
+<body>
+    <h1>Resetting Game...</h1>
+    <script>
+        // Clear localStorage
+        localStorage.clear();
+        
+        // Initialize with clean state
+        const cleanState = {
+            currentPhrase: null,
+            isGameActive: false,
+            roundNumber: 1,
+            winners: [],
+            tokensPerWinner: 100
+        };
+        
+        localStorage.setItem('tiktok-word-game-state', JSON.stringify(cleanState));
+        
+        console.log('✅ Game reset complete! Clean state:', cleanState);
+        
+        // Redirect back to game
+        setTimeout(() => {
+            window.location.href = 'http://localhost:5174/';
+        }, 1000);
+    </script>
+</body>
+</html>
