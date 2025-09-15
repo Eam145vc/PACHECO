@@ -1461,7 +1461,7 @@ async function executeRevealConsonant() {
 
 // Catch-all handler para React Router (solo en producción)
 if (isProduction) {
-  app.get('*', (req, res) => {
+  app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'));
   });
 }
