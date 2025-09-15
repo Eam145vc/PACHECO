@@ -127,6 +127,24 @@ pip install -r requirements.txt
 4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
 5. Crear un Pull Request
 
+## 🌐 **Deployment Público**
+
+### Para Render.com:
+
+**Build Command:**
+```bash
+npm run render-build
+```
+
+**Start Command:**
+```bash
+npm run render-start
+```
+
+**Variables de Entorno:**
+- `NODE_ENV=production`
+- `PORT=10000`
+
 ## 📄 **Licencia**
 
 Este proyecto está bajo la Licencia MIT.
