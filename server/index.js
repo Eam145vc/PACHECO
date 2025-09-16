@@ -1,11 +1,17 @@
 require('dotenv').config();
+console.log('🚀 Iniciando servidor...');
 const express = require('express');
 const path = require('path');
+console.log('📊 Cargando database...');
 const database = require('./database');
+console.log('🐍 Cargando tiktokLiveManager...');
 const tiktokLiveManager = require('./tiktokLiveManager');
+console.log('✅ Módulos cargados');
 
 const app = express();
+console.log('✅ Express app creada');
 const PORT = process.env.PORT || 3002;
+console.log('🔌 Puerto configurado:', PORT);
 const isProduction = process.env.NODE_ENV === 'production';
 
 // CORS middleware para permitir requests del frontend
@@ -44,16 +50,18 @@ app.post('/login', async (req, res) => {
 });
 
 // Endpoint de prueba
-const { 
-  startBrowser, 
-  sendMessage, 
-  setCookies, 
+console.log('📨 Cargando sendMessage...');
+const {
+  startBrowser,
+  sendMessage,
+  setCookies,
   findLeastRepresentedVowel,
   findLeastRepresentedConsonant,
   generatePhraseState,
   generatePremiumMessage,
   autoStartBrowser
 } = require('./sendMessage');
+console.log('✅ sendMessage cargado');
 
 app.post('/start-login', async (req, res) => {
   console.log('Solicitud recibida en /start-login');
@@ -186,6 +194,8 @@ app.post('/send-message', async (req, res) => {
   }
 });
 
+console.log('🎯 Endpoints básicos configurados');
+
 // ===============================
 // ENDPOINTS SISTEMA DE ÓRDENES
 // ===============================
@@ -253,6 +263,8 @@ app.post('/orders/:orderId/fulfill', async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 });
+
+console.log('📦 Sección de órdenes completada');
 
 // ===============================
 // ENDPOINTS TIKTOK LIVE INTEGRATION
@@ -673,6 +685,8 @@ async function processGiftTriggers(giftData) {
     }
   }
 }
+
+console.log('🚀 Llegando al primer endpoint de TikTok Live...');
 
 // Endpoint para recibir eventos del servidor Python TikTok Live
 app.post('/tiktok-live-event', (req, res) => {
@@ -1560,7 +1574,9 @@ if (isProduction) {
   });
 }
 
+console.log('🎯 Llegando al app.listen()...');
 app.listen(PORT, async () => {
+  console.log('🎉 ¡Servidor iniciado exitosamente!');
   if (isProduction) {
     console.log(`🚀 Servidor en producción: Puerto ${PORT}`);
     console.log(`🎮 Panel Admin: /admin`);
@@ -1593,3 +1609,4 @@ app.listen(PORT, async () => {
     }
   }, 3000); // Esperar 3 segundos para que Express esté completamente listo
 });
+}

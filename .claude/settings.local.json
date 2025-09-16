@@ -18,7 +18,9 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(npm run dev:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(ipconfig)",
+      "Bash(npm run start:*)"
     ],
     "deny": [],
     "ask": []
