@@ -16,6 +16,7 @@ import {
   Minus,
   UserX
 } from 'lucide-react';
+import { coronasApi } from '../services/coronasApi.js';
 
 interface Product {
   id: string;
@@ -90,10 +91,9 @@ const CoronasAdminContent: React.FC = () => {
 
   const loadProducts = async () => {
     try {
-      const response = await fetch('/products');
-      const data = await response.json();
-      if (data.success) {
-        setProducts(data.products);
+      const result = await coronasApi.getProducts();
+      if (result.success) {
+        setProducts(result.products);
       }
     } catch (error) {
       console.error('Error loading products:', error);
@@ -104,10 +104,9 @@ const CoronasAdminContent: React.FC = () => {
 
   const loadUsers = async () => {
     try {
-      const response = await fetch('/users');
-      const data = await response.json();
-      if (data.success) {
-        setUsers(data.users);
+      const result = await coronasApi.getAllUsers();
+      if (result.success) {
+        setUsers(result.users);
       }
     } catch (error) {
       console.error('Error loading users:', error);
@@ -117,25 +116,30 @@ const CoronasAdminContent: React.FC = () => {
 
   const loadOrders = async () => {
     try {
-      const response = await fetch('/orders');
-      const data = await response.json();
-      if (data.success) {
-        setOrders(data.orders);
+      const result = await coronasApi.getAllOrders();
+      if (result.success) {
+        setOrders(result.orders);
+      } else {
+        showNotification('error', 'Error al cargar órdenes');
       }
     } catch (error) {
       console.error('Error loading orders:', error);
+      showNotification('error', 'Error al cargar órdenes');
     }
   };
 
   const loadPendingOrders = async () => {
     try {
-      const response = await fetch('/orders/pending');
-      const data = await response.json();
-      if (data.success) {
-        setPendingOrders(data.orders);
+      const result = await coronasApi.getAllOrders();
+      if (result.success) {
+        const pendingOrders = result.orders.filter(order => order.status === 'pending');
+        setPendingOrders(pendingOrders);
+      } else {
+        showNotification('error', 'Error al cargar órdenes pendientes');
       }
     } catch (error) {
       console.error('Error loading pending orders:', error);
+      showNotification('error', 'Error al cargar órdenes pendientes');
     }
   };
 
@@ -185,7 +189,7 @@ const CoronasAdminContent: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.title.trim() || !formData.price.trim() || !formData.deliverable.trim()) {
       showNotification('error', 'Título, precio y entregable son requeridos');
       return;
@@ -198,30 +202,34 @@ const CoronasAdminContent: React.FC = () => {
     }
 
     try {
-      const url = editingProduct ? `/products/${editingProduct.id}` : '/products';
-      const method = editingProduct ? 'PUT' : 'POST';
-      
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      let result;
+
+      if (editingProduct) {
+        // Update existing product
+        result = await coronasApi.updateProduct(editingProduct.id, {
           title: formData.title.trim(),
           image: formData.image.trim(),
           price: price,
           description: formData.description.trim(),
           deliverable: formData.deliverable.trim()
-        }),
-      });
+        });
+      } else {
+        // Add new product
+        result = await coronasApi.addProduct(
+          formData.title.trim(),
+          formData.image.trim(),
+          price,
+          formData.description.trim(),
+          formData.deliverable.trim()
+        );
+      }
 
-      const data = await response.json();
-      if (data.success) {
+      if (result.success) {
         showNotification('success', editingProduct ? 'Producto actualizado' : 'Producto creado');
         loadProducts();
         resetForm();
       } else {
-        showNotification('error', data.message || 'Error al guardar producto');
+        showNotification('error', result.error || 'Error al guardar producto');
       }
     } catch (error) {
       console.error('Error saving product:', error);
@@ -245,16 +253,12 @@ const CoronasAdminContent: React.FC = () => {
     if (!confirm(`¿Estás seguro de eliminar "${product.title}"?`)) return;
 
     try {
-      const response = await fetch(`/products/${product.id}`, {
-        method: 'DELETE',
-      });
-
-      const data = await response.json();
-      if (data.success) {
+      const result = await coronasApi.deleteProduct(product.id);
+      if (result.success) {
         showNotification('success', 'Producto eliminado');
         loadProducts();
       } else {
-        showNotification('error', data.message || 'Error al eliminar producto');
+        showNotification('error', result.error || 'Error al eliminar producto');
       }
     } catch (error) {
       console.error('Error deleting product:', error);
@@ -264,22 +268,15 @@ const CoronasAdminContent: React.FC = () => {
 
   const handleToggleActive = async (product: Product) => {
     try {
-      const response = await fetch(`/products/${product.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          active: !product.active
-        }),
+      const result = await coronasApi.updateProduct(product.id, {
+        active: !product.active
       });
 
-      const data = await response.json();
-      if (data.success) {
+      if (result.success) {
         showNotification('success', product.active ? 'Producto desactivado' : 'Producto activado');
         loadProducts();
       } else {
-        showNotification('error', data.message || 'Error al actualizar producto');
+        showNotification('error', result.error || 'Error al actualizar producto');
       }
     } catch (error) {
       console.error('Error toggling product:', error);
@@ -302,25 +299,18 @@ const CoronasAdminContent: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/coronas/add', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userForm.username.trim(),
-          amount: amount,
-          description: userForm.description.trim() || 'Admin addition'
-        }),
-      });
+      const result = await coronasApi.addCoronasToUser(
+        userForm.username.trim(),
+        amount,
+        userForm.description.trim() || 'Admin addition'
+      );
 
-      const data = await response.json();
-      if (data.success) {
-        showNotification('success', `${amount} coronas agregadas a @${data.userId}`);
+      if (result.success) {
+        showNotification('success', `${amount} coronas agregadas a @${userForm.username.trim()}`);
         setUserForm({ username: '', amount: '', description: '' });
         loadUsers(); // Recargar la lista de usuarios
       } else {
-        showNotification('error', data.message || 'Error al agregar coronas');
+        showNotification('error', result.error || 'Error al agregar coronas');
       }
     } catch (error) {
       console.error('Error adding coronas:', error);
@@ -343,25 +333,18 @@ const CoronasAdminContent: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/coronas/remove', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userForm.username.trim(),
-          amount: amount,
-          description: userForm.description.trim() || 'Admin removal'
-        }),
-      });
+      const result = await coronasApi.addCoronasToUser(
+        userForm.username.trim(),
+        -amount, // Negative amount to remove coronas
+        userForm.description.trim() || 'Admin removal'
+      );
 
-      const data = await response.json();
-      if (data.success) {
-        showNotification('success', `${amount} coronas removidas de @${data.userId}`);
+      if (result.success) {
+        showNotification('success', `${amount} coronas removidas de @${userForm.username.trim()}`);
         setUserForm({ username: '', amount: '', description: '' });
         loadUsers(); // Recargar la lista de usuarios
       } else {
-        showNotification('error', data.message || 'Error al remover coronas');
+        showNotification('error', result.error || 'Error al remover coronas');
       }
     } catch (error) {
       console.error('Error removing coronas:', error);
@@ -373,16 +356,12 @@ const CoronasAdminContent: React.FC = () => {
     if (!confirm(`¿Estás seguro de eliminar permanentemente al usuario @${username}? Esta acción no se puede deshacer.`)) return;
 
     try {
-      const response = await fetch(`/users/${encodeURIComponent(username)}`, {
-        method: 'DELETE',
-      });
-
-      const data = await response.json();
-      if (data.success) {
+      const result = await coronasApi.deleteUser(username);
+      if (result.success) {
         showNotification('success', `Usuario @${username} eliminado exitosamente`);
         loadUsers(); // Recargar la lista de usuarios
       } else {
-        showNotification('error', data.message || 'Error al eliminar usuario');
+        showNotification('error', result.error || 'Error al eliminar usuario');
       }
     } catch (error) {
       console.error('Error deleting user:', error);

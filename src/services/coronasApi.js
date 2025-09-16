@@ -1,6 +1,203 @@
 import supabase from '../lib/supabase.js'
 
 export const coronasApi = {
+  // ADMIN - Obtener todos los usuarios con coronas
+  async getAllUsers() {
+    try {
+      const { data, error } = await supabase
+        .from('users')
+        .select('username, coronas')
+        .order('coronas', { ascending: false })
+
+      if (error) throw error
+
+      return {
+        success: true,
+        users: data || []
+      }
+    } catch (error) {
+      console.error('Error getting all users:', error)
+      return {
+        success: false,
+        users: []
+      }
+    }
+  },
+
+  // ADMIN - Agregar coronas a un usuario
+  async addCoronasToUser(username, amount, description = 'Manual addition') {
+    try {
+      // Obtener coronas actuales
+      const currentUser = await this.getUserCoronas(username)
+      const newCoronas = currentUser.coronas + amount
+
+      // Actualizar o crear usuario
+      const { error: upsertError } = await supabase
+        .from('users')
+        .upsert({
+          username,
+          coronas: newCoronas
+        }, {
+          onConflict: 'username'
+        })
+
+      if (upsertError) throw upsertError
+
+      // Crear transacción
+      await supabase
+        .from('transactions')
+        .insert({
+          username,
+          type: 'add',
+          amount,
+          description
+        })
+
+      return {
+        success: true,
+        newBalance: newCoronas
+      }
+    } catch (error) {
+      console.error('Error adding coronas:', error)
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+  },
+
+  // ADMIN - Eliminar usuario
+  async deleteUser(username) {
+    try {
+      const { error } = await supabase
+        .from('users')
+        .delete()
+        .ilike('username', username)
+
+      if (error) throw error
+
+      // Crear registro de transacción
+      await supabase
+        .from('transactions')
+        .insert({
+          username,
+          type: 'delete',
+          amount: 0,
+          description: 'User deleted by admin'
+        })
+
+      return { success: true }
+    } catch (error) {
+      console.error('Error deleting user:', error)
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+  },
+
+  // ADMIN - Agregar producto
+  async addProduct(title, image, price, description, deliverable) {
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .insert({
+          title,
+          image,
+          price: parseInt(price),
+          description,
+          deliverable,
+          active: true
+        })
+        .select()
+        .single()
+
+      if (error) throw error
+
+      return {
+        success: true,
+        product: data
+      }
+    } catch (error) {
+      console.error('Error adding product:', error)
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+  },
+
+  // ADMIN - Actualizar producto
+  async updateProduct(id, updates) {
+    try {
+      if (updates.price) {
+        updates.price = parseInt(updates.price)
+      }
+
+      const { data, error } = await supabase
+        .from('products')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+
+      if (error) throw error
+
+      return {
+        success: true,
+        product: data
+      }
+    } catch (error) {
+      console.error('Error updating product:', error)
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+  },
+
+  // ADMIN - Eliminar producto
+  async deleteProduct(id) {
+    try {
+      const { error } = await supabase
+        .from('products')
+        .delete()
+        .eq('id', id)
+
+      if (error) throw error
+
+      return { success: true }
+    } catch (error) {
+      console.error('Error deleting product:', error)
+      return {
+        success: false,
+        error: error.message
+      }
+    }
+  },
+
+  // ADMIN - Obtener todas las órdenes
+  async getAllOrders() {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+
+      return {
+        success: true,
+        orders: data || []
+      }
+    } catch (error) {
+      console.error('Error getting orders:', error)
+      return {
+        success: false,
+        orders: []
+      }
+    }
+  },
   // Obtener coronas de un usuario
   async getUserCoronas(username) {
     try {
@@ -8,12 +205,13 @@ export const coronasApi = {
         .from('users')
         .select('username, coronas')
         .ilike('username', username)
-        .single()
+        .maybeSingle()
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         throw error
       }
 
+      // Si no existe el usuario, devolver coronas = 0 pero con éxito
       return {
         success: true,
         userId: data?.username || username,
@@ -22,8 +220,9 @@ export const coronasApi = {
     } catch (error) {
       console.error('Error getting user coronas:', error)
       return {
-        success: false,
-        error: error.message
+        success: true, // Cambiar a success: true para mostrar 0 coronas
+        userId: username,
+        coronas: 0
       }
     }
   },
