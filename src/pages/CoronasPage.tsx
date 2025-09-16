@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Crown, Gift, ShoppingCart, ArrowLeft, Check, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { coronasApi } from '../services/coronasApi.js';
 
 interface Product {
   id: string;
@@ -38,11 +39,9 @@ const CoronasPage: React.FC = () => {
 
   const loadProducts = async () => {
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
-      const response = await fetch(`${API_BASE}/products`);
-      const data = await response.json();
-      if (data.success) {
-        setProducts(data.products);
+      const result = await coronasApi.getProducts();
+      if (result.success) {
+        setProducts(result.products);
       }
     } catch (error) {
       console.error('Error loading products:', error);
@@ -52,20 +51,15 @@ const CoronasPage: React.FC = () => {
   const loadUserData = async (username: string) => {
     setLoading(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
-      const response = await fetch(`${API_BASE}/coronas/${username}`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const data = await response.json();
-      if (data.success) {
-        setUserData({ username: data.userId, coronas: data.coronas });
+      const result = await coronasApi.getUserCoronas(username);
+      if (result.success) {
+        setUserData({ username: result.userId, coronas: result.coronas });
       } else {
         showNotification('error', 'Usuario no encontrado');
       }
     } catch (error) {
       console.error('Error loading user data:', error);
-      showNotification('error', `Error al cargar datos del usuario: ${error.message}`);
+      showNotification('error', `Error al cargar datos del usuario`);
     } finally {
       setLoading(false);
     }
@@ -80,32 +74,20 @@ const CoronasPage: React.FC = () => {
 
   const handleRedeem = async () => {
     if (!selectedProduct || !userData) return;
-    
+
     setRedeemLoading(true);
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
-      const response = await fetch(`${API_BASE}/redeem`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: userData.username,
-          productId: selectedProduct.id,
-        }),
-      });
+      const result = await coronasApi.redeemProduct(userData.username, selectedProduct.id);
 
-      const data = await response.json();
-      if (data.success) {
+      if (result.success) {
         setShowRedeemModal(false);
-        if (data.code) {
-          // Mostrar el código directamente si TikTok no está disponible
-          setVerificationCode(data.code);
+        if (result.code) {
+          setVerificationCode(result.code);
         }
         setShowCodeModal(true);
-        showNotification('success', data.message);
+        showNotification('success', result.message);
       } else {
-        showNotification('error', data.message);
+        showNotification('error', result.message);
       }
     } catch (error) {
       console.error('Error redeeming product:', error);
@@ -121,28 +103,18 @@ const CoronasPage: React.FC = () => {
     }
 
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
-      const response = await fetch(`${API_BASE}/confirm-redeem`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          code: verificationCode.trim(),
-        }),
-      });
+      const result = await coronasApi.confirmRedeem(verificationCode.trim());
 
-      const data = await response.json();
-      if (data.success) {
+      if (result.success) {
         // Mostrar el deliverable del producto
-        const deliverableMessage = `¡Canje exitoso! ${data.product} canjeado por ${data.cost} coronas\n\n📦 TU PRODUCTO:\n${data.deliverable}`;
+        const deliverableMessage = `¡Canje exitoso! ${result.product} canjeado por ${result.cost} coronas\n\n📦 TU PRODUCTO:\n${result.deliverable}`;
         alert(deliverableMessage);
-        showNotification('success', `¡Canje exitoso! ${data.product} canjeado`);
-        setUserData(prev => prev ? { ...prev, coronas: data.newBalance } : null);
+        showNotification('success', `¡Canje exitoso! ${result.product} canjeado`);
+        setUserData(prev => prev ? { ...prev, coronas: result.newBalance } : null);
         setShowCodeModal(false);
         setVerificationCode('');
       } else {
-        showNotification('error', data.message);
+        showNotification('error', result.message);
       }
     } catch (error) {
       console.error('Error confirming code:', error);
