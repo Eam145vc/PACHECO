@@ -10,4 +10,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: http://TU_IP_PUBLICA:3002
+        value: https://NGROK_URL_AQUI

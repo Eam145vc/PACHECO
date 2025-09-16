@@ -39,45 +39,71 @@ git push origin main
    - **Build Command**: `npm ci && npm run build`
    - **Publish Directory**: `dist`
 
-### Paso 4: Configurar Variables de Entorno
+### Paso 4: Configurar Variables de Entorno con ngrok
 En la configuración del site en Render, agregar:
 - **Variable**: `VITE_API_BASE_URL`
-- **Valor**: `http://TU_IP_PUBLICA:3002`
+- **Valor**: `https://TU_URL_NGROK` (ej: https://abc123.ngrok.io)
 
-⚠️ **IMPORTANTE - CONFIGURACIÓN DE RED**:
+⚠️ **CONFIGURACIÓN CON NGROK (RECOMENDADO)**:
 
-1. **Obtener tu IP pública**:
+1. **Iniciar el sistema completo**:
 ```bash
-# Método 1: Navegador
-# Ve a: https://whatismyipaddress.com/
+# Opción 1: Script automático (recomendado)
+start-complete.bat
 
-# Método 2: Comando
-curl ifconfig.me
+# Opción 2: Manual
+# Terminal 1 - Backend:
+cd server && node index.js
+
+# Terminal 2 - ngrok:
+ngrok http 3002
 ```
 
-2. **Configurar Port Forwarding en tu router**:
-   - Acceder a tu router (generalmente: 192.168.1.1 o 192.168.0.1)
-   - Ir a "Port Forwarding" o "Virtual Server"
-   - Crear regla:
-     - **Puerto externo**: 3002
-     - **Puerto interno**: 3002
-     - **IP destino**: Tu IP local (192.168.x.x)
-     - **Protocolo**: TCP
+2. **Copiar URL de ngrok**:
+   - En la ventana de ngrok, buscar la línea: `Forwarding https://abc123.ngrok.io -> http://localhost:3002`
+   - Copiar la URL HTTPS (ej: `https://abc123.ngrok.io`)
+   - Esta será tu `VITE_API_BASE_URL` en Render
 
-3. **Configurar Firewall de Windows**:
-```bash
-# Abrir puerto 3002 en Windows Firewall
-netsh advfirewall firewall add rule name="TikTok Coronas Backend" dir=in action=allow protocol=TCP localport=3002
-```
+✅ **Ventajas de ngrok**:
+- ✅ No necesitas configurar router ni firewall
+- ✅ HTTPS automático y seguro
+- ✅ No expones tu IP real
+- ✅ Fácil de usar y configurar
+
+⚠️ **Limitaciones ngrok gratis**:
+- URL cambia cada vez que reinicias ngrok
+- Para URL fija necesitas cuenta de pago ($8/mes)
+- 20.000 requests/mes gratis
 
 ### Paso 5: Deploy
 1. Click "Create Static Site"
 2. Render construirá y desplegará automáticamente
 3. Una vez completado, obtendrás una URL como: `https://tu-app.onrender.com`
 
-## Configuración del Backend Local
+## 🚀 INICIO RÁPIDO (ngrok)
 
-### Antes de usar la página desplegada:
+### Paso a paso simplificado:
+
+1. **Ejecutar el script automático**:
+```bash
+# En el directorio del proyecto:
+start-complete.bat
+```
+
+2. **Copiar URL de ngrok**:
+   - Se abrirán 2 ventanas: Backend + ngrok
+   - En la ventana de ngrok, copiar la URL HTTPS
+   - Ejemplo: `https://abc123.ngrok.io`
+
+3. **Configurar en Render**:
+   - Variable: `VITE_API_BASE_URL`
+   - Valor: La URL de ngrok que copiaste
+
+4. **¡Listo!** Tu sistema de coronas estará público
+
+## Configuración Manual (Alternativa)
+
+### Si prefieres hacerlo paso a paso:
 
 1. **Iniciar el backend local**:
 ```bash
