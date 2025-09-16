@@ -7,7 +7,12 @@
       "Bash(ngrok version)",
       "Bash(where ngrok)",
       "Bash(node:*)",
-      "Bash(ngrok:*)"
+      "Bash(ngrok:*)",
+      "Bash(tasklist)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(cmd /c:*)",
+      "Bash(powershell:*)"
     ],
     "deny": [],
     "ask": []

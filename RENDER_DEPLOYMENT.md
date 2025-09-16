@@ -46,7 +46,14 @@ En la configuración del site en Render, agregar:
 
 ⚠️ **CONFIGURACIÓN CON NGROK (RECOMENDADO)**:
 
-1. **Iniciar el sistema completo**:
+**PASO PREVIO: Configurar ngrok (solo una vez)**:
+1. Ve a: https://ngrok.com/signup
+2. Crea cuenta GRATIS
+3. Ve a: https://dashboard.ngrok.com/get-started/your-authtoken
+4. Copia tu authtoken
+5. Ejecuta: `ngrok config add-authtoken TU_TOKEN_AQUI`
+
+**Iniciar el sistema**:
 ```bash
 # Opción 1: Script automático (recomendado)
 start-complete.bat
