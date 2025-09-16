@@ -278,11 +278,13 @@ let tiktokLiveStatus = {
   currentGameHints: [],
   // Cache para manejar combos y evitar duplicados
   recentGifts: new Map(), // key: "username_giftid", value: { timestamp, quantity }
-  // Contadores comunales para likes y follows
+  // Contadores comunales para likes, follows y regalos
   communalCounters: {
     likes: 0,
     follows: 0
-  }
+  },
+  // Contadores para objetivos comunales por trigger ID
+  communalObjectiveCounters: {}  // key: triggerId, value: currentCount
 };
 
 // Variable global para almacenar los triggers de regalos configurados (7 triggers: 5 originales + 2 comunales extra)
@@ -425,7 +427,27 @@ async function processCommunalEvent(eventType, count, username) {
 function resetCommunalCounters() {
   tiktokLiveStatus.communalCounters.likes = 0;
   tiktokLiveStatus.communalCounters.follows = 0;
-  console.log('🔄 [COMUNAL] Contadores de likes y follows reseteados');
+  tiktokLiveStatus.communalObjectiveCounters = {};
+  console.log('🔄 [COMUNAL] Todos los contadores comunales reseteados');
+}
+
+// Función para incrementar contador de objetivo comunal
+function incrementCommunalObjective(triggerId, amount = 1) {
+  if (!tiktokLiveStatus.communalObjectiveCounters[triggerId]) {
+    tiktokLiveStatus.communalObjectiveCounters[triggerId] = 0;
+  }
+  tiktokLiveStatus.communalObjectiveCounters[triggerId] += amount;
+  return tiktokLiveStatus.communalObjectiveCounters[triggerId];
+}
+
+// Función para obtener contador actual de objetivo comunal
+function getCommunalObjectiveCount(triggerId, giftId) {
+  // Para triggers de likes/follows, usar el contador legacy
+  if (giftId === 'likes' || giftId === 'follows') {
+    return tiktokLiveStatus.communalCounters[giftId] || 0;
+  }
+  // Para otros triggers, usar el nuevo sistema
+  return tiktokLiveStatus.communalObjectiveCounters[triggerId] || 0;
 }
 
 // Función para procesar triggers de regalos
@@ -497,7 +519,7 @@ async function processGiftTriggers(giftData) {
   // Verificar si ya se ejecutó este trigger recientemente para evitar spam
   const executedTriggers = new Set();
 
-  // Ejecutar cada trigger (solo una vez por combo)
+  // Procesar cada trigger
   for (const trigger of matchingTriggers) {
     const triggerKey = `${trigger.id}_${trigger.action}`;
 
@@ -510,25 +532,48 @@ async function processGiftTriggers(giftData) {
     executedTriggers.add(triggerKey);
 
     const isCommunal = trigger.action.startsWith('reveal_');
+
     if (isCommunal) {
-      console.log(`🎯 [TRIGGER COMUNAL] Ejecutando "${trigger.name}" - Regalo de ${username} contribuyó a la meta (cantidad: ${quantity})`);
+      // TRIGGERS COMUNALES: Acumular progreso
+      console.log(`🎯 [TRIGGER COMUNAL] "${trigger.name}" - ${username} contribuyó con ${quantity} (meta: ${trigger.quantity})`);
+
+      const currentCount = incrementCommunalObjective(trigger.id, quantity);
+      console.log(`📊 [TRIGGER COMUNAL] Progreso actual para "${trigger.name}": ${currentCount}/${trigger.quantity}`);
+
+      // Verificar si se alcanzó la meta
+      if (currentCount >= trigger.quantity) {
+        console.log(`🎯 [TRIGGER COMUNAL] ¡META ALCANZADA! Ejecutando "${trigger.name}"`);
+
+        try {
+          switch (trigger.action) {
+            case 'reveal_vowel':
+              console.log(`🔤 [TRIGGER COMUNAL] ¡META ALCANZADA! Revelando vocal automáticamente`);
+              await executeRevealVowel();
+              break;
+
+            case 'reveal_consonant':
+              console.log(`🔠 [TRIGGER COMUNAL] ¡META ALCANZADA! Revelando consonante automáticamente`);
+              await executeRevealConsonant();
+              break;
+
+            default:
+              console.log(`❓ [TRIGGER COMUNAL] Acción no soportada: ${trigger.action}`);
+          }
+
+          // Resetear contador tras alcanzar objetivo
+          tiktokLiveStatus.communalObjectiveCounters[trigger.id] = 0;
+          console.log(`🔄 [TRIGGER COMUNAL] Contador reseteado para "${trigger.name}"`);
+
+        } catch (error) {
+          console.error(`❌ [TRIGGER COMUNAL] Error ejecutando "${trigger.name}":`, error);
+        }
+      }
     } else {
+      // TRIGGERS PRIVADOS: Ejecutar inmediatamente
       console.log(`🎯 [TRIGGER PRIVADO] Ejecutando "${trigger.name}" para usuario ${username} (cantidad: ${quantity})`);
-    }
 
-    try {
-      switch (trigger.action) {
-        case 'reveal_vowel':
-          console.log(`🔤 [TRIGGER COMUNAL] ¡META ALCANZADA! Revelando vocal automáticamente (contribución de ${username})`);
-          // NUEVO: Backend hace la revelación directamente
-          await executeRevealVowel();
-          break;
-
-        case 'reveal_consonant':
-          console.log(`🔠 [TRIGGER COMUNAL] ¡META ALCANZADA! Revelando consonante automáticamente (contribución de ${username})`);
-          // NUEVO: Backend hace la revelación directamente
-          await executeRevealConsonant();
-          break;
+      try {
+        switch (trigger.action) {
 
         case 'purchase_vowel':
           console.log(`💎 [TRIGGER] Procesando compra de vocal para ${username}`);
@@ -765,6 +810,54 @@ app.post('/test-communal-event', async (req, res) => {
     });
   } catch (error) {
     console.error('❌ [MANUAL COMUNAL] Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Endpoint para obtener estado actual de objetivos comunales
+app.get('/communal-objectives', (req, res) => {
+  try {
+    // Filtrar solo triggers comunales habilitados
+    // Todos los triggers con reveal_vowel o reveal_consonant son comunales
+    const communalTriggers = giftTriggers.filter(trigger =>
+      trigger.enabled &&
+      (trigger.action === 'reveal_vowel' || trigger.action === 'reveal_consonant')
+    );
+
+    // Crear array de objetivos con progreso actual
+    const objectives = communalTriggers.map(trigger => ({
+      triggerId: trigger.id,
+      triggerName: trigger.name,
+      giftId: trigger.giftId,
+      giftName: trigger.giftName,
+      current: getCommunalObjectiveCount(trigger.id, trigger.giftId),
+      target: trigger.quantity,
+      enabled: trigger.enabled,
+      action: trigger.action
+    }));
+
+    res.json({
+      success: true,
+      objectives: objectives,
+      counters: tiktokLiveStatus.communalCounters
+    });
+  } catch (error) {
+    console.error('❌ [COMMUNAL OBJECTIVES] Error:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Endpoint para resetear contadores comunales manualmente
+app.post('/reset-communal-counters', (req, res) => {
+  try {
+    resetCommunalCounters();
+    res.json({
+      success: true,
+      message: 'Contadores comunales reseteados',
+      counters: tiktokLiveStatus.communalCounters
+    });
+  } catch (error) {
+    console.error('❌ [RESET COMMUNAL] Error:', error);
     res.status(500).json({ success: false, error: error.message });
   }
 });
@@ -1044,10 +1137,11 @@ app.post('/reset-board', async (req, res) => {
     // Resetear letras reveladas y hints
     tiktokLiveStatus.currentRevealedLetters = [];
     tiktokLiveStatus.currentGameHints = [];
-    console.log('🔄 [Board Reset] Letras reveladas y hints reseteadas');
 
     // Resetear contadores comunales
     resetCommunalCounters();
+
+    console.log('🔄 [Board Reset] Letras reveladas, hints y contadores comunales reseteados');
 
     // Notificar al servidor Python que debe dejar de buscar la frase actual
     const result = tiktokLiveManager.updateGameState('', '', '', false);

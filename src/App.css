@@ -13,6 +13,21 @@ body {
   overflow-x: hidden;
 }
 
+/* Fondo verde croma específico para la página del juego */
+.game-page {
+  background: #00ff00 !important; /* Verde croma puro */
+  width: 100vw;
+  height: 100vh;
+  aspect-ratio: 9/16; /* Forzar formato 9:16 para transmisión vertical */
+  max-width: calc(100vh * 9/16); /* Limitar ancho basado en altura */
+  margin: 0 auto; /* Centrar horizontalmente */
+  overflow: hidden;
+}
+
+.game-page::before {
+  display: none !important; /* Ocultar el fondo animado normal */
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -120,10 +135,27 @@ body {
   position: relative;
 }
 
+/* Ajustes específicos para la página del juego en formato 9:16 */
+.game-page .game-main {
+  height: 100vh;
+  max-height: 100vh;
+  padding: 20px 10px;
+}
+
 .game-board {
   max-width: 1200px;
   width: 100%;
   position: relative;
+}
+
+/* Ajustes del game-board para formato 9:16 */
+.game-page .game-board {
+  max-width: 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .game-board-empty {
@@ -135,8 +167,18 @@ body {
 
 .waiting-message {
   font-size: 2rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.9);
   text-align: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 20px 40px;
+  border-radius: 20px;
+  border: 2px solid rgba(255, 215, 0, 0.5);
+  box-shadow:
+    0 0 30px rgba(255, 215, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .phrase-container {
@@ -217,6 +259,11 @@ body {
   gap: 20px;
 }
 
+/* Ajustes del contenedor de palabras para formato 9:16 */
+.game-page .words-container {
+  gap: 15px;
+}
+
 .word-row {
   display: flex;
   justify-content: center;
@@ -224,6 +271,12 @@ body {
   gap: 10px;
   flex-wrap: wrap;
   min-height: 80px;
+}
+
+/* Ajustes de palabra para formato 9:16 - menos espaciado */
+.game-page .word-row {
+  gap: 8px;
+  min-height: 60px;
 }
 
 .letter-tile {
@@ -237,9 +290,21 @@ body {
   will-change: transform;
 }
 
+/* Ajustes de letras para formato 9:16 - más pequeñas para que quepan */
+.game-page .letter-tile {
+  width: 60px;
+  height: 60px;
+}
+
 .letter-tile-space {
   width: 20px;
   height: 80px;
+}
+
+/* Ajustes de espacios para formato 9:16 */
+.game-page .letter-tile-space {
+  width: 15px;
+  height: 60px;
 }
 
 .tile-front, .tile-back {
@@ -295,6 +360,11 @@ body {
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
+/* Ajustes del signo de interrogación para formato 9:16 */
+.game-page .tile-question-mark {
+  font-size: 2.5rem;
+}
+
 .tile-back {
   background: linear-gradient(145deg, #ffd700, #ffb347);
   color: #1a1a2e;
@@ -328,6 +398,11 @@ body {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 2;
   position: relative;
+}
+
+/* Ajustes de fuente para formato 9:16 */
+.game-page .tile-letter {
+  font-size: 2rem;
 }
 
 .tile-sparkles {

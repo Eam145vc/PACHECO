@@ -6,7 +6,10 @@ import GameBoard from './GameBoard';
 import AdminPanel from '../pages/AdminPanel';
 import CoronasPage from '../pages/CoronasPage';
 import StreamOverlay from '../pages/StreamOverlay';
+import CommunalObjectiveOverlay from '../pages/CommunalObjectiveOverlay';
+import AllCommunalObjectives from '../pages/AllCommunalObjectives';
 import { SimpleGameProvider, useSimpleGame } from '../contexts/SimpleGameContext';
+import { CommunalObjectivesProvider } from '../contexts/CommunalObjectivesContext';
 import { simpleSync } from '../utils/simpleSync';
 
 import '../App.css';
@@ -14,6 +17,7 @@ import '../styles/AdminPanel.css';
 import '../styles/CoronasPage.css';
 import '../styles/CoronasAdminPanel.css';
 import '../styles/StreamOverlay.css';
+import '../styles/CommunalObjectiveBar.css';
 
 const GamePage: React.FC = () => {
   const {
@@ -22,8 +26,20 @@ const GamePage: React.FC = () => {
     handlePhraseComplete,
   } = useSimpleGame();
 
+  // Cambiar el fondo del body a verde croma cuando esté en la página del juego
+  useEffect(() => {
+    document.body.style.background = '#00ff00';
+    document.body.style.backgroundImage = 'none';
+
+    // Cleanup: restaurar el fondo original cuando se desmonte el componente
+    return () => {
+      document.body.style.background = '';
+      document.body.style.backgroundImage = '';
+    };
+  }, []);
+
   return (
-    <div className="app">
+    <div className="app game-page">
       <main className="game-main">
         <GameBoard
           phrase={gameState.currentPhrase}
@@ -65,6 +81,11 @@ const GameRouterContent: React.FC = () => {
         <Route path="/" element={<CoronasPage />} />
         <Route path="/coronas" element={<CoronasPage />} />
         <Route path="/overlay" element={<StreamOverlay />} />
+
+        {/* Communal Objectives Overlays */}
+        <Route path="/overlay/communal" element={<AllCommunalObjectives />} />
+        <Route path="/overlay/communal/:triggerId" element={<CommunalObjectiveOverlay />} />
+
         {isLocal && (
           <>
             <Route path="/game" element={<GamePage />} />
@@ -79,7 +100,9 @@ const GameRouterContent: React.FC = () => {
 const GameRouter: React.FC = () => {
   return (
     <SimpleGameProvider>
-      <GameRouterContent />
+      <CommunalObjectivesProvider>
+        <GameRouterContent />
+      </CommunalObjectivesProvider>
     </SimpleGameProvider>
   );
 };

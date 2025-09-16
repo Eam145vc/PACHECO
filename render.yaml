@@ -1,4 +1,16 @@
 services:
+  # Backend API Server
+  - type: web
+    name: tiktok-coronas-backend
+    env: node
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # Frontend Static Site
   - type: web
     name: tiktok-coronas-frontend
     env: static
@@ -10,4 +22,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://14f830f8dc90.ngrok-free.app
+        value: https://tiktok-coronas-backend.onrender.com

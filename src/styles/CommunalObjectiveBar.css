@@ -1,0 +1,357 @@
+/* Communal Objective Bar Styles */
+.communal-objective-bar {
+  background: transparent;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Horizontal Layout */
+.communal-objective-bar.horizontal {
+  min-width: 350px;
+  max-width: 600px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Vertical Layout */
+.communal-objective-bar.vertical {
+  width: 120px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Header Styles */
+.objective-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.objective-header.horizontal {
+  justify-content: space-between;
+  width: 100%;
+}
+
+.objective-header.vertical {
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+/* Gift Display */
+.gift-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+.gift-image {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.gift-icon {
+  color: #ffffff;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.gift-icon.likes-icon {
+  color: #ff6b9d;
+}
+
+.gift-icon.follows-icon {
+  color: #4ecdc4;
+}
+
+.gift-icon-placeholder {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+/* Objective Info */
+.objective-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.objective-info.vertical {
+  text-align: center;
+  flex: none;
+}
+
+.objective-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
+}
+
+.objective-title.vertical {
+  font-size: 14px;
+  writing-mode: horizontal-tb;
+  text-align: center;
+}
+
+.objective-subtitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.objective-subtitle.vertical {
+  font-size: 10px;
+}
+
+/* Counter Styles */
+.objective-counter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.objective-counter.vertical {
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+
+.current {
+  color: #4ade80;
+  font-size: 18px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.separator {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.target {
+  color: #ffffff;
+  font-size: 16px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.objective-counter.vertical .current,
+.objective-counter.vertical .target {
+  font-size: 14px;
+}
+
+/* Progress Container */
+.progress-container {
+  position: relative;
+}
+
+.progress-container.horizontal {
+  width: 100%;
+  height: 24px;
+}
+
+.progress-container.vertical {
+  width: 24px;
+  height: 150px;
+  margin: 12px 0;
+}
+
+/* Progress Track */
+.progress-track {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progress-track:not(.vertical) {
+  width: 100%;
+  height: 100%;
+}
+
+.progress-track.vertical {
+  width: 100%;
+  height: 100%;
+  transform: rotate(180deg); /* Fill from bottom */
+}
+
+/* Progress Fill */
+.progress-fill {
+  position: absolute;
+  background: linear-gradient(90deg,
+    #4ade80 0%,
+    #22c55e 50%,
+    #16a34a 100%);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 0 20px rgba(74, 222, 128, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.progress-fill:not(.vertical) {
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
+.progress-fill.vertical {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(0deg,
+    #4ade80 0%,
+    #22c55e 50%,
+    #16a34a 100%);
+}
+
+/* Progress Pulse Effect */
+.progress-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    rgba(255, 215, 0, 0.3) 0%,
+    rgba(255, 193, 7, 0.3) 100%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.progress-pulse.vertical {
+  background: linear-gradient(0deg,
+    rgba(255, 215, 0, 0.3) 0%,
+    rgba(255, 193, 7, 0.3) 100%);
+}
+
+/* Progress Labels */
+.progress-labels {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.progress-percent {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.remaining {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.remaining.vertical {
+  font-size: 9px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+.ready-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffd700;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+
+.ready-label.vertical {
+  font-size: 10px;
+  padding: 4px 2px;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Completed State */
+.communal-objective-bar.completed {
+  border-color: #ffd700;
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 215, 0, 0.4);
+}
+
+.communal-objective-bar.completed .progress-fill {
+  background: linear-gradient(90deg,
+    #ffd700 0%,
+    #ffed4e 50%,
+    #fbbf24 100%);
+  box-shadow:
+    0 0 25px rgba(255, 215, 0, 0.6),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.communal-objective-bar.completed .progress-fill.vertical {
+  background: linear-gradient(0deg,
+    #ffd700 0%,
+    #ffed4e 50%,
+    #fbbf24 100%);
+}
+
+/* OBS Transparency Support */
+.obs-transparent {
+  background: transparent !important;
+  backdrop-filter: none !important;
+}
+
+.obs-green-screen {
+  background: #00ff00 !important;
+  backdrop-filter: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .communal-objective-bar.horizontal {
+    min-width: 280px;
+    max-width: 400px;
+  }
+
+  .communal-objective-bar.vertical {
+    width: 100px;
+    height: 250px;
+  }
+
+  .objective-title {
+    font-size: 14px;
+  }
+
+  .current, .target {
+    font-size: 16px;
+  }
+}

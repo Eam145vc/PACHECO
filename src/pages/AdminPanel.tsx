@@ -21,6 +21,7 @@ import { GameState } from '../types/game';
 import { createPhraseFromText } from '../utils/gameUtils';
 import GiftControls from '../components/GiftControls';
 import SmartPhraseGenerator from '../components/SmartPhraseGenerator';
+import CommunalOverlayLinks from '../components/CommunalOverlayLinks';
 import { useSimpleGame } from '../contexts/SimpleGameContext';
 import { tiktokBotService } from '../services/tiktokBotService';
 import CoronasAdminContent from '../components/CoronasAdminContent';
@@ -316,6 +317,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
 
 
                 <GiftControls onTriggerChange={handleGiftTriggersChange} />
+
+                <CommunalOverlayLinks />
               </div>
             </div>
           )}
