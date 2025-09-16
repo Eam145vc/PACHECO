@@ -42,15 +42,32 @@ git push origin main
 ### Paso 4: Configurar Variables de Entorno
 En la configuración del site en Render, agregar:
 - **Variable**: `VITE_API_BASE_URL`
-- **Valor**: `http://TU_IP_LOCAL:3002` (reemplazar por tu IP local)
+- **Valor**: `http://TU_IP_PUBLICA:3002`
 
-⚠️ **Importante**: Reemplaza `TU_IP_LOCAL` con tu IP local real. Para obtenerla:
+⚠️ **IMPORTANTE - CONFIGURACIÓN DE RED**:
+
+1. **Obtener tu IP pública**:
 ```bash
-# Windows
-ipconfig | findstr IPv4
+# Método 1: Navegador
+# Ve a: https://whatismyipaddress.com/
 
-# Mac/Linux
-ifconfig | grep inet
+# Método 2: Comando
+curl ifconfig.me
+```
+
+2. **Configurar Port Forwarding en tu router**:
+   - Acceder a tu router (generalmente: 192.168.1.1 o 192.168.0.1)
+   - Ir a "Port Forwarding" o "Virtual Server"
+   - Crear regla:
+     - **Puerto externo**: 3002
+     - **Puerto interno**: 3002
+     - **IP destino**: Tu IP local (192.168.x.x)
+     - **Protocolo**: TCP
+
+3. **Configurar Firewall de Windows**:
+```bash
+# Abrir puerto 3002 en Windows Firewall
+netsh advfirewall firewall add rule name="TikTok Coronas Backend" dir=in action=allow protocol=TCP localport=3002
 ```
 
 ### Paso 5: Deploy
@@ -131,11 +148,53 @@ Render detectará automáticamente los cambios y redesplegará.
 
 ## Seguridad
 
-⚠️ **Consideraciones importantes**:
-- El backend local debe estar protegido (no exposer a internet sin seguridad)
-- Solo el frontend está públicamente accesible
-- Las funciones de admin requieren acceso local
-- Los datos de TikTok Live permanecen en el entorno local
+⚠️ **CONSIDERACIONES CRÍTICAS DE SEGURIDAD**:
+
+### IP Pública Expuesta
+- Tu backend estará accesible desde internet en `http://TU_IP_PUBLICA:3002`
+- **RIESGO**: Cualquiera puede acceder a tu API si conoce tu IP
+- **RECOMENDACIÓN**: Implementar autenticación básica
+
+### Configuración de Seguridad Básica
+1. **Cambiar puerto por defecto** (opcional):
+```javascript
+// En server/index.js, cambiar:
+const PORT = process.env.PORT || 8457; // Puerto menos común
+```
+
+2. **Agregar autenticación básica para endpoints críticos**:
+```javascript
+// Middleware de autenticación simple
+app.use('/admin', (req, res, next) => {
+  const auth = req.headers.authorization;
+  if (!auth || auth !== 'Bearer TU_TOKEN_SECRETO') {
+    return res.status(401).json({ error: 'No autorizado' });
+  }
+  next();
+});
+```
+
+3. **Configurar IP estática** (recomendado):
+   - Contactar tu ISP para IP estática
+   - Evitar cambios constantes de configuración
+
+### Alternativa Más Segura: ngrok
+En lugar de exponer tu IP pública, usar ngrok:
+```bash
+# Instalar ngrok
+npm install -g ngrok
+
+# Exponer puerto 3002
+ngrok http 3002
+
+# Usar la URL de ngrok en VITE_API_BASE_URL
+# Ejemplo: https://abc123.ngrok.io
+```
+
+⚠️ **IMPORTANTE**:
+- Con ngrok gratis, la URL cambia cada vez que reinicias
+- Para URL fija necesitas cuenta de pago
+- Pero es más seguro que exponer tu IP directamente
 
 ## Monitoreo
 
