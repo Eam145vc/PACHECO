@@ -177,7 +177,7 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
     try {
       console.log('🔄 [SYNC] Sincronizando triggers con backend:', triggersToSync);
 
-      const response = await fetch('http://localhost:3002/update-gift-triggers', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/update-gift-triggers`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -323,7 +323,7 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
     try {
       console.log(`🧪 Probando trigger: ${username} envía ${quantity}x regalo ID ${giftId}`);
 
-      const response = await fetch('http://localhost:3002/test-gift-trigger', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/test-gift-trigger`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

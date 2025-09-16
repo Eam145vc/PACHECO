@@ -15,7 +15,7 @@ interface PurchaseRequest {
 }
 
 class TikTokBotService {
-  private baseUrl = 'http://localhost:3002';
+  private baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
 
   async startBrowser(): Promise<TikTokBotResponse> {
     try {

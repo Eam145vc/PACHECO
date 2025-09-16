@@ -47,7 +47,7 @@ class WinnerService {
   private async pollForWinners() {
     const checkWinners = async () => {
       try {
-        const response = await fetch('http://localhost:3002/tiktok-live-winner');
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/tiktok-live-winner`);
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.winner) {

@@ -27,7 +27,7 @@ interface TikTokLiveEvent {
 }
 
 class TikTokLiveService {
-  private baseUrl = 'http://localhost:3002';
+  private baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
 
   async getStatus(): Promise<TikTokLiveResponse> {
     try {

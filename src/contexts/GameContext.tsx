@@ -180,7 +180,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
       console.log('📦 [CONTEXT] Payload JSON:', JSON.stringify(payload, null, 2));
 
-      const response = await fetch('http://localhost:3002/tiktok-live-game-update', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/tiktok-live-game-update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

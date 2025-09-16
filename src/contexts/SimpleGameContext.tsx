@@ -314,7 +314,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
 
       console.log('📦 [SIMPLE-CONTEXT] Payload JSON:', JSON.stringify(payload, null, 2));
 
-      const response = await fetch('http://localhost:3002/tiktok-live-game-update', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/tiktok-live-game-update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -381,7 +381,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     try {
       console.log('📡 [UPDATE REVEALED] Enviando letras reveladas al servidor:', revealedLetters);
 
-      const response = await fetch('http://localhost:3002/update-revealed-letters', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/update-revealed-letters`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -405,7 +405,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     try {
       console.log('💡 [UPDATE HINTS] Enviando hints al servidor:', hints);
 
-      const response = await fetch('http://localhost:3002/update-game-hints', {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/update-game-hints`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
