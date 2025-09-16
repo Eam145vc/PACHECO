@@ -40,7 +40,7 @@ const AdminRoute: React.FC = () => {
   return (
     <div className="admin-route">
       <div className="back-to-game">
-        <Link to="/" className="back-link">
+        <Link to="/game" className="back-link">
           <ArrowLeft size={20} />
           Volver al Juego
         </Link>
@@ -57,13 +57,20 @@ const AdminRoute: React.FC = () => {
 };
 
 const GameRouterContent: React.FC = () => {
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<GamePage />} />
-        <Route path="/admin" element={<AdminRoute />} />
+        <Route path="/" element={<CoronasPage />} />
         <Route path="/coronas" element={<CoronasPage />} />
         <Route path="/overlay" element={<StreamOverlay />} />
+        {isLocal && (
+          <>
+            <Route path="/game" element={<GamePage />} />
+            <Route path="/admin" element={<AdminRoute />} />
+          </>
+        )}
       </Routes>
     </Router>
   );

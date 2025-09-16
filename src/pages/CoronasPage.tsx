@@ -30,13 +30,16 @@ const CoronasPage: React.FC = () => {
   const [showCodeModal, setShowCodeModal] = useState(false);
   const [notification, setNotification] = useState<{type: 'success' | 'error', message: string} | null>(null);
 
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
   useEffect(() => {
     loadProducts();
   }, []);
 
   const loadProducts = async () => {
     try {
-      const response = await fetch('/products');
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
+      const response = await fetch(`${API_BASE}/products`);
       const data = await response.json();
       if (data.success) {
         setProducts(data.products);
@@ -49,7 +52,8 @@ const CoronasPage: React.FC = () => {
   const loadUserData = async (username: string) => {
     setLoading(true);
     try {
-      const response = await fetch(`/coronas/${username}`);
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
+      const response = await fetch(`${API_BASE}/coronas/${username}`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -79,7 +83,8 @@ const CoronasPage: React.FC = () => {
     
     setRedeemLoading(true);
     try {
-      const response = await fetch('/redeem', {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
+      const response = await fetch(`${API_BASE}/redeem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,7 +121,8 @@ const CoronasPage: React.FC = () => {
     }
 
     try {
-      const response = await fetch('/confirm-redeem', {
+      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
+      const response = await fetch(`${API_BASE}/confirm-redeem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -166,16 +172,18 @@ const CoronasPage: React.FC = () => {
       )}
 
       {/* Header con Login y User Info */}
-      <motion.div 
+      <motion.div
         className="header"
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <Link to="/" className="back-button">
-          <ArrowLeft size={24} />
-          Volver al juego
-        </Link>
-        
+        {isLocal && (
+          <Link to="/game" className="back-button">
+            <ArrowLeft size={24} />
+            Volver al juego
+          </Link>
+        )}
+
         <h1><Crown className="crown-icon" /> Sistema de Coronas</h1>
         
         <div className="header-right">
