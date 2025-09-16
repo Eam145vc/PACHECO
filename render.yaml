@@ -10,4 +10,4 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://NGROK_URL_AQUI
+        value: https://14f830f8dc90.ngrok-free.app
