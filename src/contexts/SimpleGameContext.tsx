@@ -647,12 +647,40 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     }
   };
 
-  const resetBoard = () => {
-    const cleanState = getCleanState();
-    setGameState(cleanState);
-    simpleSync.saveState(cleanState);
-    setCurrentPhraseHints([]); // Limpiar hints
-    sendGameStateToTikTokLive(null, "", "", false);
+  const resetBoard = async () => {
+    try {
+      // Hacer la llamada al endpoint del servidor para resetear el tablero
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/reset-board`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('✅ [RESET BOARD] Servidor reseteado exitosamente:', responseData);
+
+        // Solo si el servidor se resetea correctamente, resetear el estado local
+        const cleanState = getCleanState();
+        setGameState(cleanState);
+        simpleSync.saveState(cleanState);
+        setCurrentPhraseHints([]); // Limpiar hints
+        sendGameStateToTikTokLive(null, "", "", false);
+      } else {
+        const errorText = await response.text();
+        console.error('❌ [RESET BOARD] Error reseteando en servidor:', response.status, errorText);
+        throw new Error(`Server reset failed: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('❌ [RESET BOARD] Error de red reseteando tablero:', error);
+      // En caso de error, aún resetear el estado local
+      const cleanState = getCleanState();
+      setGameState(cleanState);
+      simpleSync.saveState(cleanState);
+      setCurrentPhraseHints([]);
+      sendGameStateToTikTokLive(null, "", "", false);
+    }
   };
 
   const value: SimpleGameContextType = {
