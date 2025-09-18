@@ -4,7 +4,7 @@
   border-radius: 16px;
   padding: 20px;
   margin: 15px;
-  margin-top: 160px; /* More space to prevent icon overlap */
+  margin-top: 200px; /* Much more space to prevent icon overlap */
   box-shadow:
     0 0 20px rgba(0, 255, 255, 0.3),
     0 0 40px rgba(0, 255, 0, 0.2),
@@ -85,7 +85,7 @@
   border-radius: 16px;
   padding: 20px;
   position: absolute;
-  top: -140px; /* Moved higher to prevent overlap */
+  top: -180px; /* Moved much higher to prevent overlap */
   left: 50%;
   transform: translateX(-50%);
   box-shadow:
