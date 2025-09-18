@@ -15,7 +15,8 @@ import {
   VolumeX,
   RefreshCw,
   Save,
-  Trash2
+  Trash2,
+  Trophy
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { GameState } from '../types/game';
@@ -163,6 +164,29 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   const handleGiftTriggersChange = (triggers: any[]) => {
     setGiftTriggers(triggers);
     console.log('Gift triggers updated:', triggers);
+  };
+
+  const handleResetDailyRanking = async () => {
+    if (!confirm('¿Estás seguro de resetear el ranking diario? Esta acción marcará todas las transacciones del día como reset.')) return;
+
+    try {
+      const response = await fetch('/api/reset-daily-ranking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Ranking diario reseteado exitosamente');
+      } else {
+        alert('Error al resetear ranking diario: ' + (data.error || 'Error desconocido'));
+      }
+    } catch (error) {
+      console.error('Error resetting daily ranking:', error);
+      alert('Error al resetear ranking diario');
+    }
   };
 
   const tabs = [
@@ -351,6 +375,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                     >
                       <RefreshCw size={20} />
                       Resetear Tablero
+                    </button>
+                    <button
+                      onClick={handleResetDailyRanking}
+                      className="control-btn warning-btn"
+                      title="Resetear el ranking diario"
+                    >
+                      <Trophy size={20} />
+                      Resetear Ranking Diario
                     </button>
                   </div>
                 </div>

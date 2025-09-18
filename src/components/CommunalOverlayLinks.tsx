@@ -305,6 +305,78 @@ const CommunalOverlayLinks: React.FC = () => {
         ))}
       </div>
 
+      {/* Daily Ranking Overlay */}
+      <div style={{ marginTop: '24px' }}>
+        <h4 style={{ color: '#fbbf24', marginBottom: '12px', fontSize: '14px' }}>
+          🏆 Ranking Diario
+        </h4>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          background: 'rgba(255, 255, 255, 0.05)',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          border: '1px solid rgba(255, 255, 255, 0.1)'
+        }}>
+          <span style={{
+            fontSize: '12px',
+            color: '#ffffff',
+            minWidth: '140px'
+          }}>
+            Top 3 del Día:
+          </span>
+          <input
+            type="text"
+            value={`${baseUrl}/#/daily-ranking-overlay`}
+            readOnly
+            style={{
+              flex: 1,
+              background: 'rgba(0, 0, 0, 0.3)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              borderRadius: '4px',
+              padding: '4px 8px',
+              color: '#ffffff',
+              fontSize: '11px',
+              fontFamily: 'monospace'
+            }}
+          />
+          <button
+            onClick={() => copyToClipboard(`${baseUrl}/#/daily-ranking-overlay`, 'daily-ranking')}
+            style={{
+              background: copiedLinks.includes('daily-ranking') ? '#22c55e' : '#3b82f6',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '4px 8px',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '11px'
+            }}
+          >
+            {copiedLinks.includes('daily-ranking') ? <Check size={12} /> : <Copy size={12} />}
+            {copiedLinks.includes('daily-ranking') ? 'Copiado' : 'Copiar'}
+          </button>
+          <button
+            onClick={() => openInNewTab(`${baseUrl}/#/daily-ranking-overlay`)}
+            style={{
+              background: '#8b5cf6',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '4px 8px',
+              color: '#ffffff',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center'
+            }}
+          >
+            <ExternalLink size={12} />
+          </button>
+        </div>
+      </div>
+
       {/* Instructions */}
       <div style={{
         marginTop: '16px',
