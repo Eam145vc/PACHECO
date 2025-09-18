@@ -63,6 +63,9 @@ class TikTokLiveServer:
         # Iniciar listener de stdin en hilo separado
         self.start_stdin_listener()
 
+        # Iniciar polling del estado del juego para Render
+        self.start_game_state_polling()
+
     def load_config(self):
         """Cargar configuración guardada"""
         try:
@@ -121,6 +124,39 @@ class TikTokLiveServer:
         thread = threading.Thread(target=stdin_listener, daemon=True)
         thread.start()
         print("STDIN listener thread iniciado", flush=True)
+
+    def start_game_state_polling(self):
+        """Iniciar polling del estado del juego para Render (donde no hay stdin)"""
+        def game_state_poller():
+            print("GAME STATE polling iniciado", flush=True)
+            while True:
+                try:
+                    # Hacer request al endpoint interno del backend
+                    response = requests.get(f"{self.express_server_url}/internal/game-state", timeout=10)
+                    if response.status_code == 200:
+                        data = response.json()
+                        if data.get('success'):
+                            game_state = data.get('game_state', {})
+                            phrase = game_state.get('phrase', '')
+                            answer = game_state.get('answer', '')
+                            category = game_state.get('category', '')
+                            is_active = game_state.get('isActive', False)
+
+                            # Solo actualizar si hay cambios
+                            if (self.game_state.current_answer != answer or
+                                self.game_state.is_active != is_active):
+                                self.update_game_state(phrase, answer, category, is_active)
+                                print(f"GAME STATE actualizado via polling: {answer} ({category}) - Activo: {is_active}", flush=True)
+
+                    time.sleep(5)  # Polling cada 5 segundos
+                except Exception as e:
+                    print(f"ERROR en game state polling: {e}", flush=True)
+                    time.sleep(10)  # Esperar más tiempo si hay error
+
+        # Iniciar hilo daemon
+        thread = threading.Thread(target=game_state_poller, daemon=True)
+        thread.start()
+        print("GAME STATE polling thread iniciado", flush=True)
 
     def process_stdin_message(self, message: str):
         """Procesar mensaje recibido por stdin"""

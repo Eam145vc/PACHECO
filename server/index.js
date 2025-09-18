@@ -1265,6 +1265,20 @@ app.post('/tiktok-live-event', async (req, res) => {
   res.json({ success: true, message: 'Evento procesado' });
 });
 
+// Endpoint interno para que Python obtenga el estado actual del juego
+app.get('/internal/game-state', (req, res) => {
+  res.json({
+    success: true,
+    game_state: {
+      phrase: tiktokLiveStatus.currentGamePhrase,
+      answer: tiktokLiveStatus.currentGameAnswer,
+      category: tiktokLiveStatus.currentGameCategory,
+      isActive: tiktokLiveStatus.currentGameIsActive,
+      coronaReward: tiktokLiveStatus.currentGameCoronasReward
+    }
+  });
+});
+
 // ===============================
 // ENDPOINTS GIFT TRIGGERS
 // ===============================
