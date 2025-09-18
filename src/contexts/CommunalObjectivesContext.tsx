@@ -19,7 +19,7 @@ interface CommunalObjectivesContextType {
   updateObjective: (triggerId: string, current: number) => void;
   resetObjectives: () => void;
   getObjective: (triggerId: string) => CommunalObjective | undefined;
-  loadGiftTriggers: () => void;
+  loadGiftTriggers: () => Promise<void>;
 }
 
 const CommunalObjectivesContext = createContext<CommunalObjectivesContextType | undefined>(undefined);
@@ -32,40 +32,70 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
   const [objectives, setObjectives] = useState<CommunalObjective[]>([]);
   const { getGiftImage, getGiftName } = useGiftData();
 
-  // Load gift triggers from localStorage
-  const loadGiftTriggers = () => {
+  // Load gift triggers from server first, fallback to localStorage
+  const loadGiftTriggers = async () => {
+    console.log('🌐 [COMMUNAL] Intentando cargar triggers desde servidor...');
+
+    // First try to load from server
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/gift-triggers`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('📡 [COMMUNAL] Respuesta del servidor:', data);
+
+        if (data.triggers && Array.isArray(data.triggers)) {
+          const triggers = data.triggers;
+          console.log('✅ [COMMUNAL] Triggers cargados desde servidor:', triggers);
+          processTriggers(triggers);
+          return; // Exit early since we loaded from server
+        }
+      }
+    } catch (error) {
+      console.error('❌ [COMMUNAL] Error cargando desde servidor:', error);
+    }
+
+    // Fallback to localStorage
+    console.log('💾 [COMMUNAL] Fallback a localStorage...');
     try {
       const stored = localStorage.getItem('giftTriggers');
       if (stored) {
         const triggers = JSON.parse(stored);
-
-        // Filter only communal triggers (reveal_vowel and reveal_consonant)
-        // Todos los triggers con estas acciones son comunales, independientemente del regalo
-        const communalTriggers = triggers.filter((trigger: any) =>
-          trigger.enabled &&
-          (trigger.action === 'reveal_vowel' || trigger.action === 'reveal_consonant')
-        );
-
-        // Convert to objectives format
-        const newObjectives: CommunalObjective[] = communalTriggers.map((trigger: any) => ({
-          triggerId: trigger.id,
-          triggerName: trigger.name,
-          giftId: trigger.giftId,
-          giftName: getGiftName(trigger.giftId), // Use dynamic name from regalos.json
-          giftImage: getGiftImage(trigger.giftId), // Use dynamic image from regalos.json
-          current: 0, // Reset to 0 when loading
-          target: trigger.quantity,
-          enabled: trigger.enabled,
-          action: trigger.action,
-          overlayTitle: trigger.overlayTitle || trigger.name // Use overlayTitle or fall back to trigger name
-        }));
-
-        setObjectives(newObjectives);
-        console.log('🎯 [COMMUNAL] Loaded communal objectives:', newObjectives);
+        console.log('📱 [COMMUNAL] Triggers cargados desde localStorage:', triggers);
+        processTriggers(triggers);
+      } else {
+        console.log('❌ [COMMUNAL] No hay triggers en localStorage');
+        setObjectives([]); // Set empty array if no triggers found
       }
     } catch (error) {
-      console.error('❌ [COMMUNAL] Error loading gift triggers:', error);
+      console.error('❌ [COMMUNAL] Error loading gift triggers from localStorage:', error);
     }
+  };
+
+  // Helper function to process triggers from any source
+  const processTriggers = (triggers: any[]) => {
+    // Filter only communal triggers (reveal_vowel and reveal_consonant)
+    // Todos los triggers con estas acciones son comunales, independientemente del regalo
+    const communalTriggers = triggers.filter((trigger: any) =>
+      trigger.enabled &&
+      (trigger.action === 'reveal_vowel' || trigger.action === 'reveal_consonant')
+    );
+
+    // Convert to objectives format
+    const newObjectives: CommunalObjective[] = communalTriggers.map((trigger: any) => ({
+      triggerId: trigger.id,
+      triggerName: trigger.name,
+      giftId: trigger.giftId,
+      giftName: getGiftName(trigger.giftId), // Use dynamic name from regalos.json
+      giftImage: getGiftImage(trigger.giftId), // Use dynamic image from regalos.json
+      current: 0, // Reset to 0 when loading
+      target: trigger.quantity,
+      enabled: trigger.enabled,
+      action: trigger.action,
+      overlayTitle: trigger.overlayTitle || trigger.name // Use overlayTitle or fall back to trigger name
+    }));
+
+    setObjectives(newObjectives);
+    console.log('🎯 [COMMUNAL] Objetivos comunales procesados:', newObjectives);
   };
 
   // Update objective progress
@@ -90,12 +120,12 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
 
   // Load triggers on mount
   useEffect(() => {
-    loadGiftTriggers();
+    loadGiftTriggers(); // Now async but we don't need to await in useEffect
 
     // Listen for localStorage changes
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'giftTriggers') {
-        loadGiftTriggers();
+        loadGiftTriggers(); // Reload when localStorage changes
       }
     };
 
