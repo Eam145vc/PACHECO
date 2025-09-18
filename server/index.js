@@ -390,26 +390,27 @@ app.get('/debug-supabase-http', async (req, res) => {
   try {
     console.log('🌐 [HTTP DEBUG] Probando conectividad HTTP a Supabase...');
 
-    const fetch = (await import('node-fetch')).default;
     const testUrl = `${supabaseUrl}/rest/v1/`;
-
     console.log('🌐 [HTTP DEBUG] URL de prueba:', testUrl);
 
+    const startTime = Date.now();
     const response = await Promise.race([
       fetch(testUrl, {
         method: 'GET',
         headers: {
           'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`
+          'Authorization': `Bearer ${supabaseKey}`,
+          'Content-Type': 'application/json'
         }
       }),
       new Promise((_, reject) =>
         setTimeout(() => reject(new Error('HTTP_TIMEOUT_10s')), 10000)
       )
     ]);
+    const duration = Date.now() - startTime;
 
     console.log('🌐 [HTTP DEBUG] Status:', response.status);
-    console.log('🌐 [HTTP DEBUG] Headers:', Object.fromEntries(response.headers.entries()));
+    console.log('🌐 [HTTP DEBUG] Duration:', duration + 'ms');
 
     const responseText = await response.text();
     console.log('🌐 [HTTP DEBUG] Response:', responseText.substring(0, 200));
@@ -418,7 +419,7 @@ app.get('/debug-supabase-http', async (req, res) => {
       success: response.ok,
       status: response.status,
       statusText: response.statusText,
-      headers: Object.fromEntries(response.headers.entries()),
+      duration: duration,
       body: responseText.substring(0, 500),
       config: {
         url: supabaseUrl,
@@ -439,6 +440,107 @@ app.get('/debug-supabase-http', async (req, res) => {
         hasKey: !!supabaseKey,
         keyLength: supabaseKey?.length
       }
+    });
+  }
+});
+
+// Endpoint para probar una consulta simple a Supabase con más detalles
+app.get('/debug-supabase-simple', async (req, res) => {
+  try {
+    console.log('🧪 [SIMPLE DEBUG] Probando consulta simple...');
+
+    const startTime = Date.now();
+
+    // Consulta más simple posible
+    const result = await Promise.race([
+      supabase.rpc('count', { table_name: 'users' }).single(),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('SIMPLE_TIMEOUT_10s')), 10000)
+      )
+    ]);
+
+    const duration = Date.now() - startTime;
+
+    console.log('🧪 [SIMPLE DEBUG] Resultado:', result);
+    console.log('🧪 [SIMPLE DEBUG] Duration:', duration + 'ms');
+
+    res.json({
+      success: !result.error,
+      data: result.data,
+      error: result.error,
+      duration: duration,
+      config: {
+        url: supabaseUrl,
+        hasKey: !!supabaseKey,
+        keyLength: supabaseKey?.length
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ [SIMPLE DEBUG] Error:', error);
+    res.json({
+      success: false,
+      error: error.message,
+      errorType: error.constructor.name,
+      config: {
+        url: supabaseUrl,
+        hasKey: !!supabaseKey,
+        keyLength: supabaseKey?.length
+      }
+    });
+  }
+});
+
+// Endpoint para probar con credenciales manuales (temporal)
+app.post('/debug-supabase-manual', async (req, res) => {
+  try {
+    const { url, key } = req.body;
+
+    if (!url || !key) {
+      return res.json({
+        success: false,
+        error: 'URL y key son requeridos en el body'
+      });
+    }
+
+    console.log('🔧 [MANUAL DEBUG] Probando credenciales manuales...');
+    console.log('🔧 [MANUAL DEBUG] URL:', url);
+    console.log('🔧 [MANUAL DEBUG] Key length:', key.length);
+
+    // Crear cliente temporal con nuevas credenciales
+    const { createClient } = require('@supabase/supabase-js');
+    const tempSupabase = createClient(url, key);
+
+    const startTime = Date.now();
+    const { data, error } = await Promise.race([
+      tempSupabase.from('users').select('count', { count: 'exact', head: true }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('MANUAL_TIMEOUT_10s')), 10000)
+      )
+    ]);
+    const duration = Date.now() - startTime;
+
+    console.log('🔧 [MANUAL DEBUG] Resultado:', { data, error, duration });
+
+    res.json({
+      success: !error,
+      data: data,
+      error: error?.message,
+      duration: duration,
+      config: {
+        url: url,
+        keyLength: key.length,
+        originalUrl: supabaseUrl,
+        originalKeyLength: supabaseKey?.length
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ [MANUAL DEBUG] Error:', error);
+    res.json({
+      success: false,
+      error: error.message,
+      errorType: error.constructor.name
     });
   }
 });
