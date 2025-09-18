@@ -100,7 +100,73 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
   // Load initial state
   useEffect(() => {
     simpleSync.clear();
-    
+
+    // First try to load state from server (for cross-browser compatibility)
+    loadGameStateFromServer();
+  }, []);
+
+  const loadGameStateFromServer = async () => {
+    try {
+      console.log('🌐 [LOAD-FROM-SERVER] Intentando cargar estado del juego desde servidor...');
+
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/tiktok-live-status`);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('📡 [LOAD-FROM-SERVER] Respuesta del servidor:', data);
+
+        if (data.success && data.status) {
+          const serverStatus = data.status;
+
+          // Check if there's an active game on the server
+          if (serverStatus.currentGameIsActive && serverStatus.currentGamePhrase) {
+            console.log('🎮 [LOAD-FROM-SERVER] Juego activo encontrado en servidor, recreando estado...');
+
+            // Recreate the game phrase object from server data
+            const phrase = createPhraseFromText(
+              `phrase-${Date.now()}`,
+              serverStatus.currentGamePhrase,
+              serverStatus.currentGameCategory || 'Sin categoría',
+              'medio' // Default difficulty
+            );
+
+            // Apply revealed letters if any
+            if (serverStatus.currentRevealedLetters && Array.isArray(serverStatus.currentRevealedLetters)) {
+              phrase.tiles = phrase.tiles.map(tile => {
+                if (!tile.isSpace && serverStatus.currentRevealedLetters.includes(tile.letter)) {
+                  return { ...tile, isRevealed: true };
+                }
+                return tile;
+              });
+            }
+
+            const serverGameState = {
+              currentPhrase: phrase,
+              isGameActive: serverStatus.currentGameIsActive,
+              winners: [],
+              roundNumber: 1,
+              tokensPerWinner: 100
+            };
+
+            console.log('✅ [LOAD-FROM-SERVER] Estado del juego recreado:', serverGameState);
+            setGameState(serverGameState);
+            simpleSync.saveState(serverGameState);
+
+            // Load hints if available
+            if (serverStatus.currentGameHints && Array.isArray(serverStatus.currentGameHints)) {
+              setCurrentPhraseHints(serverStatus.currentGameHints);
+            }
+
+            return; // Exit early since we loaded from server
+          }
+        }
+      }
+    } catch (error) {
+      console.error('❌ [LOAD-FROM-SERVER] Error cargando desde servidor:', error);
+    }
+
+    // Fallback to localStorage if server doesn't have active game
+    console.log('💾 [LOAD-FROM-SERVER] No hay juego activo en servidor, usando localStorage...');
     const saved = simpleSync.loadState();
     if (saved && saved.currentPhrase !== undefined && !saved.diagnostic) {
       setGameState(saved);
@@ -109,7 +175,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
       setGameState(cleanState);
       simpleSync.saveState(cleanState);
     }
-  }, []);
+  };
 
   // Subscribe to cross-tab updates
   useEffect(() => {
