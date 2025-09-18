@@ -4,7 +4,7 @@
   border-radius: 16px;
   padding: 20px;
   margin: 15px;
-  margin-top: 140px; /* Optimized space for better integration */
+  margin-top: 160px; /* More space to prevent icon overlap */
   box-shadow:
     0 0 20px rgba(0, 255, 255, 0.3),
     0 0 40px rgba(0, 255, 0, 0.2),
@@ -85,15 +85,16 @@
   border-radius: 16px;
   padding: 20px;
   position: absolute;
-  top: -110px; /* Better positioned for balance */
+  top: -140px; /* Moved higher to prevent overlap */
   left: 50%;
   transform: translateX(-50%);
   box-shadow:
     0 0 20px rgba(0, 255, 255, 0.5),
     0 0 40px rgba(0, 255, 0, 0.3);
   backdrop-filter: blur(12px);
-  z-index: 10;
+  z-index: 5; /* Reduced z-index */
   animation: iconContainerGlow 3s ease-in-out infinite alternate;
+  pointer-events: none; /* Prevent interaction issues */
 }
 
 @keyframes iconContainerGlow {
