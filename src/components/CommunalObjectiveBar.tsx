@@ -45,16 +45,16 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
           src={actualGiftImage}
           alt={actualGiftName}
           className="gift-image"
-          style={{ width: '32px', height: '32px', borderRadius: '50%' }}
+          style={{ width: '200px', height: '200px', borderRadius: '8px' }}
           onError={(e) => {
             // Fallback to icons on image error
             const target = e.target as HTMLImageElement;
             if (giftId === 'likes') {
-              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="24" font-size="20">❤️</text></svg>';
+              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><text y="150" font-size="150">❤️</text></svg>';
             } else if (giftId === 'follows') {
-              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="24" font-size="20">👥</text></svg>';
+              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><text y="150" font-size="150">👥</text></svg>';
             } else {
-              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="24" font-size="20">🎁</text></svg>';
+              target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><text y="150" font-size="150">🎁</text></svg>';
             }
           }}
         />
@@ -63,15 +63,15 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
 
     // Fallback icons for special cases
     if (giftId === 'likes') {
-      return <Heart size={24} className="gift-icon likes-icon" />;
+      return <Heart size={200} className="gift-icon likes-icon" style={{ width: '200px', height: '200px' }} />;
     }
     if (giftId === 'follows') {
-      return <UserPlus size={24} className="gift-icon follows-icon" />;
+      return <UserPlus size={200} className="gift-icon follows-icon" style={{ width: '200px', height: '200px' }} />;
     }
 
     // Default gift icon
     return (
-      <div className="gift-icon-placeholder">
+      <div className="gift-icon-placeholder" style={{ fontSize: '200px', lineHeight: '1' }}>
         🎁
       </div>
     );
