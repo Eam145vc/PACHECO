@@ -15,7 +15,7 @@ html, body {
   border-radius: 16px;
   padding: 20px;
   margin: 15px;
-  margin-top: 245px; /* Even more space to prevent icon overlap */
+  margin-top: 20px; /* Compact layout with icon inside */
   box-shadow:
     0 0 20px rgba(0, 255, 255, 0.3),
     0 0 40px rgba(0, 255, 0, 0.2);
@@ -41,16 +41,16 @@ html, body {
   }
 }
 
-/* Horizontal Layout - Image Centered Design */
+/* Horizontal Layout - Compact Design */
 .communal-objective-bar.horizontal {
-  min-width: 700px;
-  max-width: 1000px;
+  min-width: 400px;
+  max-width: 600px;
   height: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 40px;
-  padding: 30px;
+  gap: 20px;
+  padding: 20px;
 }
 
 /* Vertical Layout - Image Centered Design */
@@ -72,8 +72,9 @@ html, body {
 }
 
 .objective-header.horizontal {
-  justify-content: space-between;
+  justify-content: flex-start;
   width: 100%;
+  gap: 20px;
 }
 
 .objective-header.vertical {
@@ -82,7 +83,7 @@ html, body {
   text-align: center;
 }
 
-/* FLOATING ICON ABOVE CONTAINER */
+/* ICON INSIDE CONTAINER */
 .gift-display {
   display: flex;
   align-items: center;
@@ -90,19 +91,13 @@ html, body {
   width: auto;
   height: auto;
   background: transparent;
-  border: 2px solid rgba(0, 255, 255, 0.4);
-  border-radius: 16px;
-  padding: 20px;
-  position: absolute;
-  top: -225px; /* Moved even higher to prevent overlap */
-  left: 50%;
-  transform: translateX(-50%);
+  border-radius: 12px;
+  padding: 10px;
+  position: relative;
   box-shadow:
-    0 0 20px rgba(0, 255, 255, 0.5),
-    0 0 40px rgba(0, 255, 0, 0.3);
-  z-index: 5; /* Reduced z-index */
+    0 0 15px rgba(0, 255, 255, 0.4),
+    0 0 25px rgba(0, 255, 0, 0.2);
   animation: iconContainerGlow 3s ease-in-out infinite alternate;
-  pointer-events: none; /* Prevent interaction issues */
 }
 
 @keyframes iconContainerGlow {
@@ -120,8 +115,8 @@ html, body {
 
 
 .gift-image {
-  width: 200px;
-  height: 200px;
+  width: 80px;
+  height: 80px;
   border-radius: 8px;
   object-fit: contain;
   filter:
@@ -133,7 +128,7 @@ html, body {
 }
 
 .gift-icon {
-  font-size: 200px;
+  font-size: 80px;
   color: #ffffff;
   filter:
     drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))
@@ -175,7 +170,7 @@ html, body {
 }
 
 .gift-icon-placeholder {
-  font-size: 200px;
+  font-size: 80px;
   color: #ffffff;
   filter:
     drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))

@@ -45,7 +45,7 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
           src={actualGiftImage}
           alt={actualGiftName}
           className="gift-image"
-          style={{ width: '200px', height: '200px', borderRadius: '8px' }}
+          style={{ width: '80px', height: '80px', borderRadius: '8px' }}
           onError={(e) => {
             // Fallback to icons on image error
             const target = e.target as HTMLImageElement;
@@ -63,15 +63,15 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
 
     // Fallback icons for special cases
     if (giftId === 'likes') {
-      return <Heart size={200} className="gift-icon likes-icon" style={{ width: '200px', height: '200px' }} />;
+      return <Heart size={80} className="gift-icon likes-icon" style={{ width: '80px', height: '80px' }} />;
     }
     if (giftId === 'follows') {
-      return <UserPlus size={200} className="gift-icon follows-icon" style={{ width: '200px', height: '200px' }} />;
+      return <UserPlus size={80} className="gift-icon follows-icon" style={{ width: '80px', height: '80px' }} />;
     }
 
     // Default gift icon
     return (
-      <div className="gift-icon-placeholder" style={{ fontSize: '200px', lineHeight: '1' }}>
+      <div className="gift-icon-placeholder" style={{ fontSize: '80px', lineHeight: '1' }}>
         🎁
       </div>
     );
@@ -92,7 +92,7 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
     >
       {orientation === 'horizontal' ? (
         <>
-          {/* Horizontal Layout */}
+          {/* Horizontal Layout - Compact */}
           <div className="objective-header horizontal">
             <div className="gift-display">
               {getGiftDisplay()}
@@ -100,53 +100,55 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
             <div className="objective-info">
               <div className="objective-title">{displayTitle}</div>
               <div className="objective-subtitle">{actualGiftName}</div>
-            </div>
-            <div className="objective-counter">
-              <span className="current">{current}</span>
-              <span className="separator">/</span>
-              <span className="target">{target}</span>
-            </div>
-          </div>
+              {/* Counter moved here, above progress bar */}
+              <div className="objective-counter">
+                <span className="current">{current}</span>
+                <span className="separator">/</span>
+                <span className="target">{target}</span>
+              </div>
 
-          <div className="progress-container horizontal">
-            <div className="progress-track">
-              <motion.div
-                className="progress-fill"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.8, type: "spring" }}
-              />
+              {/* Progress bar right below counter */}
+              <div className="progress-container horizontal">
+                <div className="progress-track">
+                  <motion.div
+                    className="progress-fill"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.8, type: "spring" }}
+                  />
 
-              {/* Pulsing effect when completed */}
-              {isCompleted && (
-                <motion.div
-                  className="progress-pulse"
-                  animate={{
-                    opacity: [0.5, 1, 0.5],
-                    scale: [1, 1.02, 1]
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity
-                  }}
-                />
-              )}
-            </div>
+                  {/* Pulsing effect when completed */}
+                  {isCompleted && (
+                    <motion.div
+                      className="progress-pulse"
+                      animate={{
+                        opacity: [0.5, 1, 0.5],
+                        scale: [1, 1.02, 1]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity
+                      }}
+                    />
+                  )}
+                </div>
 
-            <div className="progress-labels">
-              <span className="progress-percent">{Math.round(progress)}%</span>
-              {remaining > 0 && (
-                <span className="remaining">{remaining} restantes</span>
-              )}
-              {isCompleted && (
-                <motion.span
-                  className="ready-label"
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 1, repeat: Infinity }}
-                >
-                  ¡COMPLETADO!
-                </motion.span>
-              )}
+                <div className="progress-labels">
+                  <span className="progress-percent">{Math.round(progress)}%</span>
+                  {remaining > 0 && (
+                    <span className="remaining">{remaining} restantes</span>
+                  )}
+                  {isCompleted && (
+                    <motion.span
+                      className="ready-label"
+                      animate={{ opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    >
+                      ¡COMPLETADO!
+                    </motion.span>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </>
