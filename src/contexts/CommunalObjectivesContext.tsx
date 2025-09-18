@@ -136,6 +136,7 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
   // Listen for backend updates via fetch polling or WebSocket
   useEffect(() => {
     let pollInterval: NodeJS.Timeout;
+    let triggersHash = '';
 
     const pollObjectiveUpdates = async () => {
       try {
@@ -157,8 +158,44 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
       }
     };
 
-    // Poll every 2 seconds for updates
-    pollInterval = setInterval(pollObjectiveUpdates, 2000);
+    // NUEVO: Polling para detectar cambios en triggers configuration
+    const pollTriggerChanges = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/gift-triggers`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.triggers && Array.isArray(data.triggers)) {
+            // Create hash of triggers to detect changes
+            const newTriggersHash = JSON.stringify(data.triggers.map(t => ({
+              id: t.id,
+              enabled: t.enabled,
+              action: t.action,
+              quantity: t.quantity,
+              name: t.name,
+              overlayTitle: t.overlayTitle
+            })));
+
+            // If triggers configuration changed, reload them
+            if (triggersHash && triggersHash !== newTriggersHash) {
+              console.log('🔄 [COMMUNAL] Triggers configuration changed, reloading...');
+              console.log('🔄 [COMMUNAL] Old hash:', triggersHash.substring(0, 50) + '...');
+              console.log('🔄 [COMMUNAL] New hash:', newTriggersHash.substring(0, 50) + '...');
+              processTriggers(data.triggers);
+            }
+
+            triggersHash = newTriggersHash;
+          }
+        }
+      } catch (error) {
+        // Server not available, silent fail
+      }
+    };
+
+    // Poll every 2 seconds for counter updates and trigger changes
+    pollInterval = setInterval(() => {
+      pollObjectiveUpdates();
+      pollTriggerChanges();
+    }, 2000);
 
     return () => {
       if (pollInterval) clearInterval(pollInterval);
