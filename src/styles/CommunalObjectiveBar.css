@@ -10,7 +10,8 @@ html, body {
 
 /* BALANCED CYBERPUNK OVERLAY DESIGN */
 .communal-objective-bar {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 20px;
   margin: 15px;
@@ -233,7 +234,8 @@ html, body {
   align-items: center;
   gap: 8px;
   font-weight: 900;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
   padding: 16px 20px;
   border-radius: 20px;
   border: 2px solid rgba(0, 255, 255, 0.4);
@@ -311,7 +313,8 @@ html, body {
 /* Progress Track */
 .progress-track {
   position: relative;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
   border-radius: 16px;
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.25);
