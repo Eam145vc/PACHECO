@@ -1853,8 +1853,22 @@ async function executeRevealConsonant() {
 
 // Catch-all handler para React Router (solo en producción)
 if (isProduction) {
-  app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../dist/index.html'));
+  // Usar método compatible con Express 5
+  app.use((req, res, next) => {
+    // Si no hay API match, servir el index.html del frontend
+    if (!req.path.startsWith('/api') &&
+        !req.path.startsWith('/tiktok') &&
+        !req.path.startsWith('/gift') &&
+        !req.path.startsWith('/communal') &&
+        !req.path.startsWith('/orders') &&
+        !req.path.startsWith('/coronas') &&
+        !req.path.startsWith('/users') &&
+        !req.path.startsWith('/products') &&
+        !req.path.startsWith('/ping')) {
+      res.sendFile(path.join(__dirname, '../dist/index.html'));
+    } else {
+      next();
+    }
   });
 }
 
