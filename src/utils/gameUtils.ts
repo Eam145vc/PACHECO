@@ -1,5 +1,13 @@
 import { GamePhrase, LetterTile } from '../types/game';
 
+// Función para normalizar texto removiendo tildes y acentos
+export const normalizeForComparison = (text: string): string => {
+  return text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+};
+
 export const createPhraseFromText = (
   id: string,
   text: string, 
@@ -45,8 +53,10 @@ export const isConsonant = (letter: string): boolean => {
 };
 
 export const revealLetter = (phrase: GamePhrase, letter: string): GamePhrase => {
+  const normalizedInputLetter = normalizeForComparison(letter);
+
   const updatedTiles = phrase.tiles.map(tile => {
-    if (!tile.isSpace && tile.letter.toLowerCase() === letter.toLowerCase()) {
+    if (!tile.isSpace && normalizeForComparison(tile.letter) === normalizedInputLetter) {
       return { ...tile, isRevealed: true };
     }
     return tile;

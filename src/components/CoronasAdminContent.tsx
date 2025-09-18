@@ -14,7 +14,9 @@ import {
   Clock,
   CheckCircle,
   Minus,
-  UserX
+  UserX,
+  RefreshCw,
+  Trophy
 } from 'lucide-react';
 import { coronasApi } from '../services/coronasApi.js';
 
@@ -369,6 +371,29 @@ const CoronasAdminContent: React.FC = () => {
     }
   };
 
+  const handleResetDailyRanking = async () => {
+    if (!confirm('¿Estás seguro de resetear el ranking diario? Esta acción marcará todas las transacciones del día como reset.')) return;
+
+    try {
+      const response = await fetch('/api/reset-daily-ranking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        showNotification('success', data.message);
+      } else {
+        showNotification('error', data.error || 'Error al resetear ranking diario');
+      }
+    } catch (error) {
+      console.error('Error resetting daily ranking:', error);
+      showNotification('error', 'Error al resetear ranking diario');
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading">Cargando...</div>
@@ -484,19 +509,27 @@ const CoronasAdminContent: React.FC = () => {
         )}
         {activeTab === 'users' && (
           <>
-            <button 
+            <button
               className="secondary-button"
               onClick={() => setShowUserManagement(!showUserManagement)}
             >
               <Users size={20} />
               Gestión de Usuarios
             </button>
-            <button 
+            <button
               className="secondary-button"
               onClick={() => setShowUsersList(!showUsersList)}
             >
               <Users size={20} />
               Ver Usuarios ({users.length})
+            </button>
+            <button
+              className="warning-button"
+              onClick={handleResetDailyRanking}
+              title="Resetear el ranking diario"
+            >
+              <Trophy size={20} />
+              Resetear Ranking Diario
             </button>
           </>
         )}

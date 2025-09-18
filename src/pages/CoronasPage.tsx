@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Crown, Gift, ShoppingCart, ArrowLeft, Check, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { coronasApi } from '../services/coronasApi.js';
+import { usePageZoom } from '../hooks/usePageZoom';
 
 interface Product {
   id: string;
@@ -20,6 +21,7 @@ interface UserData {
 }
 
 const CoronasPage: React.FC = () => {
+  const { zoomStyle } = usePageZoom({ pageId: 'coronas-page' });
   const [userData, setUserData] = useState<UserData | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -129,7 +131,7 @@ const CoronasPage: React.FC = () => {
 
 
   return (
-    <div className="coronas-page">
+    <div className="coronas-page" style={zoomStyle}>
       {/* Notification */}
       {notification && (
         <motion.div 

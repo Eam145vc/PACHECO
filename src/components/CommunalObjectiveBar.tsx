@@ -13,6 +13,7 @@ interface CommunalObjectiveBarProps {
   orientation: 'horizontal' | 'vertical';
   isCompleted: boolean;
   giftImage?: string;
+  overlayTitle?: string;
 }
 
 const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
@@ -24,7 +25,8 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
   target,
   orientation,
   isCompleted,
-  giftImage
+  giftImage,
+  overlayTitle
 }) => {
   const { getGiftImage: getGiftImageFromData, getGiftName } = useGiftData();
   const progress = Math.min((current / target) * 100, 100);
@@ -77,6 +79,9 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
 
   const containerClass = `communal-objective-bar ${orientation} ${isCompleted ? 'completed' : ''}`;
 
+  // Use overlayTitle if available, otherwise fall back to triggerName
+  const displayTitle = overlayTitle && overlayTitle.trim() !== '' ? overlayTitle : triggerName;
+
   return (
     <motion.div
       className={containerClass}
@@ -93,7 +98,7 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
               {getGiftDisplay()}
             </div>
             <div className="objective-info">
-              <div className="objective-title">{triggerName}</div>
+              <div className="objective-title">{displayTitle}</div>
               <div className="objective-subtitle">{actualGiftName}</div>
             </div>
             <div className="objective-counter">
@@ -186,7 +191,7 @@ const CommunalObjectiveBar: React.FC<CommunalObjectiveBarProps> = ({
           </div>
 
           <div className="objective-info vertical">
-            <div className="objective-title vertical">{triggerName}</div>
+            <div className="objective-title vertical">{displayTitle}</div>
             <div className="objective-subtitle vertical">{actualGiftName}</div>
             {remaining > 0 && (
               <div className="remaining vertical">{remaining} restantes</div>

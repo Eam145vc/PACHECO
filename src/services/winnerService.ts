@@ -2,6 +2,7 @@ interface WinnerData {
   username: string;
   unique_id: string;
   profile_picture?: string;
+  profile_picture_urls?: string[];
   comment: string;
   answer: string;
   phrase: string;
@@ -73,16 +74,23 @@ class WinnerService {
     this.callbacks.forEach(callback => callback(winner));
   }
 
-  // Test method to simulate a winner with real TikTok image URL
+  // Test method to simulate a winner with real TikTok image URL (using actual data from debug)
   testWinnerWithTikTokImage() {
     const testWinner: WinnerData = {
-      username: "El Oraculo",
-      unique_id: "oraculo_vidente",
-      profile_picture: "https://p16-pu-sign-no.tiktokcdn-eu.com/tos-no1a-avt-0068c001-no/e40e52e61504a1e5c49de2c3f9e265f8~tplv-tiktokx-cropcenter:100:100.webp?dr=10399&refresh_token=dab43435&x-expires=1758045600&x-signature=5yyRSQ72F8NAXZ5Wtn%2B%2FCwJ%2FZik%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=no1a",
-      comment: "HOLA MUNDO",
-      answer: "HOLA MUNDO",
-      phrase: "HOLA MUNDO",
-      category: "Test"
+      username: "Peliredtv 🍁",
+      unique_id: "versuslatam",
+      profile_picture: "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=8d41df80&x-expires=1758308400&x-signature=H%2BiMN%2BhSlHkHpKRGQyiKWKb30qU%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=my",
+      profile_picture_urls: [
+        "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.webp?dr=14579&refresh_token=8d41df80&x-expires=1758308400&x-signature=H%2BiMN%2BhSlHkHpKRGQyiKWKb30qU%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=my",
+        "https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.jpeg?dr=14579&refresh_token=f49004b9&x-expires=1758308400&x-signature=rts8txtMRTEbsSo922ix%2FlzuxUc%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=my",
+        "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.webp?dr=18067&refresh_token=51058a76&x-expires=1758308400&x-signature=P98e%2F%2BEqOQjfMUQ9z5cQqAEBJLM%3D&t=4d5b0474&ps=ae600521&shp=a5d48078&shcp=fdd36af4&idc=my",
+        "https://p19-common-sign.tiktokcdn-us.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.webp?dr=18067&refresh_token=b2a803de&x-expires=1758308400&x-signature=ch6iRnSOaTsJKsd7NxkLwVDLmNg%3D&t=4d5b0474&ps=ae600521&shp=a5d48078&shcp=fdd36af4&idc=my",
+        "https://p16-common-sign.tiktokcdn-us.com/tos-alisg-avt-0068/1f427703b4744b4a6f66df4370944bd2~tplv-tiktokx-cropcenter:100:100.jpeg?dr=18067&refresh_token=f9656420&x-expires=1758308400&x-signature=bQ0CPcJZYExB2lCJQGs7ooltfTA%3D&t=4d5b0474&ps=ae600521&shp=a5d48078&shcp=fdd36af4&idc=my"
+      ],
+      comment: "INTELIGENCIA ARTIFICIAL",
+      answer: "INTELIGENCIA ARTIFICIAL",
+      phrase: "INTELIGENCIA ARTIFICIAL",
+      category: "TECNOLOGÍA"
     };
     console.log('🧪 TESTING WINNER WITH REAL TIKTOK IMAGE:', testWinner);
     this.notifyWinner(testWinner);

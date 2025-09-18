@@ -13,6 +13,10 @@ const AllCommunalObjectives: React.FC = () => {
 
   const { objectives } = useCommunalObjectives();
 
+  // Add debug logging
+  console.log('🔍 [AllCommunalObjectives] Component rendered');
+  console.log('🔍 [AllCommunalObjectives] Objectives:', objectives);
+
   // Filter only enabled objectives
   const enabledObjectives = objectives.filter(obj => obj.enabled);
 
@@ -37,16 +41,24 @@ const AllCommunalObjectives: React.FC = () => {
     return (
       <div style={{
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        background: background === 'green' ? '#00ff00' : 'transparent',
+        background: background === 'green' ? '#00ff00' : 'rgba(0, 0, 0, 0.8)',
         color: '#ffffff',
         fontFamily: 'Arial, sans-serif',
         fontSize: '18px',
-        textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)'
+        textShadow: '0 2px 4px rgba(0, 0, 0, 0.8)',
+        padding: '20px'
       }}>
-        No hay objetivos comunales activos
+        <div>No hay objetivos comunales activos</div>
+        <div style={{ fontSize: '14px', marginTop: '10px', opacity: 0.7 }}>
+          Total objetivos: {objectives.length} | Habilitados: {enabledObjectives.length}
+        </div>
+        <div style={{ fontSize: '12px', marginTop: '5px', opacity: 0.5 }}>
+          Debug: {JSON.stringify(objectives.map(o => ({ id: o.triggerId, enabled: o.enabled })))}
+        </div>
       </div>
     );
   }
@@ -115,6 +127,7 @@ const AllCommunalObjectives: React.FC = () => {
             orientation={orientation}
             isCompleted={isCompleted}
             giftImage={objective.giftImage}
+            overlayTitle={objective.overlayTitle}
           />
         );
       })}

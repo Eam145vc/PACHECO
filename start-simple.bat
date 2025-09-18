@@ -3,15 +3,20 @@ echo ================================
 echo  SISTEMA CORONAS - SIN NGROK
 echo ================================
 echo.
+echo 0. Limpiando procesos previos...
+taskkill /f /im "node.exe" 2>nul >nul
+timeout /t 1 /nobreak >nul
+echo    ✅ Limpieza completada
+echo.
 echo 1. Iniciando servidor backend...
-start "Backend" cmd /k "cd /d %~dp0 && npm run server"
+start "Backend" cmd /c "cd /d %~dp0 && npm run server"
 echo    ✅ Backend iniciando en puerto 3002...
 echo.
 echo 2. Esperando 3 segundos...
 timeout /t 3 /nobreak >nul
 echo.
 echo 3. Iniciando frontend...
-start "Frontend" cmd /k "cd /d %~dp0 && npm run dev"
+start "Frontend" cmd /c "cd /d %~dp0 && npm run dev"
 echo    ✅ Frontend iniciando...
 echo.
 echo ================================

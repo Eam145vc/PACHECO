@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Settings, 
-  Play, 
-  Pause, 
-  Users, 
-  Coins, 
+import {
+  Settings,
+  Play,
+  Pause,
+  Users,
+  Coins,
   Crown,
   MessageCircle,
   Activity,
@@ -14,7 +14,8 @@ import {
   Volume2,
   VolumeX,
   RefreshCw,
-  Save
+  Save,
+  Trash2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { GameState } from '../types/game';
@@ -26,6 +27,7 @@ import { useSimpleGame } from '../contexts/SimpleGameContext';
 import { tiktokBotService } from '../services/tiktokBotService';
 import CoronasAdminContent from '../components/CoronasAdminContent';
 import TikTokLiveHeader from '../components/TikTokLiveHeader';
+import { usePageZoom } from '../hooks/usePageZoom';
 
 interface AdminPanelProps {
   gameState: GameState;
@@ -40,6 +42,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   onRevealVowel,
   onRevealConsonant
 }) => {
+  const { zoomStyle } = usePageZoom({ pageId: 'admin-panel' });
   const {
     availablePhrases,
     addCustomPhrase,
@@ -51,7 +54,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     botConnected,
     setBotConnected,
     resetBoard,
-    currentPhraseHints
+    currentPhraseHints,
+    removePhrase
   } = useSimpleGame();
   const [activeTab, setActiveTab] = useState('game-control');
   const [autoReveal, setAutoReveal] = useState({
@@ -130,6 +134,32 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     // Here you would save to backend/localStorage
   };
 
+  const handleDeletePhrase = (index: number, phrase: any) => {
+    if (!confirm(`¿Estás seguro de eliminar la frase "${phrase.text}"? Esta acción no se puede deshacer.`)) {
+      return;
+    }
+
+    if (removePhrase) {
+      removePhrase(index);
+      // También eliminar las coronas asociadas
+      setPhraseCoronas(prev => {
+        const newCoronas = { ...prev };
+        delete newCoronas[index];
+        // Reajustar índices para las frases restantes
+        const adjustedCoronas: {[key: number]: number} = {};
+        Object.keys(newCoronas).forEach(key => {
+          const numKey = parseInt(key);
+          if (numKey > index) {
+            adjustedCoronas[numKey - 1] = newCoronas[numKey];
+          } else {
+            adjustedCoronas[numKey] = newCoronas[numKey];
+          }
+        });
+        return adjustedCoronas;
+      });
+    }
+  };
+
   const handleGiftTriggersChange = (triggers: any[]) => {
     setGiftTriggers(triggers);
     console.log('Gift triggers updated:', triggers);
@@ -143,8 +173,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
   ];
 
   return (
-    <div className="admin-panel">
-      <motion.header 
+    <div className="admin-panel" style={zoomStyle}>
+      <motion.header
         className="admin-header"
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -225,13 +255,23 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
                                 className="corona-input-inline"
                               />
                             </div>
-                            <button
-                              onClick={() => handleStartGameWithCoronas(index)}
-                              className="start-phrase-btn"
-                              disabled={gameState.isGameActive}
-                            >
-                              🎯 Iniciar por {currentCoronas} 👑
-                            </button>
+                            <div className="phrase-actions">
+                              <button
+                                onClick={() => handleStartGameWithCoronas(index)}
+                                className="start-phrase-btn"
+                                disabled={gameState.isGameActive}
+                              >
+                                🎯 Iniciar por {currentCoronas} 👑
+                              </button>
+                              <button
+                                onClick={() => handleDeletePhrase(index, phrase)}
+                                className="delete-phrase-btn"
+                                title="Eliminar frase"
+                              >
+                                <Trash2 size={16} />
+                                Eliminar
+                              </button>
+                            </div>
                           </div>
                         </div>
                       );

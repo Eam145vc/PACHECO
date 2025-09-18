@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Live Profile Viewer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tiktok, sans-serif;
+            background: linear-gradient(135deg, #ff0050 0%, #ff4081 50%, #e91e63 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        .title {
+            color: #333;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container {
+            margin: 30px 0;
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #ff0050;
+            object-fit: cover;
+            box-shadow: 0 10px 30px rgba(255, 0, 80, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-image:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(255, 0, 80, 0.5);
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0 10px 0;
+        }
+
+        .unique-id {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .comment {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-left: 4px solid #ff0050;
+            font-style: italic;
+            color: #444;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+            word-break: break-all;
+        }
+
+        .url-links {
+            margin-top: 20px;
+        }
+
+        .url-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff0050, #ff4081);
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .url-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3);
+        }
+
+        .timestamp {
+            color: #888;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+
+        .status {
+            background: #28a745;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .load-button {
+            background: linear-gradient(135deg, #ff0050, #ff4081);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .load-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #ff0050;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">🎯 TikTok Live Profile Viewer</h1>
+
+        <div class="status">✅ Conectado a @wahanfx</div>
+
+        <div id="profile-content">
+            <p>Haz clic en "Cargar Datos" para mostrar el último usuario capturado</p>
+            <button class="load-button" onclick="loadProfileData()">Cargar Datos</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+    </div>
+
+    <script>
+        async function loadProfileData() {
+            const loadingDiv = document.getElementById('loading');
+            const contentDiv = document.getElementById('profile-content');
+
+            loadingDiv.style.display = 'block';
+
+            try {
+                // Cargar datos del archivo JSON
+                const response = await fetch('tiktok_final_extraction.json');
+                const data = await response.json();
+
+                // Obtener la primera URL de imagen disponible
+                let profileImageUrl = 'https://via.placeholder.com/150x150/ff0050/ffffff?text=No+Image';
+
+                if (data.avatar_urls && data.avatar_urls.avatar_thumb_urls && data.avatar_urls.avatar_thumb_urls.length > 0) {
+                    profileImageUrl = data.avatar_urls.avatar_thumb_urls[0];
+                }
+
+                // Crear HTML del perfil
+                const profileHTML = `
+                    <div class="profile-container">
+                        <img src="${profileImageUrl}" alt="Profile" class="profile-image"
+                             onerror="this.src='https://via.placeholder.com/150x150/ff0050/ffffff?text=Error'" />
+                    </div>
+
+                    <div class="username">${data.commenter.username}</div>
+                    <div class="unique-id">@${data.commenter.unique_id}</div>
+
+                    <div class="comment">
+                        <strong>💬 Último comentario:</strong><br>
+                        "${data.commenter.comment}"
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Streamer</div>
+                            <div class="info-value">@${data.streamer}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Room ID</div>
+                            <div class="info-value">${data.room_id}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Imágenes Disponibles</div>
+                            <div class="info-value">${data.avatar_urls.avatar_thumb_urls ? data.avatar_urls.avatar_thumb_urls.length : 0} URLs</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Formato</div>
+                            <div class="info-value">WebP, JPEG</div>
+                        </div>
+                    </div>
+
+                    <div class="url-links">
+                        <strong>🔗 URLs de Imágenes:</strong><br>
+                        ${data.avatar_urls.avatar_thumb_urls ? data.avatar_urls.avatar_thumb_urls.map((url, index) =>
+                            `<a href="${url}" target="_blank" class="url-button">Imagen ${index + 1}</a>`
+                        ).join('') : '<p>No hay URLs disponibles</p>'}
+                    </div>
+
+                    <div class="timestamp">
+                        📅 Capturado: ${data.timestamp_readable}
+                    </div>
+
+                    <button class="load-button" onclick="loadProfileData()">🔄 Actualizar</button>
+                `;
+
+                contentDiv.innerHTML = profileHTML;
+
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div style="color: red; text-align: center;">
+                        <h3>❌ Error cargando datos</h3>
+                        <p>No se pudo cargar el archivo tiktok_final_extraction.json</p>
+                        <p><small>${error.message}</small></p>
+                        <button class="load-button" onclick="loadProfileData()">🔄 Reintentar</button>
+                    </div>
+                `;
+                console.error('Error:', error);
+            }
+
+            loadingDiv.style.display = 'none';
+        }
+
+        // Auto-cargar datos al iniciar
+        window.addEventListener('load', () => {
+            setTimeout(loadProfileData, 500);
+        });
+
+        // Auto-actualizar cada 30 segundos
+        setInterval(loadProfileData, 30000);
+    </script>
+</body>
+</html>

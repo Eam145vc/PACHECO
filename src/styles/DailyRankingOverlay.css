@@ -1,0 +1,236 @@
+/* Daily Ranking Overlay - Transparent/Green Screen friendly */
+.daily-ranking-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  /* Green screen option - uncomment for green background */
+  /* background: #00ff00; */
+
+  /* Transparent option - comment out for green background */
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Arial', sans-serif;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.ranking-container {
+  background: rgba(0, 0, 0, 0.85);
+  border: 3px solid #ffd700;
+  border-radius: 15px;
+  padding: 20px;
+  min-width: 350px;
+  max-width: 450px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+  backdrop-filter: blur(10px);
+  animation: rankingPulse 3s ease-in-out infinite;
+}
+
+@keyframes rankingPulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.8);
+    transform: scale(1.02);
+  }
+}
+
+.ranking-header {
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ffd700;
+  padding-bottom: 15px;
+}
+
+.ranking-header h2 {
+  color: #ffd700;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  from {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 215, 0, 0.3);
+  }
+  to {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.ranking-subtitle {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+.ranking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.3s ease;
+  animation: itemSlideIn 0.5s ease-out;
+}
+
+.ranking-item.position-1 {
+  border-color: #ffd700;
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.ranking-item.position-2 {
+  border-color: #c0c0c0;
+  background: linear-gradient(90deg, rgba(192, 192, 192, 0.15), rgba(192, 192, 192, 0.08));
+  box-shadow: 0 0 10px rgba(192, 192, 192, 0.3);
+}
+
+.ranking-item.position-3 {
+  border-color: #cd7f32;
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.15), rgba(205, 127, 50, 0.08));
+  box-shadow: 0 0 10px rgba(205, 127, 50, 0.3);
+}
+
+@keyframes itemSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.ranking-position {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 80px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.position-number {
+  font-size: 18px;
+  color: #ffd700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.ranking-user {
+  flex: 1;
+  text-align: left;
+}
+
+.username {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 4px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.coronas {
+  color: #ffd700;
+  font-size: 14px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.ranking-footer {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.last-update {
+  color: #ffffff;
+  font-size: 12px;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.ranking-loading {
+  text-align: center;
+  color: #ffd700;
+  font-size: 18px;
+  padding: 20px;
+  animation: loadingPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes loadingPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.no-rankings {
+  text-align: center;
+  padding: 30px;
+}
+
+.no-rankings-text {
+  color: #ffffff;
+  font-size: 16px;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* Green screen alternative styles */
+.daily-ranking-overlay.green-screen {
+  background: #00ff00;
+}
+
+.daily-ranking-overlay.green-screen .ranking-container {
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .ranking-container {
+    min-width: 300px;
+    max-width: 350px;
+    padding: 15px;
+  }
+
+  .ranking-header h2 {
+    font-size: 24px;
+  }
+
+  .ranking-item {
+    padding: 12px;
+  }
+
+  .username {
+    font-size: 16px;
+  }
+
+  .ranking-position {
+    font-size: 20px;
+    min-width: 70px;
+  }
+}

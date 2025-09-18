@@ -8,6 +8,9 @@ export interface SoundEffects {
   buttonClick: () => void;
   coinSound: () => void;
   fanfare: () => void;
+  goldVowelReveal: () => void;
+  consonantReveal: () => void;
+  winnerCelebration: () => void;
 }
 
 export const useSoundEffects = (): SoundEffects => {
@@ -92,6 +95,47 @@ export const useSoundEffects = (): SoundEffects => {
     });
   }, [createBeep]);
 
+  const goldVowelReveal = useCallback(() => {
+    // Golden shimmering sound for vowels - magical and precious
+    createBeep(880, 0.3, 'sine'); // A5 - bright golden tone
+    setTimeout(() => createBeep(1174, 0.25, 'triangle'), 150); // D6 - sparkle
+    setTimeout(() => createBeep(1318, 0.2, 'sine'), 300); // E6 - shimmer
+    setTimeout(() => createBeep(1760, 0.15, 'triangle'), 450); // A6 - final sparkle
+  }, [createBeep]);
+
+  const consonantReveal = useCallback(() => {
+    // Strong, confident sound for consonants - solid and reliable
+    createBeep(440, 0.25, 'square'); // A4 - strong foundation
+    setTimeout(() => createBeep(523, 0.2, 'triangle'), 120); // C5 - confidence
+    setTimeout(() => createBeep(659, 0.15, 'sine'), 240); // E5 - clarity
+  }, [createBeep]);
+
+  const winnerCelebration = useCallback(() => {
+    // Epic victory celebration - triumphant and exciting
+    // First part: Rising fanfare
+    const risingNotes = [392, 440, 494, 523, 587, 659, 740, 831]; // G4 to G#5
+    risingNotes.forEach((freq, index) => {
+      setTimeout(() => createBeep(freq, 0.2, 'triangle'), index * 80);
+    });
+
+    // Second part: Victory chord burst
+    setTimeout(() => {
+      const victoryChord = [523, 659, 784, 1047]; // C major chord
+      victoryChord.forEach(freq => {
+        createBeep(freq, 0.8, 'triangle');
+        setTimeout(() => createBeep(freq * 2, 0.4, 'sine'), 200); // Octave higher
+      });
+    }, 800);
+
+    // Third part: Celebratory bells
+    setTimeout(() => {
+      const bells = [1047, 1175, 1319, 1568, 1760]; // High celebratory notes
+      bells.forEach((freq, index) => {
+        setTimeout(() => createBeep(freq, 0.3, 'sine'), index * 150);
+      });
+    }, 1400);
+  }, [createBeep]);
+
   return {
     letterReveal,
     phraseComplete,
@@ -99,6 +143,9 @@ export const useSoundEffects = (): SoundEffects => {
     buttonHover,
     buttonClick,
     coinSound,
-    fanfare
+    fanfare,
+    goldVowelReveal,
+    consonantReveal,
+    winnerCelebration
   };
 };

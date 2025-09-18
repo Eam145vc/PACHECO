@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import CommunalObjectiveBar from '../components/CommunalObjectiveBar';
 import { useCommunalObjectives } from '../contexts/CommunalObjectivesContext';
+import { usePageZoom } from '../hooks/usePageZoom';
 import '../styles/CommunalObjectiveBar.css';
 
 const CommunalObjectiveOverlay: React.FC = () => {
   const { triggerId } = useParams<{ triggerId: string }>();
   const [searchParams] = useSearchParams();
+  const { zoomStyle } = usePageZoom({ pageId: 'communal-objective-overlay' });
 
   const orientation = (searchParams.get('orientation') as 'horizontal' | 'vertical') || 'horizontal';
   const background = searchParams.get('bg') || 'transparent';
@@ -57,6 +59,7 @@ const CommunalObjectiveOverlay: React.FC = () => {
     <div
       className={`communal-overlay-container ${background === 'green' ? 'obs-green-screen' : 'obs-transparent'}`}
       style={{
+        ...zoomStyle,
         width: '100vw',
         height: '100vh',
         display: 'flex',
@@ -77,6 +80,7 @@ const CommunalObjectiveOverlay: React.FC = () => {
         orientation={orientation}
         isCompleted={isCompleted}
         giftImage={objective.giftImage}
+        overlayTitle={objective.overlayTitle}
       />
     </div>
   );

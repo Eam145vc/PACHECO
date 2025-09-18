@@ -2,6 +2,84 @@ require('dotenv').config();
 console.log('🚀 Iniciando servidor...');
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
+const cors = require('cors');
+const { createClient } = require('@supabase/supabase-js');
+
+// Configurar Supabase
+const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://ikrjjodyclyizrefqclt.supabase.co';
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMzMyNDUsImV4cCI6MjA3MzYwOTI0NX0.pg2mQuFkZGiOpinpZoVABJzasATJYrrzXfRt0jGW0WQ';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Función para agregar coronas usando Supabase (adapta de coronasApi.js)
+async function addCoronasToUser(username, amount, description = 'Manual addition') {
+  console.log(`🔍 [SUPABASE DEBUG] Iniciando addCoronasToUser para: "${username}", cantidad: ${amount}, descripción: "${description}"`);
+
+  try {
+    console.log(`🔍 [SUPABASE DEBUG] Consultando usuario existente...`);
+    // Obtener coronas actuales
+    const { data: userData, error: userError } = await supabase
+      .from('users')
+      .select('username, coronas')
+      .ilike('username', username)
+      .maybeSingle();
+
+    console.log(`🔍 [SUPABASE DEBUG] Resultado de consulta usuario:`, { userData, userError });
+
+    if (userError && userError.code !== 'PGRST116') {
+      throw userError;
+    }
+
+    const currentCoronas = userData?.coronas || 0;
+    const newCoronas = currentCoronas + amount;
+    console.log(`🔍 [SUPABASE DEBUG] Coronas actuales: ${currentCoronas}, nuevas: ${newCoronas}`);
+
+    console.log(`🔍 [SUPABASE DEBUG] Ejecutando upsert...`);
+    // Actualizar o crear usuario
+    const { error: upsertError } = await supabase
+      .from('users')
+      .upsert({
+        username,
+        coronas: newCoronas
+      }, {
+        onConflict: 'username'
+      });
+
+    console.log(`🔍 [SUPABASE DEBUG] Resultado de upsert:`, { upsertError });
+
+    if (upsertError) throw upsertError;
+
+    console.log(`🔍 [SUPABASE DEBUG] Creando transacción...`);
+    // Crear transacción
+    const { error: transactionError } = await supabase
+      .from('transactions')
+      .insert({
+        username,
+        type: 'add',
+        amount,
+        description
+      });
+
+    console.log(`🔍 [SUPABASE DEBUG] Resultado de transacción:`, { transactionError });
+
+    if (transactionError) {
+      console.warn(`⚠️ [SUPABASE DEBUG] Error en transacción (no crítico):`, transactionError);
+    }
+
+    console.log(`✅ [SUPABASE DEBUG] addCoronasToUser completado exitosamente`);
+    return {
+      success: true,
+      newBalance: newCoronas
+    };
+  } catch (error) {
+    console.error('❌ [SUPABASE DEBUG] Error in addCoronasToUser:', error);
+    console.error('❌ [SUPABASE DEBUG] Error stack:', error.stack);
+    return {
+      success: false,
+      error: error.message
+    };
+  }
+}
 console.log('📊 Cargando database...');
 const database = require('./database');
 console.log('🐍 Cargando tiktokLiveManager...');
@@ -14,18 +92,15 @@ const PORT = process.env.PORT || 3002;
 console.log('🔌 Puerto configurado:', PORT);
 const isProduction = process.env.NODE_ENV === 'production';
 
-// CORS middleware para permitir requests del frontend
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-  if (req.method === 'OPTIONS') {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
+// CORS middleware para permitir requests del frontend y ngrok
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://c67727416176.ngrok-free.app',
+    'https://tiktok-word-game-frontend.onrender.com'
+  ],
+  credentials: true
+}));
 
 // Middleware para parsear JSON y formularios
 app.use(express.json());
@@ -59,7 +134,8 @@ const {
   findLeastRepresentedConsonant,
   generatePhraseState,
   generatePremiumMessage,
-  autoStartBrowser
+  autoStartBrowser,
+  messageQueue
 } = require('./sendMessage');
 console.log('✅ sendMessage cargado');
 
@@ -194,6 +270,48 @@ app.post('/send-message', async (req, res) => {
   }
 });
 
+// Endpoints para monitorear y controlar la cola de mensajes
+app.get('/message-queue/status', (req, res) => {
+  try {
+    const status = messageQueue.getStatus();
+    res.json({
+      success: true,
+      status
+    });
+  } catch (error) {
+    console.error('Error obteniendo estado de cola:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post('/message-queue/clear', (req, res) => {
+  try {
+    const clearedCount = messageQueue.clear();
+    res.json({
+      success: true,
+      message: `Cola limpiada. ${clearedCount} mensajes descartados.`
+    });
+  } catch (error) {
+    console.error('Error limpiando cola:', error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Endpoint temporal para probar la función addCoronasToUser
+app.post('/test-corona-reward', async (req, res) => {
+  const { username, amount = 5 } = req.body;
+  console.log(`🧪 [TEST] Probando addCoronasToUser para: ${username}, cantidad: ${amount}`);
+
+  try {
+    const result = await addCoronasToUser(username, amount, 'Test manual');
+    console.log(`🧪 [TEST] Resultado:`, result);
+    res.json(result);
+  } catch (error) {
+    console.error(`🧪 [TEST] Error:`, error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 console.log('🎯 Endpoints básicos configurados');
 
 // ===============================
@@ -271,7 +389,7 @@ console.log('📦 Sección de órdenes completada');
 // ===============================
 
 // Variable global para mantener el estado del servidor Python TikTok Live
-let tiktokLiveStatus = {
+const initialTikTokLiveStatus = {
   connected: false,
   streamer_username: null,
   room_id: null,
@@ -298,6 +416,18 @@ let tiktokLiveStatus = {
   // Contadores para objetivos comunales por trigger ID
   communalObjectiveCounters: {}  // key: triggerId, value: currentCount
 };
+let tiktokLiveStatus = { ...initialTikTokLiveStatus };
+
+// Función para resetear el estado
+function resetTikTokStatus() {
+  console.log('🔄 Reseteando estado de TikTok Live a valores iniciales...');
+  tiktokLiveStatus = {
+    ...initialTikTokLiveStatus,
+    // Mantener contadores si es necesario, o resetearlos también
+    communalCounters: { ...initialTikTokLiveStatus.communalCounters },
+    communalObjectiveCounters: {}
+  };
+}
 
 // Variable global para almacenar los triggers de regalos configurados (7 triggers: 5 originales + 2 comunales extra)
 let giftTriggers = [
@@ -464,11 +594,13 @@ function getCommunalObjectiveCount(triggerId, giftId) {
 
 // Función para procesar triggers de regalos
 async function processGiftTriggers(giftData) {
-  const { username, unique_id, gift_id, gift_name, quantity } = giftData;
+  const { username, unique_id, gift_id, gift_name } = giftData;
+  let quantity = giftData.quantity; // Usar let para poder reasignar
+  let comboQuantity = quantity; // Cantidad para triggers privados (con combos)
 
   console.log(`🎁 [GIFT TRIGGER] Procesando regalo: ${username} envió ${quantity}x ${gift_name} (ID: ${gift_id})`);
 
-  // Manejar combos - deduplicar regalos recientes del mismo usuario y tipo
+  // Manejar combos SOLO para triggers privados - deduplicar regalos recientes del mismo usuario y tipo
   const giftKey = `${username}_${gift_id}`;
   const now = Date.now();
   const recentGift = tiktokLiveStatus.recentGifts.get(giftKey);
@@ -480,8 +612,8 @@ async function processGiftTriggers(giftData) {
     recentGift.timestamp = now;
     console.log(`🔄 [COMBO] Actualizando combo: ${username} ahora tiene ${recentGift.quantity}x ${gift_name} acumulado`);
 
-    // Usar la cantidad acumulada para verificar triggers
-    quantity = recentGift.quantity;
+    // Usar la cantidad acumulada SOLO para triggers privados
+    comboQuantity = recentGift.quantity;
   } else {
     // Nuevo regalo o tiempo expirado, guardar en cache
     tiktokLiveStatus.recentGifts.set(giftKey, { timestamp: now, quantity });
@@ -495,16 +627,19 @@ async function processGiftTriggers(giftData) {
     }
   }
 
-  // Buscar triggers que coincidan
-  // Buscar triggers que coincidan por ID o por nombre de regalo (excluyendo comunales)
+  // Buscar triggers que coincidan por ID o por nombre de regalo (excluyendo comunales likes/follows)
   const matchingTriggers = giftTriggers.filter(trigger => {
     if (!trigger.enabled) return false;
-    if (quantity < trigger.quantity) return false;
 
     // Excluir triggers comunales (likes, follows) del procesamiento de gifts
     if (trigger.giftId === 'likes' || trigger.giftId === 'follows') {
       return false;
     }
+
+    // Para triggers comunales: siempre procesar (sin verificar cantidad mínima aquí)
+    // Para triggers privados: verificar cantidad mínima
+    const isCommunal = trigger.action.startsWith('reveal_');
+    if (!isCommunal && comboQuantity < trigger.quantity) return false;
 
     // Coincidir por ID (para compatibilidad con triggers existentes)
     const matchById = trigger.giftId.toString() === gift_id.toString();
@@ -546,8 +681,8 @@ async function processGiftTriggers(giftData) {
     const isCommunal = trigger.action.startsWith('reveal_');
 
     if (isCommunal) {
-      // TRIGGERS COMUNALES: Acumular progreso
-      console.log(`🎯 [TRIGGER COMUNAL] "${trigger.name}" - ${username} contribuyó con ${quantity} (meta: ${trigger.quantity})`);
+      // TRIGGERS COMUNALES: Acumular progreso usando la cantidad ORIGINAL (sin combos)
+      console.log(`🎯 [TRIGGER COMUNAL] "${trigger.name}" - ${username} contribuyó con ${quantity} regalo(s) (meta: ${trigger.quantity})`);
 
       const currentCount = incrementCommunalObjective(trigger.id, quantity);
       console.log(`📊 [TRIGGER COMUNAL] Progreso actual para "${trigger.name}": ${currentCount}/${trigger.quantity}`);
@@ -581,8 +716,14 @@ async function processGiftTriggers(giftData) {
         }
       }
     } else {
-      // TRIGGERS PRIVADOS: Ejecutar inmediatamente
-      console.log(`🎯 [TRIGGER PRIVADO] Ejecutando "${trigger.name}" para usuario ${username} (cantidad: ${quantity})`);
+      // TRIGGERS PRIVADOS: Ejecutar inmediatamente usando cantidad de combo
+      console.log(`🎯 [TRIGGER PRIVADO] Ejecutando "${trigger.name}" para usuario ${username} (cantidad: ${comboQuantity})`);
+      
+      // Log de depuración para estado del juego
+      console.log(`[DEBUG] Estado del juego al procesar trigger privado:`);
+      console.log(`  - Juego activo: ${tiktokLiveStatus.currentGameIsActive}`);
+      console.log(`  - Respuesta actual: ${tiktokLiveStatus.currentGameAnswer}`);
+      console.log(`  - Hints disponibles: ${tiktokLiveStatus.currentGameHints.length}`);
 
       try {
         switch (trigger.action) {
@@ -684,12 +825,14 @@ async function processGiftTriggers(giftData) {
       console.error(`❌ [TRIGGER] Error ejecutando trigger "${trigger.name}":`, error);
     }
   }
+  }
 }
 
 console.log('🚀 Llegando al primer endpoint de TikTok Live...');
 
 // Endpoint para recibir eventos del servidor Python TikTok Live
-app.post('/tiktok-live-event', (req, res) => {
+app.post('/tiktok-live-event', async (req, res) => {
+  console.log('🔴 [INCOMING EVENT] Petición recibida en /tiktok-live-event');
   const { event, data, timestamp } = req.body;
   
   console.log(`📺 [TikTok Live] Event: ${event}`, data);
@@ -735,20 +878,32 @@ app.post('/tiktok-live-event', (req, res) => {
 
     case 'winner':
       console.log(`🎉 [GANADOR] ${data.username} respondió: "${data.comment}"`);
+      console.log(`🔍 [DEBUG GANADOR] Datos completos del ganador:`, JSON.stringify(data, null, 2));
 
-      // Assign corona reward to the winner immediately using unique_id (user ID)
+      // Assign corona reward to the winner immediately using Supabase
       const coronaReward = tiktokLiveStatus.currentGameCoronasReward || 5;
       const userId = data.unique_id || data.username; // Use unique_id as primary, fallback to username
+      console.log(`🔍 [DEBUG CORONA] Intentando asignar ${coronaReward} coronas a userId: "${userId}" (username: "${data.username}")`);
+
       try {
-        const winnerCoronas = database.addCoronas(userId, coronaReward, `🎉 Ganó el juego: "${data.phrase}"`);
-        console.log(`👑 [CORONA REWARD] ¡${data.username} (ID: ${userId}) ganó ${coronaReward} coronas! Nuevo saldo: ${winnerCoronas}`);
-        console.log(`💎 [CORONA REWARD] Saldo actualizado para ID: ${userId}: ${winnerCoronas} coronas totales`);
+        console.log(`🔍 [DEBUG CORONA] Llamando a addCoronasToUser...`);
+        // Use Supabase to add coronas (this will create user if doesn't exist)
+        const result = await addCoronasToUser(userId, coronaReward, `🎉 Ganó el juego: "${data.phrase}"`);
+        console.log(`🔍 [DEBUG CORONA] Resultado de addCoronasToUser:`, JSON.stringify(result, null, 2));
+
+        if (result.success) {
+          console.log(`👑 [CORONA REWARD] ¡${data.username} (ID: ${userId}) ganó ${coronaReward} coronas! Nuevo saldo: ${result.newBalance}`);
+          console.log(`💎 [CORONA REWARD] Saldo actualizado para ID: ${userId}: ${result.newBalance} coronas totales`);
+        } else {
+          console.error(`❌ [CORONA REWARD] Error asignando coronas a ID: ${userId} (username: ${data.username}):`, result.error);
+        }
 
         // No enviamos mensaje automático para evitar riesgo de bloqueo por automatización
         // El usuario verá las coronas ganadas en la animación del juego
 
       } catch (error) {
-        console.error(`❌ [CORONA REWARD] Error asignando coronas a ID: ${userId} (username: ${data.username}):`, error);
+        console.error(`❌ [CORONA REWARD] Error fatal asignando coronas a ID: ${userId} (username: ${data.username}):`, error);
+        console.error(`❌ [CORONA REWARD] Stack trace:`, error.stack);
       }
 
       // Almacenar temporalmente el ganador para que el frontend lo pueda obtener
@@ -756,6 +911,7 @@ app.post('/tiktok-live-event', (req, res) => {
         username: data.username,
         unique_id: data.unique_id,
         profile_picture: data.profile_picture,
+        profile_picture_urls: data.profile_picture_urls || null,
         comment: data.comment,
         answer: data.answer,
         phrase: data.phrase,
@@ -1187,6 +1343,134 @@ app.get('/ping', (req, res) => {
 // ENDPOINTS SISTEMA DE CORONAS
 // ===============================
 
+// Obtener ranking diario del top 3 usuarios con más coronas ganadas hoy
+app.get('/api/daily-ranking', async (req, res) => {
+  try {
+    console.log('📊 [DAILY RANKING] Obteniendo ranking diario...');
+
+    // Obtener fecha actual para filtrar transacciones del día
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+
+    console.log(`🔍 [DAILY RANKING] Buscando transacciones entre ${startOfDay.toISOString()} y ${endOfDay.toISOString()}`);
+
+    // Obtener transacciones del día desde Supabase
+    const { data: transactions, error } = await supabase
+      .from('transactions')
+      .select('username, amount')
+      .eq('type', 'add')
+      .gte('created_at', startOfDay.toISOString())
+      .lt('created_at', endOfDay.toISOString())
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('❌ [DAILY RANKING] Error obteniendo transacciones:', error);
+      return res.status(500).json({ success: false, error: error.message });
+    }
+
+    console.log(`📈 [DAILY RANKING] Encontradas ${transactions?.length || 0} transacciones del día`);
+
+    // Agrupar por usuario y sumar coronas ganadas hoy
+    const userCoronasToday = {};
+
+    if (transactions && transactions.length > 0) {
+      transactions.forEach(transaction => {
+        const username = transaction.username;
+        const amount = transaction.amount || 0;
+
+        if (!userCoronasToday[username]) {
+          userCoronasToday[username] = 0;
+        }
+        userCoronasToday[username] += amount;
+      });
+    }
+
+    // Convertir a array y ordenar por coronas ganadas hoy (descendente)
+    const topUsers = Object.entries(userCoronasToday)
+      .map(([username, coronas]) => ({ username, coronas }))
+      .sort((a, b) => b.coronas - a.coronas)
+      .slice(0, 3); // Top 3
+
+    console.log(`🏆 [DAILY RANKING] Top 3 usuarios del día:`, topUsers);
+
+    res.json({
+      success: true,
+      topUsers,
+      date: today.toDateString(),
+      totalUsers: Object.keys(userCoronasToday).length
+    });
+
+  } catch (error) {
+    console.error('❌ [DAILY RANKING] Error obteniendo ranking diario:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      topUsers: []
+    });
+  }
+});
+
+// Endpoint para resetear el ranking diario (opcional para admin)
+app.post('/api/reset-daily-ranking', async (req, res) => {
+  try {
+    console.log('🔄 [DAILY RANKING] Solicitud de reset del ranking diario...');
+
+    // Obtener fecha actual
+    const today = new Date();
+    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endOfDay = new Date(startOfDay.getTime() + 24 * 60 * 60 * 1000);
+
+    // Eliminar todas las transacciones del día (opcional - cuidado con esto)
+    // Por seguridad, solo marcamos como "reset" en lugar de eliminar
+    const { data: transactions, error: selectError } = await supabase
+      .from('transactions')
+      .select('id')
+      .eq('type', 'add')
+      .gte('created_at', startOfDay.toISOString())
+      .lt('created_at', endOfDay.toISOString());
+
+    if (selectError) {
+      console.error('❌ [DAILY RANKING RESET] Error consultando transacciones:', selectError);
+      return res.status(500).json({ success: false, error: selectError.message });
+    }
+
+    const transactionCount = transactions?.length || 0;
+    console.log(`🔍 [DAILY RANKING RESET] Encontradas ${transactionCount} transacciones para marcar como reset`);
+
+    if (transactionCount > 0) {
+      // En lugar de eliminar, agregar una descripción que indique reset
+      const { error: updateError } = await supabase
+        .from('transactions')
+        .update({ description: 'RESET_DAILY_RANKING - ' + (new Date().toISOString()) })
+        .eq('type', 'add')
+        .gte('created_at', startOfDay.toISOString())
+        .lt('created_at', endOfDay.toISOString());
+
+      if (updateError) {
+        console.error('❌ [DAILY RANKING RESET] Error actualizando transacciones:', updateError);
+        return res.status(500).json({ success: false, error: updateError.message });
+      }
+    }
+
+    console.log(`✅ [DAILY RANKING RESET] Ranking diario reseteado exitosamente (${transactionCount} transacciones marcadas)`);
+
+    res.json({
+      success: true,
+      message: `Ranking diario reseteado. ${transactionCount} transacciones marcadas como reset.`,
+      resetCount: transactionCount,
+      date: today.toDateString()
+    });
+
+  } catch (error) {
+    console.error('❌ [DAILY RANKING RESET] Error reseteando ranking:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
 // Obtener saldo de coronas de un usuario (usando userId/unique_id)
 app.get('/coronas/:username', (req, res) => {
   const { username: userId } = req.params;
@@ -1576,6 +1860,7 @@ if (isProduction) {
 
 console.log('🎯 Llegando al app.listen()...');
 app.listen(PORT, async () => {
+  resetTikTokStatus(); // Resetear estado al iniciar el servidor
   console.log('🎉 ¡Servidor iniciado exitosamente!');
   if (isProduction) {
     console.log(`🚀 Servidor en producción: Puerto ${PORT}`);
@@ -1609,4 +1894,3 @@ app.listen(PORT, async () => {
     }
   }, 3000); // Esperar 3 segundos para que Express esté completamente listo
 });
-}

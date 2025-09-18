@@ -13,6 +13,7 @@ interface GiftTrigger {
   quantity: number;
   action: 'reveal_vowel' | 'reveal_consonant' | 'purchase_vowel' | 'purchase_consonant' | 'purchase_hint';
   enabled: boolean;
+  overlayTitle?: string;
 }
 
 interface GiftControlsProps {
@@ -33,7 +34,13 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         if (parsed.length === 5) {
           console.log('🔄 [MIGRATION] Detectados 5 triggers antiguos, migrando a 7 triggers...');
           const migratedTriggers = [
-            ...parsed, // Mantener los 5 triggers existentes
+            ...parsed.map((trigger: any) => ({
+              ...trigger,
+              overlayTitle: trigger.overlayTitle || (
+                trigger.action === 'reveal_vowel' ? 'Ayuda con Vocales' :
+                trigger.action === 'reveal_consonant' ? 'Ayuda con Consonantes' : ''
+              )
+            })), // Mantener los 5 triggers existentes con títulos por defecto
             {
               id: '6',
               name: 'Trigger Comunal Extra A',
@@ -41,7 +48,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
               giftName: 'Likes',
               quantity: 50,
               action: 'reveal_vowel',
-              enabled: false
+              enabled: false,
+              overlayTitle: 'Objetivo de Likes'
             },
             {
               id: '7',
@@ -50,7 +58,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
               giftName: 'Follows',
               quantity: 10,
               action: 'reveal_consonant',
-              enabled: false
+              enabled: false,
+              overlayTitle: 'Objetivo de Follows'
             }
           ];
 
@@ -60,7 +69,23 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
           return migratedTriggers;
         }
 
-        return parsed;
+        // MIGRACIÓN AUTOMÁTICA: Agregar overlayTitle a triggers existentes que no lo tengan
+        const migratedWithTitles = parsed.map((trigger: any) => ({
+          ...trigger,
+          overlayTitle: trigger.overlayTitle !== undefined ? trigger.overlayTitle : (
+            trigger.action === 'reveal_vowel' ? 'Ayuda con Vocales' :
+            trigger.action === 'reveal_consonant' ? 'Ayuda con Consonantes' : ''
+          )
+        }));
+
+        // Guardar la migración si hubo cambios
+        const needsUpdate = parsed.some((trigger: any) => trigger.overlayTitle === undefined);
+        if (needsUpdate) {
+          localStorage.setItem('giftTriggers', JSON.stringify(migratedWithTitles));
+          console.log('✅ [MIGRATION] Agregados títulos de overlay a triggers existentes');
+        }
+
+        return migratedWithTitles;
       }
     } catch (error) {
       console.error('❌ [STORAGE] Error cargando triggers desde localStorage:', error);
@@ -75,7 +100,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Rose',
         quantity: 10,
         action: 'reveal_vowel',
-        enabled: true
+        enabled: true,
+        overlayTitle: 'Ayuda con Vocales'
       },
       {
         id: '2',
@@ -84,7 +110,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Perfume',
         quantity: 5,
         action: 'reveal_consonant',
-        enabled: true
+        enabled: true,
+        overlayTitle: 'Ayuda con Consonantes'
       },
       {
         id: '3',
@@ -93,7 +120,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Love Bang',
         quantity: 1,
         action: 'purchase_vowel',
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '4',
@@ -102,7 +130,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'TikTok',
         quantity: 1,
         action: 'purchase_consonant',
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '5',
@@ -111,7 +140,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Galaxy',
         quantity: 1,
         action: 'purchase_hint',
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '6',
@@ -120,7 +150,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Likes',
         quantity: 50,
         action: 'reveal_vowel',
-        enabled: false
+        enabled: false,
+        overlayTitle: 'Objetivo de Likes'
       },
       {
         id: '7',
@@ -129,7 +160,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Follows',
         quantity: 10,
         action: 'reveal_consonant',
-        enabled: false
+        enabled: false,
+        overlayTitle: 'Objetivo de Follows'
       }
     ];
   };
@@ -236,7 +268,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Rose',
         quantity: 10,
         action: 'reveal_vowel' as const,
-        enabled: true
+        enabled: true,
+        overlayTitle: 'Ayuda con Vocales'
       },
       {
         id: '2',
@@ -245,7 +278,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Perfume',
         quantity: 5,
         action: 'reveal_consonant' as const,
-        enabled: true
+        enabled: true,
+        overlayTitle: 'Ayuda con Consonantes'
       },
       {
         id: '3',
@@ -254,7 +288,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Love Bang',
         quantity: 1,
         action: 'purchase_vowel' as const,
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '4',
@@ -263,7 +298,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'TikTok',
         quantity: 1,
         action: 'purchase_consonant' as const,
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '5',
@@ -272,7 +308,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Galaxy',
         quantity: 1,
         action: 'purchase_hint' as const,
-        enabled: true
+        enabled: true,
+        overlayTitle: ''
       },
       {
         id: '6',
@@ -281,7 +318,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Likes',
         quantity: 50,
         action: 'reveal_vowel' as const,
-        enabled: false
+        enabled: false,
+        overlayTitle: 'Objetivo de Likes'
       },
       {
         id: '7',
@@ -290,7 +328,8 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
         giftName: 'Follows',
         quantity: 10,
         action: 'reveal_consonant' as const,
-        enabled: false
+        enabled: false,
+        overlayTitle: 'Objetivo de Follows'
       }
     ];
 
@@ -477,6 +516,31 @@ const GiftControls: React.FC<GiftControlsProps> = ({ onTriggerChange }) => {
                   </select>
                 </div>
               </div>
+
+              {/* Campo título de overlay solo para triggers comunales */}
+              {(trigger.action === 'reveal_vowel' || trigger.action === 'reveal_consonant') && (
+                <div className="config-row">
+                  <div className="config-group overlay-title-group">
+                    <label>🎯 Título del Overlay:</label>
+                    <input
+                      type="text"
+                      value={trigger.overlayTitle || ''}
+                      onChange={(e) => updateTrigger(trigger.id, 'overlayTitle', e.target.value)}
+                      placeholder="Ej: Objetivo de Likes, Ayuda Comunal..."
+                      className="overlay-title-input"
+                      style={{
+                        width: '100%',
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        border: '1px solid rgba(255, 255, 255, 0.2)',
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        color: '#ffffff',
+                        fontSize: '14px'
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="trigger-preview">
                 <span className="preview-text">

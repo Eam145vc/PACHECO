@@ -8,9 +8,12 @@ const CommunalOverlayLinks: React.FC = () => {
   const { objectives } = useCommunalObjectives();
   const { getGiftName } = useGiftData();
   const [copiedLinks, setCopiedLinks] = useState<string[]>([]);
+  const [useNgrok, setUseNgrok] = useState(false);
 
   // Get current hostname and port
-  const baseUrl = window.location.origin;
+  const baseUrl = useNgrok
+    ? 'https://c67727416176.ngrok-free.app'
+    : window.location.origin;
 
   // Filter enabled communal objectives
   const enabledObjectives = objectives.filter(obj => obj.enabled);
@@ -75,18 +78,40 @@ const CommunalOverlayLinks: React.FC = () => {
         margin: '20px 0'
       }}
     >
-      <h3 style={{
-        color: '#ffffff',
-        marginBottom: '16px',
+      <div style={{
         display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        gap: '8px'
+        marginBottom: '16px'
       }}>
-        🎯 Links de Overlay - Objetivos Comunales
-        <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
-          ({enabledObjectives.length} activos)
-        </span>
-      </h3>
+        <h3 style={{
+          color: '#ffffff',
+          margin: 0,
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px'
+        }}>
+          🎯 Links de Overlay - Objetivos Comunales
+          <span style={{ fontSize: '12px', color: 'rgba(255, 255, 255, 0.6)' }}>
+            ({enabledObjectives.length} activos)
+          </span>
+        </h3>
+        <button
+          onClick={() => setUseNgrok(!useNgrok)}
+          style={{
+            background: useNgrok ? '#22c55e' : '#3b82f6',
+            border: 'none',
+            borderRadius: '6px',
+            padding: '6px 12px',
+            color: '#ffffff',
+            cursor: 'pointer',
+            fontSize: '12px',
+            fontWeight: 'bold'
+          }}
+        >
+          {useNgrok ? '🌐 Ngrok URLs' : '🏠 Local URLs'}
+        </button>
+      </div>
 
       {/* All Objectives Combined */}
       <div style={{ marginBottom: '24px' }}>

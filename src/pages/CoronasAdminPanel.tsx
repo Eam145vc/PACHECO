@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Crown, 
-  Plus, 
-  Edit2, 
-  Trash2, 
-  Save, 
-  X, 
+import {
+  Crown,
+  Plus,
+  Edit2,
+  Trash2,
+  Save,
+  X,
   ArrowLeft,
   Gift,
   Users,
-  DollarSign
+  DollarSign,
+  Search,
+  ArrowUp,
+  Filter,
+  Settings,
+  List,
+  CheckSquare,
+  Square
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -43,6 +50,8 @@ const CoronasAdminPanel: React.FC = () => {
     description: ''
   });
   const [notification, setNotification] = useState<{type: 'success' | 'error', message: string} | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Usuario management states
   const [showUserManagement, setShowUserManagement] = useState(false);
@@ -52,8 +61,24 @@ const CoronasAdminPanel: React.FC = () => {
     description: ''
   });
 
+  // Palabras/frases usadas states
+  const [showUsedWords, setShowUsedWords] = useState(false);
+  const [usedWords, setUsedWords] = useState<string[]>([]);
+  const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set());
+
   useEffect(() => {
     loadProducts();
+
+    // Scroll listener para el botón de scroll to top
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+
+    // Cargar palabras usadas al inicio
+    loadUsedWords();
   }, []);
 
   const loadProducts = async () => {
@@ -223,6 +248,99 @@ const CoronasAdminPanel: React.FC = () => {
     }
   };
 
+  // Funciones para gestión de palabras usadas
+  const loadUsedWords = async () => {
+    try {
+      // Simular carga desde API o localStorage
+      const stored = localStorage.getItem('usedWords');
+      if (stored) {
+        setUsedWords(JSON.parse(stored));
+      } else {
+        // Palabras de ejemplo
+        setUsedWords([
+          'HELLO WORLD',
+          'INTELIGENCIA ARTIFICIAL',
+          'PIZZA HAWAIANA',
+          'TORRE EIFFEL',
+          'LEON MARINO',
+          'PELICULAS DE ACCION',
+          'MUSICA CLASICA'
+        ]);
+      }
+    } catch (error) {
+      console.error('Error loading used words:', error);
+    }
+  };
+
+  const toggleWordSelection = (word: string) => {
+    const newSelection = new Set(selectedWords);
+    if (newSelection.has(word)) {
+      newSelection.delete(word);
+    } else {
+      newSelection.add(word);
+    }
+    setSelectedWords(newSelection);
+  };
+
+  const selectAllWords = () => {
+    setSelectedWords(new Set(usedWords));
+  };
+
+  const deselectAllWords = () => {
+    setSelectedWords(new Set());
+  };
+
+  const deleteSelectedWords = () => {
+    if (selectedWords.size === 0) {
+      showNotification('error', 'No hay palabras seleccionadas');
+      return;
+    }
+
+    if (!confirm(`¿Estás seguro de eliminar ${selectedWords.size} palabra(s) seleccionada(s)?`)) {
+      return;
+    }
+
+    const newUsedWords = usedWords.filter(word => !selectedWords.has(word));
+    setUsedWords(newUsedWords);
+    setSelectedWords(new Set());
+
+    // Guardar en localStorage
+    localStorage.setItem('usedWords', JSON.stringify(newUsedWords));
+
+    showNotification('success', `${selectedWords.size} palabra(s) eliminada(s) correctamente`);
+  };
+
+  const clearAllUsedWords = () => {
+    if (!confirm('¿Estás seguro de eliminar TODAS las palabras usadas? Esta acción no se puede deshacer.')) {
+      return;
+    }
+
+    setUsedWords([]);
+    setSelectedWords(new Set());
+    localStorage.removeItem('usedWords');
+
+    showNotification('success', 'Todas las palabras usadas han sido eliminadas');
+  };
+
+  // Función para scroll to top
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Función para scroll a sección específica
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  // Filtrar productos por término de búsqueda
+  const filteredProducts = products.filter(product =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (loading) {
     return (
       <div className="coronas-admin-panel">
@@ -254,8 +372,62 @@ const CoronasAdminPanel: React.FC = () => {
         <h1><Crown className="crown-icon" /> Admin de Coronas</h1>
       </div>
 
+      {/* Navegación rápida flotante */}
+      <div className="admin-quick-nav">
+        <button
+          className="nav-button"
+          onClick={() => scrollToSection('stats')}
+          title="Estadísticas"
+        >
+          <Gift size={24} />
+        </button>
+        <button
+          className="nav-button"
+          onClick={() => scrollToSection('actions')}
+          title="Acciones"
+        >
+          <Settings size={24} />
+        </button>
+        <button
+          className="nav-button"
+          onClick={() => scrollToSection('products')}
+          title="Productos"
+        >
+          <Crown size={24} />
+        </button>
+      </div>
+
+      {/* Búsqueda rápida */}
+      <div className="quick-search">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <Search size={24} color="#ffd700" />
+          <input
+            type="text"
+            placeholder="Buscar productos por nombre o descripción..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                border: 'none',
+                borderRadius: '6px',
+                padding: '8px',
+                cursor: 'pointer',
+                color: 'white'
+              }}
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
+      </div>
+
       {/* Stats */}
-      <div className="stats-grid">
+      <div id="stats" className="stats-grid">
         <div className="stat-card">
           <Gift size={32} />
           <div className="stat-info">
@@ -272,7 +444,7 @@ const CoronasAdminPanel: React.FC = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="actions">
+      <div id="actions" className="actions">
         <button 
           className="primary-button"
           onClick={() => setShowForm(true)}
@@ -286,6 +458,13 @@ const CoronasAdminPanel: React.FC = () => {
         >
           <Users size={20} />
           Gestión de Usuarios
+        </button>
+        <button
+          className="secondary-button"
+          onClick={() => setShowUsedWords(!showUsedWords)}
+        >
+          <List size={20} />
+          Palabras Usadas
         </button>
       </div>
 
@@ -325,6 +504,123 @@ const CoronasAdminPanel: React.FC = () => {
               Agregar Coronas
             </button>
           </form>
+        </motion.div>
+      )}
+
+      {/* Used Words Management */}
+      {showUsedWords && (
+        <motion.div
+          className="user-management-section"
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+        >
+          <h3><List size={24} /> Gestión de Palabras Usadas</h3>
+
+          <div className="used-words-controls" style={{ marginBottom: '25px', display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+            <button
+              onClick={selectAllWords}
+              className="submit-button"
+              style={{ background: 'linear-gradient(135deg, #667eea, #764ba2)', minHeight: '50px', padding: '10px 20px' }}
+            >
+              <CheckSquare size={18} />
+              Seleccionar Todo
+            </button>
+
+            <button
+              onClick={deselectAllWords}
+              className="submit-button"
+              style={{ background: 'rgba(255, 255, 255, 0.2)', minHeight: '50px', padding: '10px 20px' }}
+            >
+              <Square size={18} />
+              Deseleccionar Todo
+            </button>
+
+            <button
+              onClick={deleteSelectedWords}
+              className="submit-button"
+              style={{ background: 'linear-gradient(135deg, #f56565, #e53e3e)', minHeight: '50px', padding: '10px 20px' }}
+              disabled={selectedWords.size === 0}
+            >
+              <Trash2 size={18} />
+              Eliminar Seleccionadas ({selectedWords.size})
+            </button>
+
+            <button
+              onClick={clearAllUsedWords}
+              className="submit-button"
+              style={{ background: 'linear-gradient(135deg, #ed8936, #dd6b20)', minHeight: '50px', padding: '10px 20px' }}
+            >
+              <X size={18} />
+              Limpiar Todo
+            </button>
+          </div>
+
+          <div className="used-words-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))',
+            gap: '15px',
+            maxHeight: '400px',
+            overflowY: 'auto',
+            padding: '10px',
+            background: 'rgba(255, 255, 255, 0.05)',
+            borderRadius: '12px'
+          }}>
+            {usedWords.length === 0 ? (
+              <div style={{
+                gridColumn: '1 / -1',
+                textAlign: 'center',
+                color: 'rgba(255, 255, 255, 0.7)',
+                padding: '40px',
+                fontStyle: 'italic'
+              }}>
+                No hay palabras usadas registradas
+              </div>
+            ) : (
+              usedWords.map((word, index) => (
+                <div
+                  key={index}
+                  className={`used-word-item ${selectedWords.has(word) ? 'selected' : ''}`}
+                  onClick={() => toggleWordSelection(word)}
+                  style={{
+                    background: selectedWords.has(word)
+                      ? 'linear-gradient(135deg, #ffd700, #ff8c00)'
+                      : 'rgba(255, 255, 255, 0.1)',
+                    border: selectedWords.has(word)
+                      ? '2px solid #ffd700'
+                      : '2px solid rgba(255, 255, 255, 0.2)',
+                    borderRadius: '8px',
+                    padding: '15px',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    color: selectedWords.has(word) ? '#1a202c' : 'white',
+                    fontWeight: selectedWords.has(word) ? '700' : '500'
+                  }}
+                >
+                  {selectedWords.has(word) ? (
+                    <CheckSquare size={18} color="#1a202c" />
+                  ) : (
+                    <Square size={18} color="rgba(255, 255, 255, 0.6)" />
+                  )}
+                  <span style={{ fontSize: '0.9rem' }}>{word}</span>
+                </div>
+              ))
+            )}
+          </div>
+
+          {usedWords.length > 0 && (
+            <div style={{
+              marginTop: '20px',
+              textAlign: 'center',
+              color: 'rgba(255, 255, 255, 0.8)',
+              fontSize: '0.9rem'
+            }}>
+              Total: {usedWords.length} palabras | Seleccionadas: {selectedWords.size}
+            </div>
+          )}
         </motion.div>
       )}
 
@@ -382,7 +678,7 @@ const CoronasAdminPanel: React.FC = () => {
       )}
 
       {/* Products List */}
-      <div className="products-section">
+      <div id="products" className="products-section">
         <h2><Gift size={24} /> Productos</h2>
         
         {products.length === 0 ? (
@@ -395,7 +691,7 @@ const CoronasAdminPanel: React.FC = () => {
           </div>
         ) : (
           <div className="products-list">
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <motion.div
                 key={product.id}
                 className={`product-item ${!product.active ? 'inactive' : ''}`}
@@ -449,6 +745,15 @@ const CoronasAdminPanel: React.FC = () => {
           </div>
         )}
       </div>
+
+      {/* Botón de scroll to top */}
+      <button
+        className={`scroll-to-top ${showScrollTop ? 'visible' : ''}`}
+        onClick={scrollToTop}
+        title="Volver arriba"
+      >
+        <ArrowUp size={24} />
+      </button>
     </div>
   );
 };

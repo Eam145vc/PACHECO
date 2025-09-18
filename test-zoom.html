@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Zoom Independiente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .page {
+            background: white;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            min-height: 300px;
+        }
+        .zoom-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .zoom-controls button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin: 2px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .zoom-controls button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="zoom-controls">
+        <div>Zoom: <span id="zoom-level">100%</span></div>
+        <button onclick="changeZoom(0.1)">+</button>
+        <button onclick="changeZoom(-0.1)">-</button>
+        <button onclick="resetZoom()">Reset</button>
+        <div style="margin-top: 10px; font-size: 12px;">
+            Ctrl+Scroll o Ctrl+/- también funcionan
+        </div>
+    </div>
+
+    <div class="page" id="content">
+        <h1>🎮 Página de Prueba de Zoom</h1>
+        <p>Esta página demuestra el sistema de zoom independiente implementado con CSS transforms.</p>
+
+        <h2>Características:</h2>
+        <ul>
+            <li>✅ Zoom independiente por pestaña usando CSS transforms</li>
+            <li>✅ Zoom se guarda en localStorage por página</li>
+            <li>✅ Atajos de teclado: Ctrl+/-, Ctrl+0 para reset</li>
+            <li>✅ Zoom con rueda del ratón: Ctrl+Scroll</li>
+            <li>✅ Rango de zoom: 30% - 300%</li>
+        </ul>
+
+        <h2>Instrucciones:</h2>
+        <ol>
+            <li>Abre esta página en múltiples pestañas</li>
+            <li>Cambia el zoom en una pestaña usando los controles o atajos</li>
+            <li>Cambia a otra pestaña y verifica que el zoom es independiente</li>
+            <li>Recarga la página y el zoom se mantiene</li>
+        </ol>
+
+        <div style="margin: 20px 0; padding: 20px; background: #e7f3ff; border-left: 4px solid #2196F3;">
+            <h3>💡 Cómo funciona</h3>
+            <p>En lugar de usar el zoom del navegador (que afecta a todas las pestañas del mismo dominio), este sistema usa:</p>
+            <ul>
+                <li><code>transform: scale()</code> para el escalado visual</li>
+                <li><code>transform-origin: top left</code> para escalar desde la esquina superior izquierda</li>
+                <li>Ajuste automático del ancho/alto del contenedor padre</li>
+                <li>Almacenamiento independiente por ID de página</li>
+            </ul>
+        </div>
+
+        <h2>Contenido de ejemplo</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+        <table style="border-collapse: collapse; width: 100%; margin: 20px 0;">
+            <tr style="background: #f8f9fa;">
+                <th style="border: 1px solid #ddd; padding: 8px;">Función</th>
+                <th style="border: 1px solid #ddd; padding: 8px;">Atajo</th>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Acercar</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Ctrl + Plus/Igual</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Alejar</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Ctrl + Minus</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #ddd; padding: 8px;">Reset</td>
+                <td style="border: 1px solid #ddd; padding: 8px;">Ctrl + 0</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // Simular el hook usePageZoom de React
+        let currentZoom = parseFloat(localStorage.getItem('page-zoom-test') || '1');
+
+        function updateZoom() {
+            const content = document.getElementById('content');
+            const zoomLevel = document.getElementById('zoom-level');
+
+            content.style.transform = `scale(${currentZoom})`;
+            content.style.transformOrigin = 'top left';
+            content.style.width = `${100 / currentZoom}%`;
+            content.style.height = `${100 / currentZoom}%`;
+
+            zoomLevel.textContent = Math.round(currentZoom * 100) + '%';
+            localStorage.setItem('page-zoom-test', currentZoom.toString());
+        }
+
+        function changeZoom(delta) {
+            currentZoom = Math.max(0.3, Math.min(3, currentZoom + delta));
+            updateZoom();
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            updateZoom();
+        }
+
+        // Eventos de teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey) {
+                if (e.key === '=' || e.key === '+') {
+                    e.preventDefault();
+                    changeZoom(0.1);
+                } else if (e.key === '-') {
+                    e.preventDefault();
+                    changeZoom(-0.1);
+                } else if (e.key === '0') {
+                    e.preventDefault();
+                    resetZoom();
+                }
+            }
+        });
+
+        // Evento de rueda del ratón
+        document.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                changeZoom(delta);
+            }
+        }, { passive: false });
+
+        // Inicializar zoom
+        updateZoom();
+    </script>
+</body>
+</html>

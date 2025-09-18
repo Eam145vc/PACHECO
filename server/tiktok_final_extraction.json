@@ -1,0 +1,29 @@
+{
+  "timestamp": 1758135333.4524746,
+  "timestamp_readable": "2025-09-17 13:55:33",
+  "streamer": "wahanfx",
+  "commenter": {
+    "username": "Bob's Your Uncle",
+    "unique_id": "bob_too_freaky",
+    "comment": "to Ali"
+  },
+  "avatar_urls": {
+    "avatar_thumb_urls": [
+      "https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.webp?dr=9640&refresh_token=609ea7ca&x-expires=1758304800&x-signature=d76AbwpRiNFpx9qvFmGzhrSoXfM%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8",
+      "https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.webp?dr=9640&refresh_token=48f2638b&x-expires=1758304800&x-signature=CBCLYnYjKywVTbrrck%2FGuggbb9A%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8",
+      "https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.jpeg?dr=9640&refresh_token=0bdef267&x-expires=1758304800&x-signature=Nr6%2FfAkjOUftfB3b%2F%2BnqU6GrVxw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8"
+    ],
+    "extracted_from_string": [
+      "https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.webp?dr=9640&refresh_token=609ea7ca&x-expires=1758304800&x-signature=d76AbwpRiNFpx9qvFmGzhrSoXfM%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8",
+      "https://p19-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.webp?dr=9640&refresh_token=48f2638b&x-expires=1758304800&x-signature=CBCLYnYjKywVTbrrck%2FGuggbb9A%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8",
+      "https://p16-pu-sign-useast8.tiktokcdn-us.com/tos-useast8-avt-0068-tx2/8f1f6845d6cc4aa81b142e5bfb322438~tplv-tiktokx-cropcenter:100:100.jpeg?dr=9640&refresh_token=0bdef267&x-expires=1758304800&x-signature=Nr6%2FfAkjOUftfB3b%2F%2BnqU6GrVxw%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=fdd36af4&idc=useast8",
+      "https://p16-webcast.tiktokcdn.com/webcast-va/grade_badge_icon_lite_lv20_v1.png~tplv-obj.image",
+      "https://p19-webcast.tiktokcdn.com/webcast-va/grade_badge_icon_lite_lv20_v1.png~tplv-obj.image",
+      "https://p16-webcast.tiktokcdn.com/webcast-va/webcast-va-fans_badge_icon_lv1_v2.png~tplv-obj.image",
+      "https://p19-webcast.tiktokcdn.com/webcast-va/webcast-va-fans_badge_icon_lv1_v2.png~tplv-obj.image",
+      "https://p16-webcast.tiktokcdn.com/webcast-va/moderater_badge_icon.png~tplv-obj.image",
+      "https://p19-webcast.tiktokcdn.com/webcast-va/moderater_badge_icon.png~tplv-obj.image"
+    ]
+  },
+  "room_id": 7550701998270729016
+}

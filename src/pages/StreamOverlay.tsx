@@ -1,13 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useSimpleGame } from '../contexts/SimpleGameContext';
+import PhraseCompletionAnimation from '../components/PhraseCompletionAnimation';
+import { usePageZoom } from '../hooks/usePageZoom';
 import '../styles/StreamOverlay.css';
 
 const StreamOverlay: React.FC = () => {
-  const { gameState } = useSimpleGame();
+  const { gameState, currentWinner, setCurrentWinner, showCompletion, setShowCompletion } = useSimpleGame();
+  const { zoomStyle } = usePageZoom({ pageId: 'stream-overlay' });
 
   return (
-    <div className="stream-overlay">
+    <div className="stream-overlay" style={zoomStyle}>
       {/* Round Info */}
       <motion.div 
         className="round-info-overlay"
@@ -83,6 +86,14 @@ const StreamOverlay: React.FC = () => {
           </div>
         </motion.div>
       )}
+
+      {/* Phrase Completion Animation */}
+      <PhraseCompletionAnimation
+        isVisible={showCompletion}
+        phraseText={gameState.currentPhrase?.text || ''}
+        winner={currentWinner}
+        onAnimationComplete={() => setShowCompletion(false)}
+      />
     </div>
   );
 };

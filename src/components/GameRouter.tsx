@@ -8,9 +8,12 @@ import CoronasPage from '../pages/CoronasPage';
 import StreamOverlay from '../pages/StreamOverlay';
 import CommunalObjectiveOverlay from '../pages/CommunalObjectiveOverlay';
 import AllCommunalObjectives from '../pages/AllCommunalObjectives';
+import DailyRankingOverlay from '../pages/DailyRankingOverlay';
+import PhraseCompletionAnimation from './PhraseCompletionAnimation';
 import { SimpleGameProvider, useSimpleGame } from '../contexts/SimpleGameContext';
 import { CommunalObjectivesProvider } from '../contexts/CommunalObjectivesContext';
 import { simpleSync } from '../utils/simpleSync';
+import { usePageZoom } from '../hooks/usePageZoom';
 
 import '../App.css';
 import '../styles/AdminPanel.css';
@@ -24,7 +27,12 @@ const GamePage: React.FC = () => {
     gameState,
     handleLetterReveal,
     handlePhraseComplete,
+    currentWinner,
+    setCurrentWinner,
+    showCompletion,
+    setShowCompletion
   } = useSimpleGame();
+  const { zoomStyle } = usePageZoom({ pageId: 'game-page' });
 
   // Cambiar el fondo del body a verde croma cuando esté en la página del juego
   useEffect(() => {
@@ -39,7 +47,7 @@ const GamePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="app game-page">
+    <div className="app game-page" style={zoomStyle}>
       <main className="game-main">
         <GameBoard
           phrase={gameState.currentPhrase}
@@ -47,6 +55,14 @@ const GamePage: React.FC = () => {
           onPhraseComplete={handlePhraseComplete}
         />
       </main>
+
+      {/* Phrase Completion Animation */}
+      <PhraseCompletionAnimation
+        isVisible={showCompletion}
+        phraseText={gameState.currentPhrase?.text || ''}
+        winner={currentWinner}
+        onAnimationComplete={() => setShowCompletion(false)}
+      />
     </div>
   );
 };
@@ -82,9 +98,15 @@ const GameRouterContent: React.FC = () => {
         <Route path="/coronas" element={<CoronasPage />} />
         <Route path="/overlay" element={<StreamOverlay />} />
 
+        {/* Test route */}
+        <Route path="/test" element={<div style={{color: 'white', padding: '20px'}}>🔍 Test route working!</div>} />
+
         {/* Communal Objectives Overlays */}
         <Route path="/overlay/communal" element={<AllCommunalObjectives />} />
         <Route path="/overlay/communal/:triggerId" element={<CommunalObjectiveOverlay />} />
+
+        {/* Daily Ranking Overlay */}
+        <Route path="/overlay/daily-ranking" element={<DailyRankingOverlay />} />
 
         {isLocal && (
           <>

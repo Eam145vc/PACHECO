@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { GameState } from '../types/game';
-import { createPhraseFromText, revealRandomVowel, revealRandomConsonant } from '../utils/gameUtils';
+import { createPhraseFromText, revealRandomVowel, revealRandomConsonant, normalizeForComparison } from '../utils/gameUtils';
 import { useSoundEffects } from '../hooks/useSoundEffects';
 import { simpleSync } from '../utils/simpleSync';
 import { tiktokBotService } from '../services/tiktokBotService';
@@ -19,6 +19,7 @@ interface SimpleGameContextType {
   setShowCompletion: (show: boolean) => void;
   handleAnimationComplete: () => void;
   addCustomPhrase: (phrase: { text: string; category: string; difficulty: 'fácil' | 'medio' | 'difícil'; coronaReward: number; hints?: string[] }) => void;
+  removePhrase: (index: number) => void;
   purchaseVowel: (username: string) => Promise<void>;
   purchaseConsonant: (username: string) => Promise<void>;
   purchaseHint: (username: string) => Promise<void>;
@@ -129,7 +130,11 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
       console.log('%c🚀🚀🚀 GANADOR RECIBIDO EN CONTEXTO! 🚀🚀🚀', 'color: yellow; font-size: 24px; font-weight: bold; background: purple; padding: 10px;');
       console.log('%c🎮 Iniciando animación y revelando letras...', 'color: white; font-size: 18px; background: orange; padding: 5px;');
 
+      // Play epic winner celebration sound
+      sounds.winnerCelebration();
+
       setCurrentWinner(winner);
+      setShowCompletion(true);
 
       // REVELAR TODAS LAS LETRAS en el GameBoard cuando hay ganador
       if (gameState.currentPhrase && gameState.currentPhrase.tiles) {
@@ -156,7 +161,8 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
       setTimeout(() => {
         console.log('%c🔄 Limpiando estado del ganador...', 'color: gray; font-size: 14px;');
         setCurrentWinner(null);
-      }, 6000); // 6 seconds (1 segundo más que la animación)
+        setShowCompletion(false);
+      }, 11000); // 11 seconds (1 segundo más que la animación)
     });
 
     return unsubscribe;
@@ -173,6 +179,9 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
       setGameState(newState);
       simpleSync.saveState(newState);
 
+      // Play golden vowel sound
+      sounds.goldVowelReveal();
+
       // Enviar letras reveladas actualizadas al servidor
       updateRevealedLettersOnServer(updatedPhrase);
     }
@@ -187,6 +196,9 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
       };
       setGameState(newState);
       simpleSync.saveState(newState);
+
+      // Play consonant sound
+      sounds.consonantReveal();
 
       // Enviar letras reveladas actualizadas al servidor
       updateRevealedLettersOnServer(updatedPhrase);
@@ -212,7 +224,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
             const updatedPhrase = {
               ...currentState.currentPhrase,
               tiles: currentState.currentPhrase.tiles.map(tile => {
-                if (!tile.isSpace && tile.letter === reveal.letter) {
+                if (!tile.isSpace && normalizeForComparison(tile.letter) === normalizeForComparison(reveal.letter)) {
                   return { ...tile, isRevealed: true };
                 }
                 return tile;
@@ -344,7 +356,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
 
   const handlePhraseComplete = () => {
     setShowCompletion(true);
-    sounds.fanfare();
+    sounds.winnerCelebration();
   };
 
   const handleAnimationComplete = () => {
@@ -361,6 +373,10 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
 
   const addCustomPhrase = (phrase: { text: string; category: string; difficulty: 'fácil' | 'medio' | 'difícil'; coronaReward: number }) => {
     setAvailablePhrases(prev => [...prev, phrase]);
+  };
+
+  const removePhrase = (index: number) => {
+    setAvailablePhrases(prev => prev.filter((_, i) => i !== index));
   };
 
   const getRevealedLetters = () => {
@@ -518,6 +534,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     setShowCompletion,
     handleAnimationComplete,
     addCustomPhrase,
+    removePhrase,
     purchaseVowel,
     purchaseConsonant,
     purchaseHint,

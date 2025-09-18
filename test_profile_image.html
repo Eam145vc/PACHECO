@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Profile Image Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .button:hover {
+            background: #45a049;
+        }
+        .instructions {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Test Profile Image Loading</h1>
+
+        <div class="instructions">
+            <h3>📋 Instrucciones:</h3>
+            <ol>
+                <li>Asegúrate de que tanto el frontend (puerto 5174) como el backend (puerto 3002) estén corriendo</li>
+                <li>Abre el juego en el iframe de abajo</li>
+                <li>Abre la consola del navegador (F12)</li>
+                <li>Ejecuta el comando de prueba para activar una animación de ganador con imagen de perfil</li>
+                <li>Observa si la imagen de perfil se carga correctamente en la animación</li>
+            </ol>
+        </div>
+
+        <div>
+            <button class="button" onclick="openGameInNewTab()">🎮 Abrir Juego en Nueva Pestaña</button>
+            <button class="button" onclick="testWinnerWithImage()">🧪 Test Winner with Profile Image</button>
+            <button class="button" onclick="showTestCommands()">📝 Mostrar Comandos de Prueba</button>
+        </div>
+
+        <div id="testCommands" style="display: none; background: #f8f8f8; padding: 15px; margin: 10px 0; border-radius: 4px;">
+            <h4>🔧 Comandos de prueba (ejecutar en la consola del juego):</h4>
+            <pre>
+// Test winner with profile image and fallback URLs
+winnerService.testWinnerWithTikTokImage();
+
+// Test winner without profile image (should show default avatar)
+winnerService.notifyWinner({
+    username: "TestUser",
+    unique_id: "test_user",
+    comment: "HOLA MUNDO",
+    answer: "HOLA MUNDO",
+    phrase: "HOLA MUNDO",
+    category: "Test"
+});
+            </pre>
+        </div>
+
+        <iframe src="http://localhost:5174/" id="gameFrame"></iframe>
+    </div>
+
+    <script>
+        function openGameInNewTab() {
+            window.open('http://localhost:5174/', '_blank');
+        }
+
+        function testWinnerWithImage() {
+            alert('Por favor abre la consola del navegador (F12) en la pestaña del juego y ejecuta:\n\nwinnerService.testWinnerWithTikTokImage();');
+        }
+
+        function showTestCommands() {
+            const div = document.getElementById('testCommands');
+            div.style.display = div.style.display === 'none' ? 'block' : 'none';
+        }
+    </script>
+</body>
+</html>

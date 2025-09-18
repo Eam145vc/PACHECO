@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Daily Ranking Overlay</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #000;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .info {
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 80vh;
+            border: 2px solid #ffd700;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .button-group {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #ffd700;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ffed4e;
+        }
+    </style>
+</head>
+<body>
+    <div class="info">
+        <h1>🏆 Daily Ranking Overlay - Test Page</h1>
+        <p>Esta página muestra el overlay del ranking diario que puedes usar en OBS.</p>
+        <p><strong>URL del overlay:</strong> <code>http://localhost:5174/overlay/daily-ranking</code></p>
+        <p><strong>Características:</strong></p>
+        <ul>
+            <li>🎯 Fondo transparente (perfecto para OBS)</li>
+            <li>🥇 Top 3 usuarios con más coronas ganadas hoy</li>
+            <li>🔄 Se actualiza automáticamente cada 30 segundos</li>
+            <li>📱 Responsive design</li>
+        </ul>
+    </div>
+
+    <div class="button-group">
+        <button onclick="refreshIframe()">🔄 Refrescar Overlay</button>
+        <button onclick="openInNewTab()">🚀 Abrir en Nueva Pestaña</button>
+        <button onclick="copyUrl()">📋 Copiar URL</button>
+    </div>
+
+    <div class="iframe-container">
+        <iframe id="overlay-iframe" src="http://localhost:5174/overlay/daily-ranking"></iframe>
+    </div>
+
+    <script>
+        function refreshIframe() {
+            const iframe = document.getElementById('overlay-iframe');
+            iframe.src = iframe.src;
+        }
+
+        function openInNewTab() {
+            window.open('http://localhost:5174/overlay/daily-ranking', '_blank');
+        }
+
+        function copyUrl() {
+            navigator.clipboard.writeText('http://localhost:5174/overlay/daily-ranking')
+                .then(() => alert('URL copiada al portapapeles'))
+                .catch(() => alert('Error al copiar URL'));
+        }
+
+        // Auto-refresh cada 60 segundos para mostrar cambios
+        setInterval(refreshIframe, 60000);
+    </script>
+</body>
+</html>

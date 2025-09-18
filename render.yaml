@@ -1,7 +1,7 @@
 services:
   # Backend API Server
   - type: web
-    name: tiktok-coronas-backend
+    name: tiktok-word-game-backend
     env: node
     buildCommand: cd server && npm install
     startCommand: cd server && npm start
@@ -9,10 +9,16 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
+      - key: PORT
+        value: 3002
+      - key: VITE_SUPABASE_URL
+        value: https://ikrjjodyclyizrefqclt.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMzMyNDUsImV4cCI6MjA3MzYwOTI0NX0.pg2mQuFkZGiOpinpZoVABJzasATJYrrzXfRt0jGW0WQ
 
   # Frontend Static Site
   - type: web
-    name: tiktok-coronas-frontend
+    name: tiktok-word-game-frontend
     env: static
     buildCommand: npm ci && npm run build
     staticPublishPath: ./dist
@@ -22,4 +28,8 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://tiktok-coronas-backend.onrender.com
+        value: https://tiktok-word-game-backend.onrender.com
+      - key: VITE_SUPABASE_URL
+        value: https://ikrjjodyclyizrefqclt.supabase.co
+      - key: VITE_SUPABASE_ANON_KEY
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMzMyNDUsImV4cCI6MjA3MzYwOTI0NX0.pg2mQuFkZGiOpinpZoVABJzasATJYrrzXfRt0jGW0WQ

@@ -11,6 +11,7 @@ interface CommunalObjective {
   target: number;
   enabled: boolean;
   action: 'reveal_vowel' | 'reveal_consonant';
+  overlayTitle?: string;
 }
 
 interface CommunalObjectivesContextType {
@@ -55,7 +56,8 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
           current: 0, // Reset to 0 when loading
           target: trigger.quantity,
           enabled: trigger.enabled,
-          action: trigger.action
+          action: trigger.action,
+          overlayTitle: trigger.overlayTitle || trigger.name // Use overlayTitle or fall back to trigger name
         }));
 
         setObjectives(newObjectives);
@@ -107,7 +109,8 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
 
     const pollObjectiveUpdates = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/communal-objectives`);
+        // Always use relative path to leverage Vite proxy
+        const response = await fetch('/communal-objectives');
         if (response.ok) {
           const data = await response.json();
 

@@ -8,6 +8,91 @@ puppeteer.use(StealthPlugin());
 let browser;
 let page;
 
+// Sistema de cola para mensajes
+class MessageQueue {
+  constructor() {
+    this.queue = [];
+    this.processing = false;
+  }
+
+  // Agregar mensaje a la cola
+  enqueue(username, message) {
+    return new Promise((resolve, reject) => {
+      this.queue.push({
+        username,
+        message,
+        resolve,
+        reject,
+        timestamp: Date.now()
+      });
+
+      console.log(`📬 Mensaje agregado a la cola para ${username}. Cola actual: ${this.queue.length} mensajes`);
+
+      // Procesar la cola si no está siendo procesada
+      if (!this.processing) {
+        this.processQueue();
+      }
+    });
+  }
+
+  // Procesar la cola de mensajes
+  async processQueue() {
+    if (this.processing || this.queue.length === 0) {
+      return;
+    }
+
+    this.processing = true;
+    console.log(`🔄 Iniciando procesamiento de cola con ${this.queue.length} mensajes`);
+
+    while (this.queue.length > 0) {
+      const messageRequest = this.queue.shift();
+      const { username, message, resolve, reject } = messageRequest;
+
+      try {
+        console.log(`📤 Procesando mensaje para ${username}: "${message}"`);
+        await _sendMessage(username, message);
+        console.log(`✅ Mensaje enviado exitosamente a ${username}`);
+        resolve({ success: true });
+
+        // Esperar un poco entre mensajes para evitar spam
+        if (this.queue.length > 0) {
+          console.log(`⏱️ Esperando 2 segundos antes del siguiente mensaje...`);
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+
+      } catch (error) {
+        console.error(`❌ Error enviando mensaje a ${username}:`, error.message);
+        reject(error);
+      }
+    }
+
+    this.processing = false;
+    console.log(`✅ Procesamiento de cola completado`);
+  }
+
+  // Obtener estado de la cola
+  getStatus() {
+    return {
+      queueLength: this.queue.length,
+      processing: this.processing
+    };
+  }
+
+  // Limpiar la cola
+  clear() {
+    const clearedCount = this.queue.length;
+    this.queue.forEach(request => {
+      request.reject(new Error('Cola limpiada'));
+    });
+    this.queue = [];
+    console.log(`🧹 Cola limpiada. ${clearedCount} mensajes descartados`);
+    return clearedCount;
+  }
+}
+
+// Instancia global de la cola
+const messageQueue = new MessageQueue();
+
 // Configuración de entorno
 const HEADLESS_MODE = process.env.TIKTOK_HEADLESS === 'true' || false;
 const AUTO_START = process.env.TIKTOK_AUTO_START === 'true' || true;
@@ -274,26 +359,28 @@ async function _sendMessage(username, message) {
   }
 }
 
-// Wrapper público con auto-reconexión
+// Wrapper público con auto-reconexión y cola
 async function sendMessage(username, message) {
   // Intentar reconectar si es necesario
   const isActive = await ensureBrowserActive();
   if (!isActive) {
     throw new Error('No se pudo inicializar el navegador. Verifica la configuración.');
   }
-  
-  return _sendMessage(username, message);
+
+  // Usar la cola para enviar el mensaje
+  return messageQueue.enqueue(username, message);
 }
 
-module.exports = { 
-  startBrowser, 
-  sendMessage, 
-  setCookies, 
+module.exports = {
+  startBrowser,
+  sendMessage,
+  setCookies,
   findLeastRepresentedVowel,
   findLeastRepresentedConsonant,
   generatePhraseState,
   generatePremiumMessage,
   isBrowserActive,
   autoStartBrowser,
-  ensureBrowserActive
+  ensureBrowserActive,
+  messageQueue
 };

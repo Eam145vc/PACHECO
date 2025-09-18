@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 const path = require('path');
 const fs = require('fs');
 
@@ -105,9 +105,14 @@ class TikTokLiveManager {
       // }
 
       // Spawn del proceso Python
-      this.pythonProcess = spawn('python', args, {
+      console.log(`[SPAWN] Ejecutando: python.exe -u ${args.join(' ')}`);
+      this.pythonProcess = spawn('python.exe', ['-u', ...args], {
         cwd: __dirname,
         stdio: ['pipe', 'pipe', 'pipe']
+      });
+
+      this.pythonProcess.on('spawn', () => {
+        console.log('[SPAWN] Proceso Python creado exitosamente.');
       });
 
       this.isRunning = true;
@@ -263,9 +268,14 @@ class TikTokLiveManager {
     }
 
     // Iniciar proceso Python con usuario
-    this.pythonProcess = spawn('python', args, {
+    console.log(`[SPAWN] Ejecutando: python.exe -u ${args.join(' ')}`);
+    this.pythonProcess = spawn('python.exe', ['-u', ...args], {
       cwd: __dirname,
       stdio: ['pipe', 'pipe', 'pipe']
+    });
+
+    this.pythonProcess.on('spawn', () => {
+      console.log('[SPAWN] Proceso Python creado exitosamente.');
     });
 
     this.isRunning = true;

@@ -211,7 +211,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const handlePhraseComplete = () => {
     console.log('🎉 [CONTEXT] Phrase completed!');
     setShowCompletion(true);
-    sounds.fanfare();
+    sounds.winnerCelebration();
   };
 
   const handleAnimationComplete = () => {
@@ -238,6 +238,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         saveGameState(newState);
         return newState;
       });
+
+      // Play golden vowel sound
+      sounds.goldVowelReveal();
     }
   };
 
@@ -252,6 +255,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
         saveGameState(newState);
         return newState;
       });
+
+      // Play consonant sound
+      sounds.consonantReveal();
     }
   };
 

@@ -50,10 +50,10 @@ const WinnerAnimation: React.FC<WinnerAnimationProps> = ({ winner, currentPhrase
       });
       setRevealedLetters(allLettersRevealed);
 
-      // Cerrar animación después de 5 segundos
+      // Cerrar animación después de 10 segundos
       const timeout = setTimeout(() => {
         onComplete();
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timeout);
     } else if (winner && (!currentPhrase || !currentPhrase.tiles)) {
@@ -74,7 +74,7 @@ const WinnerAnimation: React.FC<WinnerAnimationProps> = ({ winner, currentPhrase
 
       const timeout = setTimeout(() => {
         onComplete();
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timeout);
     }
@@ -441,7 +441,7 @@ const WinnerAnimation: React.FC<WinnerAnimationProps> = ({ winner, currentPhrase
                   style={{ display: winner.profile_picture ? 'none' : 'flex' }}
                 >
                   <span className="text-5xl font-bold text-white">
-                    {winner.username ? winner.username.charAt(0).toUpperCase() : '?'}
+                    {winner.username && winner.username.trim() !== '' ? winner.username.charAt(0).toUpperCase() : '?'}
                   </span>
                 </div>
                 <motion.div
@@ -460,7 +460,7 @@ const WinnerAnimation: React.FC<WinnerAnimationProps> = ({ winner, currentPhrase
               transition={{ delay: 0.8 }}
               className="text-6xl font-bold text-white mb-3 drop-shadow-lg text-center"
             >
-              {winner.username || winner.unique_id || "Ganador Anónimo"}
+              {winner.username && winner.username.trim() !== '' ? winner.username : (winner.unique_id || "Ganador Anónimo")}
             </motion.h2>
 
             {winner.unique_id && winner.username !== winner.unique_id && (
