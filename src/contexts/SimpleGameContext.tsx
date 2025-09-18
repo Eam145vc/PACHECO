@@ -6,6 +6,7 @@ import { simpleSync } from '../utils/simpleSync';
 import { tiktokBotService } from '../services/tiktokBotService';
 import { winnerService, WinnerData } from '../services/winnerService';
 import { tiktokLiveService } from '../services/tiktokLiveService';
+import { apiRequest } from '../config/api';
 
 interface SimpleGameContextType {
   gameState: GameState;
@@ -648,39 +649,68 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
   };
 
   const resetBoard = async () => {
-    try {
-      // Hacer la llamada al endpoint del servidor para resetear el tablero
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/reset-board`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+    console.log('🔄 [RESET BOARD] Iniciando reseteo del tablero...');
+    console.log('🔍 [RESET BOARD] Navegador:', navigator.userAgent);
 
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('✅ [RESET BOARD] Servidor reseteado exitosamente:', responseData);
+    // Resetear estado local inmediatamente para UX responsiva
+    const cleanState = getCleanState();
+    setGameState(cleanState);
+    simpleSync.saveState(cleanState);
+    setCurrentPhraseHints([]);
 
-        // Solo si el servidor se resetea correctamente, resetear el estado local
-        const cleanState = getCleanState();
-        setGameState(cleanState);
-        simpleSync.saveState(cleanState);
-        setCurrentPhraseHints([]); // Limpiar hints
+    console.log('✅ [RESET BOARD] Estado local reseteado inmediatamente');
+
+    // Intentar resetear el servidor en segundo plano
+    const resetServer = async (attempt = 1) => {
+      try {
+        console.log(`🔄 [RESET BOARD] Intento ${attempt} de reseteo del servidor...`);
+
+        // Usar la configuración de API centralizada con timeout explícito
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 segundos timeout
+
+        const response = await apiRequest('/reset-board', {
+          method: 'POST',
+          signal: controller.signal,
+        });
+
+        clearTimeout(timeoutId);
+
+        if (response.ok) {
+          const responseData = await response.json();
+          console.log('✅ [RESET BOARD] Servidor reseteado exitosamente:', responseData);
+          sendGameStateToTikTokLive(null, "", "", false);
+          return true;
+        } else {
+          const errorText = await response.text();
+          console.error('❌ [RESET BOARD] Error reseteando en servidor:', response.status, errorText);
+          throw new Error(`Server reset failed: ${response.status} - ${errorText}`);
+        }
+      } catch (error) {
+        console.error(`❌ [RESET BOARD] Error en intento ${attempt}:`, error);
+
+        // Retry una vez más si es el primer intento
+        if (attempt === 1) {
+          console.log('🔄 [RESET BOARD] Reintentando reseteo del servidor...');
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Esperar 1 segundo
+          return resetServer(2);
+        }
+
+        console.error('❌ [RESET BOARD] Falló reseteo del servidor tras 2 intentos');
+        // Aún enviar señal de desactivación como fallback
         sendGameStateToTikTokLive(null, "", "", false);
-      } else {
-        const errorText = await response.text();
-        console.error('❌ [RESET BOARD] Error reseteando en servidor:', response.status, errorText);
-        throw new Error(`Server reset failed: ${response.status}`);
+        return false;
       }
-    } catch (error) {
-      console.error('❌ [RESET BOARD] Error de red reseteando tablero:', error);
-      // En caso de error, aún resetear el estado local
-      const cleanState = getCleanState();
-      setGameState(cleanState);
-      simpleSync.saveState(cleanState);
-      setCurrentPhraseHints([]);
-      sendGameStateToTikTokLive(null, "", "", false);
-    }
+    };
+
+    // Ejecutar reseteo del servidor de forma asíncrona
+    resetServer().then(success => {
+      if (success) {
+        console.log('✅ [RESET BOARD] Reseteo completo exitoso');
+      } else {
+        console.log('⚠️ [RESET BOARD] Reseteo local exitoso, servidor con errores');
+      }
+    });
   };
 
   const value: SimpleGameContextType = {
