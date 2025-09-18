@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase Key</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .container {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #555;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+        }
+        button {
+            background: #0066cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0052a3; }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+        .success { background: #1b5e20; }
+        .error { background: #b71c1c; }
+        .info { background: #1565c0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Supabase API Key</h1>
+
+        <div>
+            <label>Supabase URL:</label>
+            <input type="text" id="url" value="https://ikrjjodyclyizrefqclt.supabase.co" />
+        </div>
+
+        <div>
+            <label>API Key (anon public):</label>
+            <textarea id="apikey" rows="4" placeholder="Pega aquí tu API key de Supabase..."></textarea>
+        </div>
+
+        <button onclick="testConnection()">🔍 Test Connection</button>
+        <button onclick="testUsers()">👥 Test Users Query</button>
+        <button onclick="clearResults()">🧹 Clear</button>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `result ${type}`;
+            div.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        async function testConnection() {
+            const url = document.getElementById('url').value.trim();
+            const key = document.getElementById('apikey').value.trim();
+
+            if (!url || !key) {
+                log('❌ URL y API key son requeridos', 'error');
+                return;
+            }
+
+            try {
+                log('🔍 Probando conexión básica...');
+                log(`URL: ${url}`, 'info');
+                log(`Key length: ${key.length} chars`, 'info');
+
+                const supabase = window.supabase.createClient(url, key);
+
+                const startTime = Date.now();
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('count', { count: 'exact', head: true });
+
+                const duration = Date.now() - startTime;
+
+                if (error) {
+                    log(`❌ Error: ${error.message}`, 'error');
+                    log(`Code: ${error.code}`, 'error');
+                    log(`Duration: ${duration}ms`, 'info');
+                } else {
+                    log(`✅ Conexión exitosa!`, 'success');
+                    log(`Duration: ${duration}ms`, 'success');
+                    log(`Data: ${JSON.stringify(data)}`, 'success');
+                }
+            } catch (error) {
+                log(`❌ Exception: ${error.message}`, 'error');
+            }
+        }
+
+        async function testUsers() {
+            const url = document.getElementById('url').value.trim();
+            const key = document.getElementById('apikey').value.trim();
+
+            if (!url || !key) {
+                log('❌ URL y API key son requeridos', 'error');
+                return;
+            }
+
+            try {
+                log('👥 Probando consulta de usuarios...');
+
+                const supabase = window.supabase.createClient(url, key);
+
+                const startTime = Date.now();
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('username, coronas')
+                    .order('coronas', { ascending: false })
+                    .limit(5);
+
+                const duration = Date.now() - startTime;
+
+                if (error) {
+                    log(`❌ Error: ${error.message}`, 'error');
+                    log(`Code: ${error.code}`, 'error');
+                } else {
+                    log(`✅ Usuarios obtenidos: ${data.length}`, 'success');
+                    log(`Duration: ${duration}ms`, 'success');
+                    log(`Top users: ${JSON.stringify(data, null, 2)}`, 'success');
+                }
+            } catch (error) {
+                log(`❌ Exception: ${error.message}`, 'error');
+            }
+        }
+
+        // Autoload con la key que sabemos que funciona
+        window.onload = function() {
+            document.getElementById('apikey').value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3MDM2MjUsImV4cCI6MjA0MjI3OTYyNX0.rjSDKE3kNfBYYJOVuNStOIFUQ4PaGJKO9n5YfQY0pyw';
+            log('🚀 Test tool cargado. Prueba la conexión!', 'info');
+        };
+    </script>
+</body>
+</html>
