@@ -271,20 +271,24 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     }
   };
 
-  // NUEVO SISTEMA: Escuchar revelaciones del backend y aplicarlas directamente
+  // SISTEMA COMPLETO: Polling continuo para sincronización en tiempo real
   useEffect(() => {
-    console.log('%c🎁 SISTEMA NUEVO: Escuchando revelaciones directas del backend...', 'color: orange; font-size: 16px; font-weight: bold;');
+    console.log('%c🔄 SISTEMA COMPLETO: Iniciando polling para sincronización en tiempo real...', 'color: cyan; font-size: 16px; font-weight: bold;');
 
     let processedRevealIds = new Set<string>();
+    let lastKnownRevealedLetters: string[] = [];
+    let lastKnownGameActive = false;
 
     const stopPolling = tiktokLiveService.startStatusPolling((status) => {
-      if (status && status.backendReveal && !processedRevealIds.has(status.backendReveal.id)) {
+      if (!status) return;
+
+      // 1. Manejar revelaciones específicas del backend (system existente)
+      if (status.backendReveal && !processedRevealIds.has(status.backendReveal.id)) {
         const reveal = status.backendReveal;
         console.log(`%c🎯 REVELACIÓN DEL BACKEND: ${reveal.type} = ${reveal.letter}`, 'color: lime; font-size: 16px; font-weight: bold;');
 
         processedRevealIds.add(reveal.id);
 
-        // Aplicar la letra revelada directamente al estado
         setGameState(currentState => {
           if (currentState.currentPhrase) {
             const updatedPhrase = {
@@ -308,14 +312,77 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
           }
           return currentState;
         });
+      }
 
-        // Limpiar IDs viejos
-        if (processedRevealIds.size > 20) {
-          const idsArray = Array.from(processedRevealIds);
-          processedRevealIds = new Set(idsArray.slice(-10));
+      // 2. Detectar RESET del tablero
+      if (lastKnownGameActive && !status.currentGameIsActive) {
+        console.log('%c🔄 RESET DETECTADO: El juego se ha desactivado en el servidor', 'color: red; font-size: 16px; font-weight: bold;');
+
+        const cleanState = getCleanState();
+        setGameState(cleanState);
+        simpleSync.saveState(cleanState);
+        setCurrentPhraseHints([]);
+
+        lastKnownGameActive = false;
+        lastKnownRevealedLetters = [];
+        return;
+      }
+
+      // 3. Detectar NUEVO JUEGO iniciado desde otro navegador
+      if (!lastKnownGameActive && status.currentGameIsActive && status.currentGamePhrase) {
+        console.log('%c🎮 NUEVO JUEGO DETECTADO: Cargando estado desde servidor...', 'color: green; font-size: 16px; font-weight: bold;');
+        loadGameStateFromServer();
+        lastKnownGameActive = true;
+        return;
+      }
+
+      // 4. Sincronizar LETRAS REVELADAS si hay cambios
+      if (status.currentGameIsActive && status.currentRevealedLetters && Array.isArray(status.currentRevealedLetters)) {
+        const currentRevealedLetters = status.currentRevealedLetters;
+
+        // Comparar arrays para detectar cambios
+        const lettersChanged =
+          currentRevealedLetters.length !== lastKnownRevealedLetters.length ||
+          currentRevealedLetters.some(letter => !lastKnownRevealedLetters.includes(letter));
+
+        if (lettersChanged) {
+          console.log('%c🔄 SINCRONIZANDO LETRAS REVELADAS:', 'color: yellow; font-size: 14px; font-weight: bold;', currentRevealedLetters);
+
+          setGameState(currentState => {
+            if (currentState.currentPhrase) {
+              const updatedPhrase = {
+                ...currentState.currentPhrase,
+                tiles: currentState.currentPhrase.tiles.map(tile => {
+                  if (!tile.isSpace && currentRevealedLetters.includes(tile.letter)) {
+                    return { ...tile, isRevealed: true };
+                  }
+                  return tile;
+                })
+              };
+
+              const newState = {
+                ...currentState,
+                currentPhrase: updatedPhrase
+              };
+              simpleSync.saveState(newState);
+              return newState;
+            }
+            return currentState;
+          });
+
+          lastKnownRevealedLetters = [...currentRevealedLetters];
         }
       }
-    }, 1000);
+
+      // Actualizar estado conocido
+      lastKnownGameActive = status.currentGameIsActive || false;
+
+      // Limpiar IDs viejos
+      if (processedRevealIds.size > 20) {
+        const idsArray = Array.from(processedRevealIds);
+        processedRevealIds = new Set(idsArray.slice(-10));
+      }
+    }, 1000); // Polling cada segundo para mejor respuesta
 
     return stopPolling;
   }, []);
