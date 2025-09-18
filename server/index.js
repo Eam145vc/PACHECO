@@ -12,7 +12,7 @@ console.log('   VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? 'DEFINIDA' 
 console.log('   VITE_SUPABASE_ANON_KEY:', process.env.VITE_SUPABASE_ANON_KEY ? 'DEFINIDA' : 'NO DEFINIDA');
 
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://ikrjjodyclyizrefqclt.supabase.co';
-const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMzMyNDUsImV4cCI6MjA3MzYwOTI0NX0.pg2mQuFkZGiOpinpZoVABJzasATJYrrzXfRt0jGW0WQ';
+const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjY3MDM2MjUsImV4cCI6MjA0MjI3OTYyNX0.rjSDKE3kNfBYYJOVuNStOIFUQ4PaGJKO9n5YfQY0pyw';
 
 console.log('🔍 [SUPABASE INIT] Configuración efectiva:');
 console.log('   URL:', supabaseUrl);
