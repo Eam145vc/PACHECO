@@ -15,7 +15,8 @@ class TikTokLiveManager {
   // Verificar si Python está instalado
   async checkPython() {
     return new Promise((resolve) => {
-      const pythonCheck = spawn('python', ['--version']);
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+      const pythonCheck = spawn(pythonCmd, ['--version']);
       
       pythonCheck.on('close', (code) => {
         resolve(code === 0);
@@ -30,7 +31,8 @@ class TikTokLiveManager {
   // Verificar dependencias de Python
   async checkDependencies() {
     return new Promise((resolve) => {
-      const dependencyCheck = spawn('python', ['-c', 'import TikTokLive; import aiohttp; print("OK")']);
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+      const dependencyCheck = spawn(pythonCmd, ['-c', 'import TikTokLive; import aiohttp; print("OK")']);
       
       dependencyCheck.on('close', (code) => {
         resolve(code === 0);
@@ -47,7 +49,8 @@ class TikTokLiveManager {
     return new Promise((resolve, reject) => {
       console.log('📦 [TikTok Live] Instalando dependencias de Python...');
       
-      const install = spawn('python', ['-m', 'pip', 'install', '-r', path.join(__dirname, 'requirements.txt')]);
+      const pythonCmd = process.platform === 'win32' ? 'python' : 'python3';
+      const install = spawn(pythonCmd, ['-m', 'pip', 'install', '-r', path.join(__dirname, 'requirements.txt')]);
       
       install.stdout.on('data', (data) => {
         console.log(`📦 ${data.toString().trim()}`);
@@ -105,8 +108,9 @@ class TikTokLiveManager {
       // }
 
       // Spawn del proceso Python
-      console.log(`[SPAWN] Ejecutando: python.exe -u ${args.join(' ')}`);
-      this.pythonProcess = spawn('python.exe', ['-u', ...args], {
+      const pythonCmd = process.platform === 'win32' ? 'python.exe' : 'python3';
+      console.log(`[SPAWN] Ejecutando: ${pythonCmd} -u ${args.join(' ')}`);
+      this.pythonProcess = spawn(pythonCmd, ['-u', ...args], {
         cwd: __dirname,
         stdio: ['pipe', 'pipe', 'pipe']
       });
@@ -268,8 +272,9 @@ class TikTokLiveManager {
     }
 
     // Iniciar proceso Python con usuario
-    console.log(`[SPAWN] Ejecutando: python.exe -u ${args.join(' ')}`);
-    this.pythonProcess = spawn('python.exe', ['-u', ...args], {
+    const pythonCmd = process.platform === 'win32' ? 'python.exe' : 'python3';
+    console.log(`[SPAWN] Ejecutando: ${pythonCmd} -u ${args.join(' ')}`);
+    this.pythonProcess = spawn(pythonCmd, ['-u', ...args], {
       cwd: __dirname,
       stdio: ['pipe', 'pipe', 'pipe']
     });
