@@ -483,7 +483,7 @@ let giftTriggers = [
     giftName: 'Likes',
     quantity: 50,
     action: 'reveal_vowel',
-    enabled: false
+    enabled: true
   },
   {
     id: '7',
@@ -492,7 +492,7 @@ let giftTriggers = [
     giftName: 'Follows',
     quantity: 10,
     action: 'reveal_consonant',
-    enabled: false
+    enabled: true
   }
 ];
 
