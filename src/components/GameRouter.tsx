@@ -89,9 +89,6 @@ const AdminRoute: React.FC = () => {
 };
 
 const GameRouterContent: React.FC = () => {
-  // Permitir rutas tanto en local como en producción
-  const isLocal = true; // Habilitado para producción
-
   return (
     <Router>
       <Routes>
@@ -109,12 +106,9 @@ const GameRouterContent: React.FC = () => {
         {/* Daily Ranking Overlay */}
         <Route path="/overlay/daily-ranking" element={<DailyRankingOverlay />} />
 
-        {isLocal && (
-          <>
-            <Route path="/game" element={<GamePage />} />
-            <Route path="/admin" element={<AdminRoute />} />
-          </>
-        )}
+        {/* Admin and Game routes - always available */}
+        <Route path="/game" element={<GamePage />} />
+        <Route path="/admin" element={<AdminRoute />} />
       </Routes>
     </Router>
   );
