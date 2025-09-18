@@ -6,10 +6,30 @@ const fs = require('fs');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 
-// Configurar Supabase
+// Configurar Supabase con logging detallado
+console.log('🔍 [SUPABASE INIT] Variables de entorno:');
+console.log('   VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? 'DEFINIDA' : 'NO DEFINIDA');
+console.log('   VITE_SUPABASE_ANON_KEY:', process.env.VITE_SUPABASE_ANON_KEY ? 'DEFINIDA' : 'NO DEFINIDA');
+
 const supabaseUrl = process.env.VITE_SUPABASE_URL || 'https://ikrjjodyclyizrefqclt.supabase.co';
 const supabaseKey = process.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlrcmpqb2R5Y2x5aXpyZWZxY2x0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwMzMyNDUsImV4cCI6MjA3MzYwOTI0NX0.pg2mQuFkZGiOpinpZoVABJzasATJYrrzXfRt0jGW0WQ';
-const supabase = createClient(supabaseUrl, supabaseKey);
+
+console.log('🔍 [SUPABASE INIT] Configuración efectiva:');
+console.log('   URL:', supabaseUrl);
+console.log('   Key length:', supabaseKey.length);
+
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    persistSession: false
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10
+    }
+  }
+});
+
+console.log('✅ [SUPABASE INIT] Cliente Supabase inicializado');
 
 // Función para agregar coronas usando Supabase (adapta de coronasApi.js)
 async function addCoronasToUser(username, amount, description = 'Manual addition') {
