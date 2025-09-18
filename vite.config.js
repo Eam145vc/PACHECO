@@ -10,20 +10,20 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:3002',
+        target: 'https://backrey.onrender.com',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, '')
       },
       '/communal-objectives': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:3002',
+        target: 'https://backrey.onrender.com',
         changeOrigin: true
       },
       '/gift-triggers': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:3002',
+        target: 'https://backrey.onrender.com',
         changeOrigin: true
       },
       '/tiktok-live-status': {
-        target: process.env.VITE_API_BASE_URL || 'http://localhost:3002',
+        target: 'https://backrey.onrender.com',
         changeOrigin: true
       }
     }

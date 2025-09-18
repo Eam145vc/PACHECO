@@ -313,6 +313,58 @@ app.post('/test-corona-reward', async (req, res) => {
   }
 });
 
+// Endpoint para debuggear conexión a Supabase
+app.get('/debug-supabase', async (req, res) => {
+  try {
+    console.log('🔍 [DEBUG] Verificando configuración de Supabase...');
+    console.log('🔍 [DEBUG] VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL);
+    console.log('🔍 [DEBUG] VITE_SUPABASE_ANON_KEY presente:', !!process.env.VITE_SUPABASE_ANON_KEY);
+    console.log('🔍 [DEBUG] URL efectiva:', supabaseUrl);
+
+    // Probar conexión básica
+    const { data, error } = await supabase
+      .from('users')
+      .select('count', { count: 'exact', head: true });
+
+    if (error) {
+      console.error('❌ [DEBUG] Error conectando a Supabase:', error);
+      return res.json({
+        success: false,
+        error: error.message,
+        config: {
+          url: supabaseUrl,
+          hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+          environment: process.env.NODE_ENV
+        }
+      });
+    }
+
+    console.log('✅ [DEBUG] Conexión a Supabase exitosa');
+    res.json({
+      success: true,
+      message: 'Conexión a Supabase exitosa',
+      userCount: data,
+      config: {
+        url: supabaseUrl,
+        hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+        environment: process.env.NODE_ENV
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ [DEBUG] Error fatal en debug-supabase:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      config: {
+        url: supabaseUrl,
+        hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+        environment: process.env.NODE_ENV
+      }
+    });
+  }
+});
+
 console.log('🎯 Endpoints básicos configurados');
 
 // ===============================
