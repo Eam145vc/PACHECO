@@ -97,7 +97,8 @@ app.use(cors({
   origin: [
     'http://localhost:5173',
     'https://c67727416176.ngrok-free.app',
-    'https://tiktok-word-game-frontend.onrender.com'
+    'https://tiktok-word-game-frontend.onrender.com',
+    'https://rey-uuvf.onrender.com'
   ],
   credentials: true
 }));
