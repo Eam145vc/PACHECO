@@ -28,7 +28,7 @@ services:
         destination: /index.html
     envVars:
       - key: VITE_API_BASE_URL
-        value: https://tiktok-word-game-backend.onrender.com
+        value: https://backrey.onrender.com
       - key: VITE_SUPABASE_URL
         value: https://ikrjjodyclyizrefqclt.supabase.co
       - key: VITE_SUPABASE_ANON_KEY
