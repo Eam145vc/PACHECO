@@ -120,7 +120,7 @@ const CommunalOverlayLinks: React.FC = () => {
         </h4>
         <div style={{ display: 'grid', gap: '8px' }}>
           {linkVariations.map((variation, index) => {
-            const url = `${baseUrl}/overlay/communal${variation.params}`;
+            const url = `${baseUrl}/#/overlay/communal${variation.params}`;
             const linkId = `all-${index}`;
             const isCopied = copiedLinks.includes(linkId);
 
@@ -228,7 +228,7 @@ const CommunalOverlayLinks: React.FC = () => {
 
             <div style={{ display: 'grid', gap: '6px' }}>
               {linkVariations.map((variation, index) => {
-                const url = `${baseUrl}/overlay/communal/${objective.triggerId}${variation.params}`;
+                const url = `${baseUrl}/#/overlay/communal/${objective.triggerId}${variation.params}`;
                 const linkId = `${objective.triggerId}-${index}`;
                 const isCopied = copiedLinks.includes(linkId);
 
