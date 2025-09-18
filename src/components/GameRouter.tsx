@@ -89,7 +89,8 @@ const AdminRoute: React.FC = () => {
 };
 
 const GameRouterContent: React.FC = () => {
-  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  // Permitir rutas tanto en local como en producción
+  const isLocal = true; // Habilitado para producción
 
   return (
     <Router>
