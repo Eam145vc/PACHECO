@@ -321,19 +321,33 @@ app.get('/debug-supabase', async (req, res) => {
     console.log('🔍 [DEBUG] VITE_SUPABASE_ANON_KEY presente:', !!process.env.VITE_SUPABASE_ANON_KEY);
     console.log('🔍 [DEBUG] URL efectiva:', supabaseUrl);
 
-    // Probar conexión básica
-    const { data, error } = await supabase
-      .from('users')
-      .select('count', { count: 'exact', head: true });
+    // Prueba más simple primero
+    console.log('🔍 [DEBUG] Intentando conexión simple...');
+
+    const startTime = Date.now();
+    const { data, error } = await Promise.race([
+      supabase.from('users').select('count', { count: 'exact', head: true }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('TIMEOUT_15s')), 15000)
+      )
+    ]);
+    const duration = Date.now() - startTime;
+
+    console.log(`🔍 [DEBUG] Consulta completada en ${duration}ms`);
 
     if (error) {
       console.error('❌ [DEBUG] Error conectando a Supabase:', error);
+      console.error('❌ [DEBUG] Error details:', JSON.stringify(error, null, 2));
       return res.json({
         success: false,
-        error: error.message,
+        error: error.message || 'Error desconocido',
+        errorCode: error.code,
+        errorDetails: error.details,
+        duration: duration,
         config: {
           url: supabaseUrl,
           hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+          keyLength: process.env.VITE_SUPABASE_ANON_KEY?.length,
           environment: process.env.NODE_ENV
         }
       });
@@ -344,22 +358,86 @@ app.get('/debug-supabase', async (req, res) => {
       success: true,
       message: 'Conexión a Supabase exitosa',
       userCount: data,
+      duration: duration,
       config: {
         url: supabaseUrl,
         hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+        keyLength: process.env.VITE_SUPABASE_ANON_KEY?.length,
         environment: process.env.NODE_ENV
       }
     });
 
   } catch (error) {
     console.error('❌ [DEBUG] Error fatal en debug-supabase:', error);
-    res.status(500).json({
+    console.error('❌ [DEBUG] Error stack:', error.stack);
+    res.json({
       success: false,
-      error: error.message,
+      error: error.message || 'Error desconocido',
+      errorType: error.constructor.name,
+      stack: error.stack,
       config: {
         url: supabaseUrl,
         hasKey: !!process.env.VITE_SUPABASE_ANON_KEY,
+        keyLength: process.env.VITE_SUPABASE_ANON_KEY?.length,
         environment: process.env.NODE_ENV
+      }
+    });
+  }
+});
+
+// Endpoint para probar conectividad HTTP básica a Supabase
+app.get('/debug-supabase-http', async (req, res) => {
+  try {
+    console.log('🌐 [HTTP DEBUG] Probando conectividad HTTP a Supabase...');
+
+    const fetch = (await import('node-fetch')).default;
+    const testUrl = `${supabaseUrl}/rest/v1/`;
+
+    console.log('🌐 [HTTP DEBUG] URL de prueba:', testUrl);
+
+    const response = await Promise.race([
+      fetch(testUrl, {
+        method: 'GET',
+        headers: {
+          'apikey': supabaseKey,
+          'Authorization': `Bearer ${supabaseKey}`
+        }
+      }),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('HTTP_TIMEOUT_10s')), 10000)
+      )
+    ]);
+
+    console.log('🌐 [HTTP DEBUG] Status:', response.status);
+    console.log('🌐 [HTTP DEBUG] Headers:', Object.fromEntries(response.headers.entries()));
+
+    const responseText = await response.text();
+    console.log('🌐 [HTTP DEBUG] Response:', responseText.substring(0, 200));
+
+    res.json({
+      success: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+      headers: Object.fromEntries(response.headers.entries()),
+      body: responseText.substring(0, 500),
+      config: {
+        url: supabaseUrl,
+        testUrl: testUrl,
+        hasKey: !!supabaseKey,
+        keyLength: supabaseKey?.length
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ [HTTP DEBUG] Error:', error);
+    res.json({
+      success: false,
+      error: error.message,
+      errorType: error.constructor.name,
+      config: {
+        url: supabaseUrl,
+        hasKey: !!supabaseKey,
+        keyLength: supabaseKey?.length
       }
     });
   }
