@@ -227,12 +227,12 @@ html, body {
 .objective-counter {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-weight: 900;
   background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
-  padding: 16px 20px;
-  border-radius: 20px;
+  padding: 8px 12px;
+  border-radius: 12px;
   border: 2px solid rgba(0, 255, 255, 0.4);
   box-shadow:
     0 0 15px rgba(0, 255, 255, 0.3);
@@ -246,13 +246,13 @@ html, body {
 }
 
 .current {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 900;
   color: #ffffff;
   text-shadow:
     0 0 20px rgba(0, 255, 255, 0.8),
     0 0 40px rgba(0, 255, 0, 0.6);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
   animation: numberGlow 1.5s ease-in-out infinite alternate;
 }
@@ -270,17 +270,17 @@ html, body {
 
 .separator {
   color: #00ffff;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 800;
   text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
 }
 
 .target {
-  font-size: 36px;
+  font-size: 28px;
   font-weight: 900;
   color: #ffffff;
   text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
 }
 
