@@ -1305,14 +1305,23 @@ app.post('/reset-board', async (req, res) => {
     // Limpiar el estado del último ganador para evitar detecciones de frases anteriores
     tiktokLiveStatus.lastWinner = null;
 
-    // Resetear letras reveladas y hints
+    // Resetear completamente el estado del juego
+    tiktokLiveStatus.currentGamePhrase = null;
+    tiktokLiveStatus.currentGameAnswer = '';
+    tiktokLiveStatus.currentGameCategory = '';
+    tiktokLiveStatus.currentGameIsActive = false;
     tiktokLiveStatus.currentRevealedLetters = [];
     tiktokLiveStatus.currentGameHints = [];
 
     // Resetear contadores comunales
     resetCommunalCounters();
 
-    console.log('🔄 [Board Reset] Letras reveladas, hints y contadores comunales reseteados');
+    console.log('🔄 [Board Reset] Estado del juego completamente reseteado:', {
+      gameActive: tiktokLiveStatus.currentGameIsActive,
+      phrase: tiktokLiveStatus.currentGamePhrase,
+      revealedLetters: tiktokLiveStatus.currentRevealedLetters.length,
+      hints: tiktokLiveStatus.currentGameHints.length
+    });
 
     // Notificar al servidor Python que debe dejar de buscar la frase actual
     const result = tiktokLiveManager.updateGameState('', '', '', false);

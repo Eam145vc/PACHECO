@@ -315,9 +315,30 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
         });
       }
 
-      // 2. Detectar RESET del tablero
-      if (lastKnownGameActive && !status.currentGameIsActive) {
-        console.log('%c🔄 RESET DETECTADO: El juego se ha desactivado en el servidor', 'color: red; font-size: 16px; font-weight: bold;');
+      // 2. Detectar RESET del tablero (mejorado para cross-browser y F5)
+      const shouldReset =
+        // Reset normal: juego estaba activo y ahora no
+        (lastKnownGameActive && !status.currentGameIsActive) ||
+        // Reset después de F5: no hay juego activo en servidor pero sí hay estado local
+        (!status.currentGameIsActive && gameState.currentPhrase !== null) ||
+        // Reset por limpieza de servidor: el servidor reporta arrays vacíos
+        (status.currentGameIsActive &&
+         status.currentRevealedLetters &&
+         status.currentRevealedLetters.length === 0 &&
+         status.currentGamePhrase === '' &&
+         gameState.currentPhrase !== null);
+
+      if (shouldReset) {
+        console.log('%c🔄 RESET DETECTADO: Limpiando estado local para sincronizar con servidor', 'color: red; font-size: 16px; font-weight: bold;');
+        console.log('🔍 [RESET DETECTION] Estado servidor:', {
+          gameActive: status.currentGameIsActive,
+          phrase: status.currentGamePhrase,
+          revealedLetters: status.currentRevealedLetters
+        });
+        console.log('🔍 [RESET DETECTION] Estado local antes:', {
+          hasPhrase: gameState.currentPhrase !== null,
+          isActive: gameState.isGameActive
+        });
 
         const cleanState = getCleanState();
         setGameState(cleanState);
@@ -326,6 +347,7 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
 
         lastKnownGameActive = false;
         lastKnownRevealedLetters = [];
+        console.log('✅ [RESET DETECTION] Estado local limpiado exitosamente');
         return;
       }
 
@@ -655,10 +677,13 @@ export const SimpleGameProvider: React.FC<SimpleGameProviderProps> = ({ children
     // Resetear estado local inmediatamente para UX responsiva
     const cleanState = getCleanState();
     setGameState(cleanState);
-    simpleSync.saveState(cleanState);
     setCurrentPhraseHints([]);
 
-    console.log('✅ [RESET BOARD] Estado local reseteado inmediatamente');
+    // Forzar limpieza y sincronización cross-tab
+    simpleSync.clear();
+    simpleSync.saveState(cleanState);
+
+    console.log('✅ [RESET BOARD] Estado local reseteado y sincronizado inmediatamente');
 
     // Intentar resetear el servidor en segundo plano
     const resetServer = async (attempt = 1) => {
