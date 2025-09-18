@@ -140,8 +140,8 @@ export const CommunalObjectivesProvider: React.FC<CommunalObjectivesProviderProp
 
     const pollObjectiveUpdates = async () => {
       try {
-        // Always use relative path to leverage Vite proxy
-        const response = await fetch('/communal-objectives');
+        // Use full API URL for production deployment
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/communal-objectives`);
         if (response.ok) {
           const data = await response.json();
 
