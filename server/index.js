@@ -706,7 +706,28 @@ const initialTikTokLiveStatus = {
   // Contadores para objetivos comunales por trigger ID
   communalObjectiveCounters: {}  // key: triggerId, value: currentCount
 };
+
+// Función para cargar contadores desde la base de datos
+function loadCommunalCountersFromDatabase() {
+  console.log('📖 [DATABASE] Cargando contadores comunales desde base de datos...');
+  const savedCounters = database.getCommunalCounters();
+
+  // Actualizar contadores en memoria con los valores de la base de datos
+  tiktokLiveStatus.communalCounters.likes = savedCounters.likes || 0;
+  tiktokLiveStatus.communalCounters.follows = savedCounters.follows || 0;
+  tiktokLiveStatus.communalObjectiveCounters = savedCounters.communalObjectiveCounters || {};
+
+  console.log('✅ [DATABASE] Contadores cargados:', {
+    likes: tiktokLiveStatus.communalCounters.likes,
+    follows: tiktokLiveStatus.communalCounters.follows,
+    objectives: Object.keys(tiktokLiveStatus.communalObjectiveCounters).length
+  });
+}
+
 let tiktokLiveStatus = { ...initialTikTokLiveStatus };
+
+// Cargar contadores al inicializar
+loadCommunalCountersFromDatabase();
 
 // Función para resetear el estado
 function resetTikTokStatus() {
@@ -810,11 +831,14 @@ async function getRevealedLettersFromPython() {
 async function processCommunalEvent(eventType, count, username) {
   console.log(`🌍 [COMUNAL ${eventType.toUpperCase()}] ${username} contribuyó con ${count} ${eventType}`);
 
-  // Incrementar contador comunal
+  // Incrementar contador comunal en memoria
   tiktokLiveStatus.communalCounters[eventType] += count;
   const currentCount = tiktokLiveStatus.communalCounters[eventType];
 
-  console.log(`📊 [COMUNAL ${eventType.toUpperCase()}] Total acumulado: ${currentCount}`);
+  // Guardar en base de datos
+  const dbCount = database.updateCommunalCounter(eventType, count);
+
+  console.log(`📊 [COMUNAL ${eventType.toUpperCase()}] Total acumulado: ${currentCount} (DB: ${dbCount})`);
 
   // Buscar triggers que usen este tipo de evento
   const communalTriggers = giftTriggers.filter(trigger =>
@@ -857,20 +881,34 @@ async function processCommunalEvent(eventType, count, username) {
 
 // Función para resetear contadores comunales
 function resetCommunalCounters() {
+  // Resetear en memoria
   tiktokLiveStatus.communalCounters.likes = 0;
   tiktokLiveStatus.communalCounters.follows = 0;
   tiktokLiveStatus.communalObjectiveCounters = {};
-  console.log('🔄 [COMUNAL] Todos los contadores comunales reseteados');
+
+  // Resetear en base de datos
+  database.saveCommunalCounters({
+    likes: 0,
+    follows: 0,
+    communalObjectiveCounters: {}
+  });
+
+  console.log('🔄 [COMUNAL] Todos los contadores comunales reseteados (memoria y base de datos)');
 }
 
 // Función para incrementar contador de objetivo comunal
 function incrementCommunalObjective(triggerId, amount = 1) {
+  // Actualizar en memoria
   if (!tiktokLiveStatus.communalObjectiveCounters[triggerId]) {
     tiktokLiveStatus.communalObjectiveCounters[triggerId] = 0;
   }
   tiktokLiveStatus.communalObjectiveCounters[triggerId] += amount;
   const newCount = tiktokLiveStatus.communalObjectiveCounters[triggerId];
-  console.log(`📊 [COMMUNAL OBJECTIVE] Trigger ${triggerId}: ${newCount - amount} + ${amount} = ${newCount}`);
+
+  // Guardar en base de datos
+  const dbCount = database.updateCommunalObjectiveCounter(triggerId, amount);
+
+  console.log(`📊 [COMMUNAL OBJECTIVE] Trigger ${triggerId}: ${newCount - amount} + ${amount} = ${newCount} (DB: ${dbCount})`);
   console.log(`📊 [COMMUNAL OBJECTIVE] Estado completo:`, tiktokLiveStatus.communalObjectiveCounters);
   return newCount;
 }

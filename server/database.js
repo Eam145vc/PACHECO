@@ -9,7 +9,8 @@ class Database {
     this.transactionsFile = path.join(this.dbPath, 'transactions.json');
     this.codesFile = path.join(this.dbPath, 'verification_codes.json');
     this.ordersFile = path.join(this.dbPath, 'orders.json');
-    
+    this.communalCountersFile = path.join(this.dbPath, 'communal_counters.json');
+
     this.initDatabase();
   }
 
@@ -36,6 +37,14 @@ class Database {
 
     if (!fs.existsSync(this.ordersFile)) {
       fs.writeFileSync(this.ordersFile, JSON.stringify([]));
+    }
+
+    if (!fs.existsSync(this.communalCountersFile)) {
+      fs.writeFileSync(this.communalCountersFile, JSON.stringify({
+        likes: 0,
+        follows: 0,
+        communalObjectiveCounters: {}
+      }));
     }
   }
 
@@ -311,6 +320,49 @@ class Database {
   getOrderById(orderId) {
     const orders = this.getOrders();
     return orders.find(o => o.id === orderId);
+  }
+
+  // COMMUNAL COUNTERS MANAGEMENT
+  getCommunalCounters() {
+    try {
+      return JSON.parse(fs.readFileSync(this.communalCountersFile, 'utf8'));
+    } catch (error) {
+      console.error('Error reading communal counters:', error);
+      return {
+        likes: 0,
+        follows: 0,
+        communalObjectiveCounters: {}
+      };
+    }
+  }
+
+  saveCommunalCounters(counters) {
+    try {
+      fs.writeFileSync(this.communalCountersFile, JSON.stringify(counters, null, 2));
+      console.log('💾 [DATABASE] Contadores comunales guardados:', counters);
+    } catch (error) {
+      console.error('❌ [DATABASE] Error saving communal counters:', error);
+    }
+  }
+
+  updateCommunalObjectiveCounter(triggerId, amount) {
+    const counters = this.getCommunalCounters();
+    if (!counters.communalObjectiveCounters[triggerId]) {
+      counters.communalObjectiveCounters[triggerId] = 0;
+    }
+    counters.communalObjectiveCounters[triggerId] += amount;
+    this.saveCommunalCounters(counters);
+    return counters.communalObjectiveCounters[triggerId];
+  }
+
+  updateCommunalCounter(eventType, amount) {
+    const counters = this.getCommunalCounters();
+    if (!counters[eventType]) {
+      counters[eventType] = 0;
+    }
+    counters[eventType] += amount;
+    this.saveCommunalCounters(counters);
+    return counters[eventType];
   }
 }
 
