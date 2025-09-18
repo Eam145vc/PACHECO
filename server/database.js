@@ -339,7 +339,6 @@ class Database {
   saveCommunalCounters(counters) {
     try {
       fs.writeFileSync(this.communalCountersFile, JSON.stringify(counters, null, 2));
-      console.log('💾 [DATABASE] Contadores comunales guardados:', counters);
     } catch (error) {
       console.error('❌ [DATABASE] Error saving communal counters:', error);
     }

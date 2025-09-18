@@ -17,6 +17,11 @@ const CommunalObjectiveOverlay: React.FC = () => {
   // Find the specific objective
   const objective = triggerId ? getObjective(triggerId) : null;
 
+  // Debug logging
+  console.log('[DEBUG] CommunalObjectiveOverlay - triggerId:', triggerId);
+  console.log('[DEBUG] CommunalObjectiveOverlay - objectives:', objectives);
+  console.log('[DEBUG] CommunalObjectiveOverlay - objective found:', objective);
+
   useEffect(() => {
     // Set body background to transparent for OBS
     document.body.style.background = 'transparent';

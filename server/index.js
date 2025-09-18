@@ -908,8 +908,7 @@ function incrementCommunalObjective(triggerId, amount = 1) {
   // Guardar en base de datos
   const dbCount = database.updateCommunalObjectiveCounter(triggerId, amount);
 
-  console.log(`📊 [COMMUNAL OBJECTIVE] Trigger ${triggerId}: ${newCount - amount} + ${amount} = ${newCount} (DB: ${dbCount})`);
-  console.log(`📊 [COMMUNAL OBJECTIVE] Estado completo:`, tiktokLiveStatus.communalObjectiveCounters);
+  console.log(`📊 [COMMUNAL OBJECTIVE] Trigger ${triggerId}: ${newCount - amount} + ${amount} = ${newCount}`);
   return newCount;
 }
 
@@ -1326,23 +1325,16 @@ app.get('/communal-objectives', (req, res) => {
     );
 
     // Crear array de objetivos con progreso actual
-    const objectives = communalTriggers.map(trigger => {
-      const current = getCommunalObjectiveCount(trigger.id, trigger.giftId);
-      console.log(`🔍 [DEBUG OBJECTIVES] Trigger ${trigger.id} (${trigger.name}): current=${current}, target=${trigger.quantity}`);
-      return {
-        triggerId: trigger.id,
-        triggerName: trigger.name,
-        giftId: trigger.giftId,
-        giftName: trigger.giftName,
-        current: current,
-        target: trigger.quantity,
-        enabled: trigger.enabled,
-        action: trigger.action
-      };
-    });
-
-    console.log(`🔍 [DEBUG OBJECTIVES] Devolviendo ${objectives.length} objetivos:`, objectives);
-    console.log(`🔍 [DEBUG OBJECTIVES] Estado de communalObjectiveCounters:`, tiktokLiveStatus.communalObjectiveCounters);
+    const objectives = communalTriggers.map(trigger => ({
+      triggerId: trigger.id,
+      triggerName: trigger.name,
+      giftId: trigger.giftId,
+      giftName: trigger.giftName,
+      current: getCommunalObjectiveCount(trigger.id, trigger.giftId),
+      target: trigger.quantity,
+      enabled: trigger.enabled,
+      action: trigger.action
+    }));
 
     res.json({
       success: true,
