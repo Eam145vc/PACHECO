@@ -1206,6 +1206,12 @@ app.post('/tiktok-live-event', async (req, res) => {
       });
       break;
 
+    case 'comment':
+      console.log(`💬 [COMMENT] ${data.username}: "${data.comment}"`);
+      console.log(`🎮 [GAME STATE] Activo: ${tiktokLiveStatus.currentGameIsActive}, Respuesta: "${tiktokLiveStatus.currentGameAnswer}"`);
+      // Los comentarios se procesan en Python, aquí solo los loggeamos para debug
+      break;
+
     case 'winner':
       console.log(`🎉 [GANADOR] ${data.username} respondió: "${data.comment}"`);
       console.log(`🔍 [DEBUG GANADOR] Datos completos del ganador:`, JSON.stringify(data, null, 2));

@@ -278,6 +278,15 @@ class TikTokLiveServer:
                 print(f"PROFILE_PICTURE: {profile_picture}", flush=True)
                 print(f"GAME_STATE: Activo={self.game_state.is_active}, Respuesta='{self.game_state.current_answer}'", flush=True)
 
+                # Enviar todos los comentarios al backend para debug
+                await self.notify_express_server('comment', {
+                    'username': username,
+                    'unique_id': unique_id,
+                    'profile_picture': profile_picture,
+                    'profile_picture_urls': profile_picture_urls,
+                    'comment': comment
+                })
+
                 if self.game_state.is_active:
                     if self.check_answer(comment):
                         print(f"🎉 GANADOR! {username} respondio correctamente: {comment}", flush=True)
