@@ -11,7 +11,6 @@ const CommunalObjectiveOverlay: React.FC = () => {
   const { zoomStyle } = usePageZoom({ pageId: 'communal-objective-overlay' });
 
   const orientation = (searchParams.get('orientation') as 'horizontal' | 'vertical') || 'horizontal';
-  const background = searchParams.get('bg') || 'transparent';
 
   const { objectives, getObjective } = useCommunalObjectives();
 
@@ -19,21 +18,16 @@ const CommunalObjectiveOverlay: React.FC = () => {
   const objective = triggerId ? getObjective(triggerId) : null;
 
   useEffect(() => {
-    // Set body background based on URL parameter
-    if (background === 'green') {
-      document.body.style.background = '#00ff00';
-      document.body.style.backgroundImage = 'none';
-    } else {
-      document.body.style.background = 'transparent';
-      document.body.style.backgroundImage = 'none';
-    }
+    // Set body background to transparent for OBS
+    document.body.style.background = 'transparent';
+    document.body.style.backgroundImage = 'none';
 
     // Cleanup on unmount
     return () => {
       document.body.style.background = '';
       document.body.style.backgroundImage = '';
     };
-  }, [background]);
+  }, []);
 
   if (!objective) {
     return (
@@ -42,7 +36,7 @@ const CommunalObjectiveOverlay: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        background: background === 'green' ? '#00ff00' : 'transparent',
+        background: 'transparent',
         color: '#ffffff',
         fontFamily: 'Arial, sans-serif',
         fontSize: '18px',
@@ -57,7 +51,7 @@ const CommunalObjectiveOverlay: React.FC = () => {
 
   return (
     <div
-      className={`communal-overlay-container ${background === 'green' ? 'obs-green-screen' : 'obs-transparent'}`}
+      className="communal-overlay-container obs-transparent"
       style={{
         ...zoomStyle,
         width: '100vw',
@@ -65,7 +59,7 @@ const CommunalObjectiveOverlay: React.FC = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: background === 'green' ? '#00ff00' : 'transparent',
+        background: 'transparent',
         margin: 0,
         padding: 0
       }}

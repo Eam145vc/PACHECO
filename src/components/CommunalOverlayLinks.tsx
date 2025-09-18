@@ -36,20 +36,12 @@ const CommunalOverlayLinks: React.FC = () => {
 
   const linkVariations = [
     {
-      name: 'Horizontal Transparente',
-      params: '?orientation=horizontal&bg=transparent'
+      name: 'Horizontal',
+      params: '?orientation=horizontal'
     },
     {
-      name: 'Horizontal Verde (OBS)',
-      params: '?orientation=horizontal&bg=green'
-    },
-    {
-      name: 'Vertical Transparente',
-      params: '?orientation=vertical&bg=transparent'
-    },
-    {
-      name: 'Vertical Verde (OBS)',
-      params: '?orientation=vertical&bg=green'
+      name: 'Vertical',
+      params: '?orientation=vertical'
     }
   ];
 
@@ -389,12 +381,12 @@ const CommunalOverlayLinks: React.FC = () => {
       }}>
         <strong>💡 Instrucciones para OBS:</strong>
         <ul style={{ margin: '8px 0 0 16px', lineHeight: '1.4' }}>
-          <li>Links <strong>Transparente</strong>: Fondo transparente para overlays</li>
-          <li>Links <strong>Verde (OBS)</strong>: Fondo verde croma (#00ff00) para key chroma</li>
+          <li>Los overlays tienen <strong>fondo transparente</strong> optimizado para OBS</li>
           <li><strong>Horizontal</strong>: Barras anchas para parte superior/inferior</li>
           <li><strong>Vertical</strong>: Barras altas para laterales</li>
           <li>Los objetivos se actualizan en tiempo real</li>
           <li>Se reinician automáticamente al completarse o resetear el board</li>
+          <li>Diseño moderno con números y iconos grandes y prominentes</li>
         </ul>
       </div>
     </motion.div>

@@ -8,7 +8,6 @@ const AllCommunalObjectives: React.FC = () => {
   const [searchParams] = useSearchParams();
 
   const orientation = (searchParams.get('orientation') as 'horizontal' | 'vertical') || 'horizontal';
-  const background = searchParams.get('bg') || 'transparent';
   const layout = searchParams.get('layout') || 'grid'; // grid, row, column
 
   const { objectives } = useCommunalObjectives();
@@ -21,21 +20,16 @@ const AllCommunalObjectives: React.FC = () => {
   const enabledObjectives = objectives.filter(obj => obj.enabled);
 
   useEffect(() => {
-    // Set body background based on URL parameter
-    if (background === 'green') {
-      document.body.style.background = '#00ff00';
-      document.body.style.backgroundImage = 'none';
-    } else {
-      document.body.style.background = 'transparent';
-      document.body.style.backgroundImage = 'none';
-    }
+    // Set body background to transparent for OBS
+    document.body.style.background = 'transparent';
+    document.body.style.backgroundImage = 'none';
 
     // Cleanup on unmount
     return () => {
       document.body.style.background = '';
       document.body.style.backgroundImage = '';
     };
-  }, [background]);
+  }, []);
 
   if (enabledObjectives.length === 0) {
     return (
@@ -45,7 +39,7 @@ const AllCommunalObjectives: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        background: background === 'green' ? '#00ff00' : 'rgba(0, 0, 0, 0.8)',
+        background: 'transparent',
         color: '#ffffff',
         fontFamily: 'Arial, sans-serif',
         fontSize: '18px',
@@ -67,7 +61,7 @@ const AllCommunalObjectives: React.FC = () => {
     const baseStyles = {
       width: '100vw',
       height: '100vh',
-      background: background === 'green' ? '#00ff00' : 'transparent',
+      background: 'transparent',
       margin: 0,
       padding: '20px',
       boxSizing: 'border-box' as const
@@ -109,7 +103,7 @@ const AllCommunalObjectives: React.FC = () => {
 
   return (
     <div
-      className={`all-communal-overlay-container ${background === 'green' ? 'obs-green-screen' : 'obs-transparent'}`}
+      className="all-communal-overlay-container obs-transparent"
       style={getLayoutStyles()}
     >
       {enabledObjectives.map((objective) => {
