@@ -4,22 +4,31 @@ export const coronasApi = {
   // ADMIN - Obtener todos los usuarios con coronas
   async getAllUsers() {
     try {
+      console.log('🔍 [getAllUsers] Iniciando consulta de usuarios...')
+
       const { data, error } = await supabase
         .from('users')
         .select('username, coronas')
         .order('coronas', { ascending: false })
 
-      if (error) throw error
+      console.log('🔍 [getAllUsers] Resultado:', { data, error })
 
+      if (error) {
+        console.error('❌ [getAllUsers] Error de Supabase:', error)
+        throw error
+      }
+
+      console.log('✅ [getAllUsers] Usuarios obtenidos:', data?.length || 0)
       return {
         success: true,
         users: data || []
       }
     } catch (error) {
-      console.error('Error getting all users:', error)
+      console.error('❌ [getAllUsers] Error fatal:', error)
       return {
         success: false,
-        users: []
+        users: [],
+        error: error.message
       }
     }
   },

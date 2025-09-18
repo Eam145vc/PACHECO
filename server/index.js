@@ -565,6 +565,43 @@ app.post('/debug-supabase-manual', async (req, res) => {
   }
 });
 
+// Endpoint para probar getAllUsers directamente (simula el frontend)
+app.get('/test-get-all-users', async (req, res) => {
+  try {
+    console.log('🧪 [TEST getAllUsers] Simulando llamada del frontend...');
+
+    const { data, error } = await supabase
+      .from('users')
+      .select('username, coronas')
+      .order('coronas', { ascending: false });
+
+    console.log('🧪 [TEST getAllUsers] Resultado directo:', { data, error });
+
+    if (error) {
+      return res.json({
+        success: false,
+        error: error.message,
+        code: error.code,
+        details: error.details
+      });
+    }
+
+    res.json({
+      success: true,
+      users: data || [],
+      count: data?.length || 0
+    });
+
+  } catch (error) {
+    console.error('❌ [TEST getAllUsers] Error:', error);
+    res.json({
+      success: false,
+      error: error.message,
+      type: error.constructor.name
+    });
+  }
+});
+
 console.log('🎯 Endpoints básicos configurados');
 
 // ===============================

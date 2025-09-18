@@ -106,12 +106,19 @@ const CoronasAdminContent: React.FC = () => {
 
   const loadUsers = async () => {
     try {
+      console.log('🔍 [Admin] Cargando usuarios...');
       const result = await coronasApi.getAllUsers();
+      console.log('🔍 [Admin] Resultado getAllUsers:', result);
+
       if (result.success) {
+        console.log('✅ [Admin] Usuarios cargados:', result.users.length);
         setUsers(result.users);
+      } else {
+        console.error('❌ [Admin] Error en getAllUsers:', result.error);
+        showNotification('error', `Error al cargar usuarios: ${result.error || 'Desconocido'}`);
       }
     } catch (error) {
-      console.error('Error loading users:', error);
+      console.error('❌ [Admin] Excepción en loadUsers:', error);
       showNotification('error', 'Error al cargar usuarios');
     }
   };
