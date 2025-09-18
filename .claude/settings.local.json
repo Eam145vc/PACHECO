@@ -33,7 +33,8 @@
       "Bash(find:*)",
       "WebFetch(domain:tikfinity.zerody.one)",
       "Bash(del \"C:\\Users\\DISCORD\\Desktop\\WORDS\\test_tilde_normalization.py\")",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []
