@@ -33,23 +33,25 @@
 
 /* Horizontal Layout - Image Centered Design */
 .communal-objective-bar.horizontal {
-  min-width: 500px;
-  max-width: 800px;
+  min-width: 700px;
+  max-width: 1000px;
   height: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 30px;
+  gap: 40px;
+  padding: 30px;
 }
 
 /* Vertical Layout - Image Centered Design */
 .communal-objective-bar.vertical {
-  width: 200px;
-  height: 450px;
+  width: 300px;
+  height: 600px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px;
+  gap: 30px;
+  padding: 30px;
 }
 
 /* Header Styles */
@@ -98,15 +100,16 @@
 }
 
 .gift-icon {
-  font-size: 200px;
+  font-size: 400px;
   background: linear-gradient(45deg, #00ffff, #ffffff, #00ff00);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   filter:
-    drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))
-    drop-shadow(0 0 40px rgba(0, 255, 0, 0.6));
+    drop-shadow(0 0 30px rgba(0, 255, 255, 1))
+    drop-shadow(0 0 60px rgba(0, 255, 0, 0.8));
   animation: iconPulse 2s ease-in-out infinite alternate;
+  line-height: 1;
 }
 
 @keyframes iconPulse {
@@ -141,15 +144,16 @@
 }
 
 .gift-icon-placeholder {
-  font-size: 200px;
+  font-size: 400px;
   background: linear-gradient(45deg, #00ffff, #ffffff, #00ff00);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
   filter:
-    drop-shadow(0 0 20px rgba(0, 255, 255, 0.8))
-    drop-shadow(0 0 40px rgba(0, 255, 0, 0.6));
+    drop-shadow(0 0 30px rgba(0, 255, 255, 1))
+    drop-shadow(0 0 60px rgba(0, 255, 0, 0.8));
   animation: iconPulse 2s ease-in-out infinite alternate;
+  line-height: 1;
 }
 
 /* Objective Info */
