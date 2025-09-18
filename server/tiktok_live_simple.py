@@ -524,17 +524,25 @@ async def main():
     parser.add_argument('--username', '-u', type=str, help='Usuario de TikTok para conectar')
     parser.add_argument('--auto-start', action='store_true', help='Iniciar automáticamente si hay usuario guardado')
     args = parser.parse_args()
-    
+
+    print(f"ARGUMENTOS RECIBIDOS: {args}", flush=True)
+    print(f"USERNAME ARG: {args.username}", flush=True)
+    print(f"AUTO_START ARG: {args.auto_start}", flush=True)
+
     server = TikTokLiveServer()
-    
+
     # Determinar qué usuario usar
     username_to_use = None
     if args.username:
         username_to_use = args.username
+        print(f"USANDO USERNAME DE ARGUMENTO: {username_to_use}", flush=True)
     elif args.auto_start and server.game_state.streamer_username:
         username_to_use = server.game_state.streamer_username
-    
-    print("INICIANDO servidor TikTok Live...")
+        print(f"USANDO USERNAME GUARDADO: {username_to_use}", flush=True)
+    else:
+        print("NO HAY USERNAME - modo espera", flush=True)
+
+    print("INICIANDO servidor TikTok Live...", flush=True)
     
     if username_to_use:
         print(f"CONECTANDO a @{username_to_use}...")
