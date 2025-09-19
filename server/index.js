@@ -1820,10 +1820,10 @@ app.get('/api/daily-ranking', async (req, res) => {
 
     console.log(`🔍 [DAILY RANKING] Buscando transacciones entre ${startOfDay.toISOString()} y ${endOfDay.toISOString()}`);
 
-    // Obtener transacciones del día desde Supabase
+    // Obtener transacciones del día desde Supabase (excluyendo las marcadas como reset)
     const { data: transactions, error } = await supabase
       .from('transactions')
-      .select('username, amount')
+      .select('username, amount, description')
       .eq('type', 'add')
       .gte('created_at', startOfDay.toISOString())
       .lt('created_at', endOfDay.toISOString())
@@ -1841,6 +1841,11 @@ app.get('/api/daily-ranking', async (req, res) => {
 
     if (transactions && transactions.length > 0) {
       transactions.forEach(transaction => {
+        // Excluir transacciones marcadas como reset
+        if (transaction.description && transaction.description.includes('RESET_DAILY_RANKING')) {
+          return;
+        }
+
         const username = transaction.username;
         const amount = transaction.amount || 0;
 
