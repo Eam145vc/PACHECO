@@ -12,18 +12,21 @@ const DailyRankingOverlay: React.FC = () => {
   const [topUsers, setTopUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
+
   const fetchDailyRanking = async () => {
     setLoading(true);
     try {
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/api/daily-ranking`;
+
       // Try API first, fallback to mock data if API fails
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/api/daily-ranking`);
+      const response = await fetch(apiUrl);
 
       if (response.ok) {
         const data = await response.json();
         if (data.success) {
           setTopUsers(data.topUsers || []);
         } else {
-          console.error('API error:', data.error);
+          console.error('Daily ranking API error:', data.error);
           // Use mock data if API fails
           setTopUsers([
             { username: 'testuser1', coronas: 25 },
@@ -32,7 +35,7 @@ const DailyRankingOverlay: React.FC = () => {
           ]);
         }
       } else {
-        console.error('API response not ok:', response.status);
+        console.error('Daily ranking API response not ok:', response.status);
         // Use mock data for testing
         setTopUsers([
           { username: 'testuser1', coronas: 25 },
@@ -76,6 +79,7 @@ const DailyRankingOverlay: React.FC = () => {
       </div>
     );
   }
+
 
   return (
     <div className="daily-ranking-overlay" style={zoomStyle}>
