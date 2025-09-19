@@ -7,11 +7,34 @@ interface User {
   coronas: number;
 }
 
+interface LastWinner {
+  username: string;
+  coronas: number;
+  timestamp: string;
+}
+
 const DailyRankingOverlay: React.FC = () => {
   const { zoomStyle } = usePageZoom({ pageId: 'daily-ranking-overlay' });
   const [topUsers, setTopUsers] = useState<User[]>([]);
+  const [lastWinner, setLastWinner] = useState<LastWinner | null>(null);
   const [loading, setLoading] = useState(false);
 
+
+  const fetchLastWinner = async () => {
+    try {
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/api/last-winner`;
+      const response = await fetch(apiUrl);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success && data.lastWinner) {
+          setLastWinner(data.lastWinner);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching last winner:', error);
+    }
+  };
 
   const fetchDailyRanking = async () => {
     setLoading(true);
@@ -58,9 +81,13 @@ const DailyRankingOverlay: React.FC = () => {
 
   useEffect(() => {
     fetchDailyRanking();
+    fetchLastWinner();
 
     // Actualizar cada 30 segundos
-    const interval = setInterval(fetchDailyRanking, 30000);
+    const interval = setInterval(() => {
+      fetchDailyRanking();
+      fetchLastWinner();
+    }, 30000);
 
     return () => clearInterval(interval);
   }, []);
@@ -84,6 +111,15 @@ const DailyRankingOverlay: React.FC = () => {
   return (
     <div className="daily-ranking-overlay" style={zoomStyle}>
       <div className="ranking-container">
+        {lastWinner && (
+          <div className="last-winner">
+            <div className="last-winner-title">🎉 Último Ganador</div>
+            <div className="last-winner-info">
+              {lastWinner.username} - <span className="last-winner-coronas">👑 {lastWinner.coronas} coronas</span>
+            </div>
+          </div>
+        )}
+
         <div className="ranking-header">
           <h2>🏆 Top del Día</h2>
           <div className="ranking-subtitle">

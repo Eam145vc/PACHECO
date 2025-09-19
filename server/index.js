@@ -1876,6 +1876,34 @@ app.get('/api/daily-ranking', async (req, res) => {
   }
 });
 
+// Endpoint para obtener el último ganador
+app.get('/api/last-winner', (req, res) => {
+  try {
+    console.log('🏆 [LAST WINNER] Obteniendo último ganador...');
+
+    if (tiktokLiveStatus.lastWinner) {
+      console.log('✅ [LAST WINNER] Último ganador encontrado:', tiktokLiveStatus.lastWinner);
+      res.json({
+        success: true,
+        lastWinner: tiktokLiveStatus.lastWinner
+      });
+    } else {
+      console.log('ℹ️ [LAST WINNER] No hay último ganador disponible');
+      res.json({
+        success: true,
+        lastWinner: null
+      });
+    }
+  } catch (error) {
+    console.error('❌ [LAST WINNER] Error obteniendo último ganador:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      lastWinner: null
+    });
+  }
+});
+
 // Endpoint para resetear el ranking diario (opcional para admin)
 app.post('/api/reset-daily-ranking', async (req, res) => {
   try {

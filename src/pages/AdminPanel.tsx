@@ -170,7 +170,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({
     if (!confirm('¿Estás seguro de resetear el ranking diario? Esta acción marcará todas las transacciones del día como reset.')) return;
 
     try {
-      const response = await fetch('/api/reset-daily-ranking', {
+      const apiUrl = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002'}/api/reset-daily-ranking`;
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
