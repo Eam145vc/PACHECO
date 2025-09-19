@@ -13,6 +13,7 @@ import re
 import sys
 import threading
 import unicodedata
+import requests
 from typing import Optional, Dict, Any
 from dataclasses import dataclass
 from pathlib import Path

@@ -6,6 +6,9 @@ const fs = require('fs');
 const cors = require('cors');
 const { createClient } = require('@supabase/supabase-js');
 
+// Variable global para almacenar la URL del servidor Puppeteer
+let PUPPETEER_SERVER_URL = null;
+
 // Configurar Supabase con logging detallado
 console.log('🔍 [SUPABASE INIT] Variables de entorno:');
 console.log('   VITE_SUPABASE_URL:', process.env.VITE_SUPABASE_URL ? 'DEFINIDA' : 'NO DEFINIDA');
@@ -145,6 +148,76 @@ app.post('/login', async (req, res) => {
   }
 });
 
+// Funciones para manejar el servidor Puppeteer remoto
+async function sendMessageViaRemote(username, message) {
+  if (!PUPPETEER_SERVER_URL) {
+    throw new Error('Servidor Puppeteer no disponible. URL no registrada.');
+  }
+
+  try {
+    const response = await fetch(`${PUPPETEER_SERVER_URL}/send-message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, message })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    if (!result.success) {
+      throw new Error(result.error || 'Error enviando mensaje');
+    }
+
+    console.log(`✅ [VIA REMOTE] Mensaje enviado a @${username}: ${message}`);
+    return result;
+  } catch (error) {
+    console.error(`❌ [VIA REMOTE] Error enviando mensaje a @${username}:`, error.message);
+    throw error;
+  }
+}
+
+async function autoStartBrowserViaRemote() {
+  if (!PUPPETEER_SERVER_URL) {
+    console.log('⚠️ [VIA REMOTE] Servidor Puppeteer no disponible. URL no registrada.');
+    return false;
+  }
+
+  try {
+    const response = await fetch(`${PUPPETEER_SERVER_URL}/ping`);
+    if (response.ok) {
+      console.log('✅ [VIA REMOTE] Servidor Puppeteer remoto está activo');
+      return true;
+    } else {
+      throw new Error('Servidor remoto no responde');
+    }
+  } catch (error) {
+    console.log('⚠️ [VIA REMOTE] Servidor Puppeteer remoto no disponible:', error.message);
+    return false;
+  }
+}
+
+// Endpoint para registrar la URL del servidor Puppeteer
+app.post('/register-puppeteer-url', (req, res) => {
+  const { puppeteerUrl } = req.body;
+
+  if (!puppeteerUrl) {
+    return res.status(400).json({ success: false, message: 'URL de Puppeteer es requerida' });
+  }
+
+  PUPPETEER_SERVER_URL = puppeteerUrl;
+  console.log(`🔗 [PUPPETEER] URL registrada: ${puppeteerUrl}`);
+
+  res.json({
+    success: true,
+    message: 'URL de Puppeteer registrada exitosamente',
+    url: puppeteerUrl
+  });
+});
+
 // Endpoint de prueba
 console.log('📨 Cargando sendMessage...');
 const {
@@ -162,6 +235,22 @@ console.log('✅ sendMessage cargado');
 
 app.post('/start-login', async (req, res) => {
   console.log('Solicitud recibida en /start-login');
+
+  // Intentar primero con servidor remoto
+  if (PUPPETEER_SERVER_URL) {
+    try {
+      const response = await fetch(`${PUPPETEER_SERVER_URL}/start-login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const result = await response.json();
+      return res.json(result);
+    } catch (error) {
+      console.log('Error usando servidor remoto, intentando localmente...');
+    }
+  }
+
+  // Fallback a función local (fallará en Render)
   try {
     await startBrowser();
     res.json({ success: true, message: 'Navegador iniciado para inicio de sesión manual.' });
@@ -176,6 +265,23 @@ app.post('/set-cookies', async (req, res) => {
   if (!cookies) {
     return res.status(400).json({ success: false, message: 'Cookies son requeridas.' });
   }
+
+  // Intentar primero con servidor remoto
+  if (PUPPETEER_SERVER_URL) {
+    try {
+      const response = await fetch(`${PUPPETEER_SERVER_URL}/set-cookies`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cookies })
+      });
+      const result = await response.json();
+      return res.json(result);
+    } catch (error) {
+      console.log('Error usando servidor remoto, intentando localmente...');
+    }
+  }
+
+  // Fallback a función local (fallará en Render)
   try {
     await setCookies(cookies);
     res.json({ success: true, message: 'Cookies configuradas correctamente.' });
@@ -283,7 +389,7 @@ app.post('/send-message', async (req, res) => {
     return res.status(400).json({ success: false, message: 'Usuario y mensaje son requeridos.' });
   }
   try {
-    await sendMessage(username, message);
+    await sendMessageViaRemote(username, message);
     res.json({ success: true, message: 'Proceso de envío de mensaje iniciado.' });
   } catch (error) {
     console.error('Error en el endpoint /send-message:', error);
@@ -650,7 +756,7 @@ app.post('/orders/:orderId/fulfill', async (req, res) => {
     const message = `🎁 TU PEDIDO ESTÁ LISTO | Producto: ${order.productTitle} | ${fulfillmentContent}`;
     
     try {
-      await sendMessage(order.username, message);
+      await sendMessageViaRemote(order.username, message);
       res.json({ 
         success: true, 
         message: 'Orden fulfillada y enviada por TikTok exitosamente.',
@@ -1074,7 +1180,7 @@ async function processGiftTriggers(giftData) {
                 const premiumMessage = generatePremiumMessage('vowel', userForBot, vowel, phraseState, tiktokLiveStatus.currentGameCategory);
 
                 // Enviar mensaje automáticamente por TikTok usando unique_id
-                await sendMessage(userForBot, premiumMessage);
+                await sendMessageViaRemote(userForBot, premiumMessage);
                 console.log(`✅ [TRIGGER] Vocal ${vowel} enviada a ${username} (ID: ${userForBot}): ${premiumMessage}`);
               } else {
                 console.log(`❌ [TRIGGER] No hay vocales disponibles para ${username}`);
@@ -1103,7 +1209,7 @@ async function processGiftTriggers(giftData) {
                 const premiumMessage = generatePremiumMessage('consonant', userForBot, consonant, phraseState, tiktokLiveStatus.currentGameCategory);
 
                 // Enviar mensaje automáticamente por TikTok usando unique_id
-                await sendMessage(userForBot, premiumMessage);
+                await sendMessageViaRemote(userForBot, premiumMessage);
                 console.log(`✅ [TRIGGER] Consonante ${consonant} enviada a ${username} (ID: ${userForBot}): ${premiumMessage}`);
               } else {
                 console.log(`❌ [TRIGGER] No hay consonantes disponibles para ${username}`);
@@ -1138,7 +1244,7 @@ async function processGiftTriggers(giftData) {
               const userForBot = unique_id || username; // Fallback a username si no hay unique_id
 
               // Enviar mensaje automáticamente por TikTok usando unique_id
-              await sendMessage(userForBot, hintMessage);
+              await sendMessageViaRemote(userForBot, hintMessage);
               console.log(`✅ [TRIGGER] Pista enviada a ${username} (ID: ${userForBot}): ${selectedHint}`);
             } catch (error) {
               console.error(`❌ [TRIGGER] Error procesando compra de pista para ${username}:`, error);
@@ -2016,7 +2122,7 @@ app.post('/redeem', async (req, res) => {
     const verificationMessage = `🎁 CÓDIGO DE CANJE 🎁 Producto: ${product.title} | Precio: ${product.price} coronas | 🔐 Tu código: ${verificationCode} | Ingresa este código en la web para completar tu canje | ⏰ Válido por 5 minutos | ¡Gracias por tu compra! 💎`;
 
     try {
-      await sendMessage(username, verificationMessage);
+      await sendMessageViaRemote(username, verificationMessage);
       console.log(`Código de verificación ${verificationCode} enviado a @${username}`);
       
       res.json({ 
@@ -2247,7 +2353,7 @@ app.listen(PORT, async () => {
 
   // Auto-iniciar navegador TikTok si está configurado
   setTimeout(async () => {
-    await autoStartBrowser();
+    await autoStartBrowserViaRemote();
   }, 2000);
 
   // Auto-iniciar servidor TikTok Live (sin conectar automáticamente)

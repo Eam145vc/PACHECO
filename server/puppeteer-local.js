@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const { exec } = require('child_process');
 
 console.log('🚀 Iniciando Puppeteer local conectado a Render...');
 console.log('🌐 Backend Render:', process.env.VITE_API_BASE_URL || 'https://backrey.onrender.com');
@@ -76,6 +77,78 @@ app.get('/ping', (req, res) => {
   });
 });
 
+// Función para iniciar ngrok y registrar URL
+async function startNgrokAndRegister() {
+  return new Promise((resolve, reject) => {
+    console.log('🌐 Iniciando ngrok...');
+    const ngrokProcess = exec('ngrok http 3003 --log=stdout', (error, stdout, stderr) => {
+      if (error) {
+        console.error('❌ Error iniciando ngrok:', error);
+        reject(error);
+        return;
+      }
+    });
+
+    let ngrokUrl = null;
+    ngrokProcess.stdout.on('data', (data) => {
+      const output = data.toString();
+
+      // Buscar la URL de ngrok en el output
+      const urlMatch = output.match(/https:\/\/[a-zA-Z0-9-]+\.ngrok-free\.app/);
+      if (urlMatch && !ngrokUrl) {
+        ngrokUrl = urlMatch[0];
+        console.log(`✅ ngrok URL: ${ngrokUrl}`);
+
+        // Registrar URL con Render
+        registerWithRender(ngrokUrl);
+        resolve(ngrokUrl);
+      }
+    });
+
+    ngrokProcess.stderr.on('data', (data) => {
+      console.log('ngrok stderr:', data.toString());
+    });
+
+    // Timeout de 10 segundos para obtener la URL
+    setTimeout(() => {
+      if (!ngrokUrl) {
+        console.log('⚠️ Timeout obteniendo URL de ngrok');
+        resolve(null);
+      }
+    }, 10000);
+  });
+}
+
+// Función para registrar la URL con Render
+async function registerWithRender(ngrokUrl) {
+  try {
+    const renderBackend = process.env.VITE_API_BASE_URL || 'https://backrey.onrender.com';
+    console.log(`🔗 Intentando registrar con: ${renderBackend}/register-puppeteer-url`);
+    console.log(`📡 Enviando URL: ${ngrokUrl}`);
+
+    const response = await fetch(`${renderBackend}/register-puppeteer-url`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ puppeteerUrl: ngrokUrl })
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(`✅ URL registrada con Render: ${ngrokUrl}`);
+      console.log(`📋 Respuesta:`, result);
+    } else {
+      const errorText = await response.text();
+      console.log(`⚠️ Error registrando URL con Render: ${response.status} ${response.statusText}`);
+      console.log(`📋 Detalle:`, errorText);
+    }
+  } catch (error) {
+    console.log('⚠️ Error conectando con Render:', error.message);
+    console.log('💡 Verifica que el servidor de Render esté activo y accesible');
+  }
+}
+
 // Iniciar servidor local
 app.listen(PORT, async () => {
   console.log('🎉 ¡Puppeteer local iniciado exitosamente!');
@@ -86,6 +159,14 @@ app.listen(PORT, async () => {
   console.log('  POST /set-cookies - Configurar cookies');
   console.log('  POST /send-message - Enviar mensaje');
   console.log('  GET /ping - Verificar estado');
+
+  // Iniciar ngrok
+  try {
+    await startNgrokAndRegister();
+  } catch (error) {
+    console.log('⚠️ Error iniciando ngrok:', error.message);
+    console.log('💡 Puedes usar ngrok manualmente: ngrok http 3003');
+  }
 
   // Auto-iniciar navegador TikTok
   console.log('🚀 Auto-iniciando navegador TikTok...');
